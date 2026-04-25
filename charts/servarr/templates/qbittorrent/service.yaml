@@ -19,7 +19,7 @@ spec:
       nodePort: {{ .Values.qbittorrent.service.web.nodePort }}
   {{- end }}
   {{- if and .Values.qbittorrent.monitoring .Values.qbittorrent.monitoring.enabled }}
-    - port: {{ .Values.qbittorrent.monitoring.port | default 9811 }}
+    - port: {{ .Values.qbittorrent.monitoring.port | default 8090 }}
       targetPort: metrics
       protocol: TCP
       name: metrics

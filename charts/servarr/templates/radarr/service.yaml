@@ -19,7 +19,7 @@ spec:
       nodePort: {{.Values.radarr.service.nodePort}}
 {{ end }}
 {{- if and .Values.radarr.monitoring .Values.radarr.monitoring.enabled }}
-    - port: {{ .Values.radarr.monitoring.port | default 9811 }}
+    - port: {{ .Values.radarr.monitoring.port | default 9707 }}
       targetPort: metrics
       protocol: TCP
       name: metrics

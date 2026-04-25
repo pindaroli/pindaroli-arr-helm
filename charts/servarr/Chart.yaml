@@ -4,7 +4,7 @@ maintainers:
     url: https://github.com/pindaroli
 apiVersion: v2
 appVersion: 1.1.7
-version: 1.2.1
+version: 1.2.2
 description: Kubito Servarr Helm Chart
 home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
 icon: https://kubito.dev/images/kubito.svg

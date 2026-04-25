@@ -19,7 +19,7 @@ spec:
       nodePort: {{.Values.bazarr.service.nodePort}}
 {{ end }}
 {{- if and .Values.bazarr.monitoring .Values.bazarr.monitoring.enabled }}
-    - port: {{ .Values.bazarr.monitoring.port | default 9811 }}
+    - port: {{ .Values.bazarr.monitoring.port | default 9707 }}
       targetPort: metrics
       protocol: TCP
       name: metrics

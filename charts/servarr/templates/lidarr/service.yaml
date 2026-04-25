@@ -19,7 +19,7 @@ spec:
       nodePort: {{.Values.lidarr.service.nodePort}}
 {{ end }}
 {{- if and .Values.lidarr.monitoring .Values.lidarr.monitoring.enabled }}
-    - port: {{ .Values.lidarr.monitoring.port | default 9811 }}
+    - port: {{ .Values.lidarr.monitoring.port | default 9707 }}
       targetPort: metrics
       protocol: TCP
       name: metrics

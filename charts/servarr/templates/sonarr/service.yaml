@@ -19,7 +19,7 @@ spec:
       nodePort: {{.Values.sonarr.service.nodePort}}
 {{ end }}
 {{- if and .Values.sonarr.monitoring .Values.sonarr.monitoring.enabled }}
-    - port: {{ .Values.sonarr.monitoring.port | default 9811 }}
+    - port: {{ .Values.sonarr.monitoring.port | default 9707 }}
       targetPort: metrics
       protocol: TCP
       name: metrics
