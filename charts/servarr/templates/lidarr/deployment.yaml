@@ -58,9 +58,9 @@ spec:
           emptyDir: { }
           {{- end }}
         - name: media
-          {{- if .Values.lidarr.persistence.media.enabled }}
+          {{- if .Values.jellyfin.persistence.media.enabled }}
           persistentVolumeClaim:
-            claimName: {{ .Values.lidarr.persistence.media.existingClaim | default (printf "%s-jellyfin-media" .Release.Name) }}
+            claimName: {{ .Values.jellyfin.persistence.media.existingClaim | default (printf "%s-jellyfin-media" .Release.Name) }}
           {{- else }}
           emptyDir: { }
           {{- end }}
@@ -76,7 +76,7 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: config
-          {{- if .Values.lidarr.persistence.media.enabled }}
+          {{- if .Values.jellyfin.persistence.media.enabled }}
             - mountPath: /media
               name: media
           {{- end }}
