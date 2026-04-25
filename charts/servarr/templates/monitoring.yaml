@@ -4,7 +4,7 @@
 
 {{- range $service := $services -}}
 {{- $val := index $.Values $service -}}
-{{- if and $val.enabled (index $val "monitoring" | default dict).enabled -}}
+{{- if and $val.enabled (index $val "monitoring" | default dict).enabled }}
 ---
 apiVersion: operator.victoriametrics.com/v1beta1
 kind: VMServiceScrape
