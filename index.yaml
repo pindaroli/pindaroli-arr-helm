@@ -3,6 +3,35 @@ entries:
   servarr:
   - apiVersion: v2
     appVersion: 1.1.7
+    created: "2026-04-25T20:25:07.152401724Z"
+    description: Kubito Servarr Helm Chart
+    digest: f8ef9695452ad09ce5634b44b4378144769dbf6cb0c013cc0e728c69e4654707
+    home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
+    icon: https://kubito.dev/images/kubito.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - sonarr
+    - radarr
+    - readarr
+    - flaresolverr
+    - jellyfin
+    - jellyseerr
+    - qbittorrent
+    - prowlarr
+    - cleanuperr
+    maintainers:
+    - name: pindaroli
+      url: https://github.com/pindaroli
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/servarr-1.1.9/servarr-1.1.9.tgz
+    version: 1.1.9
+  - apiVersion: v2
+    appVersion: 1.1.7
     created: "2026-04-25T19:16:35.746709771Z"
     description: Kubito Servarr Helm Chart
     digest: a8230f2cb906c1e8812c6aeea93bbb5c663fc0526d002e8ea92666a53129bfb9
@@ -30,4 +59,4 @@ entries:
     urls:
     - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/servarr-1.1.8/servarr-1.1.8.tgz
     version: 1.1.8
-generated: "2026-04-25T19:16:35.74673595Z"
+generated: "2026-04-25T20:25:07.152413752Z"
