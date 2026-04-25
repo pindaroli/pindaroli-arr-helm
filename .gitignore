@@ -1,6 +1,12 @@
 *.tgz
 /.idea/*
-.vscode
+.vsco.idea/
 .DS_Store
+instructions/
+suggestions/
+GEMINI.md
+errore.txt
+qq
+
 .aider*
 .env

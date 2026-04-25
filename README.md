@@ -1,29 +1,42 @@
-[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/kubitodev&style=for-the-badge)](https://artifacthub.io/packages/search?repo=kubitodev)
+# 🚀 Pindaroli ARR Helm Charts
 
-# Kubito Helm Charts for Kubernetes
+[![Artifact Hub](https://img.shields.io/endpoint?url=https://artifacthub.io/badge/repository/pindaroli&style=for-the-badge)](https://artifacthub.io/packages/search?repo=pindaroli)
 
-This repository acts like a helm chart repository for various Kubernetes applications, packaged by Kubito.
+Benvenuti nel mio repository personale di **Helm Charts**. Questo progetto raccoglie distribuzioni ottimizzate per Kubernetes, con un focus particolare sullo stack **Servarr** (Sonarr, Radarr, Lidarr, ecc.) e soluzioni di networking avanzate.
 
-## TL;DR
+Il repository è configurato con una pipeline **CI/CD** automatizzata che pubblica le chart tramite **GitHub Pages**.
+
+## 🛠 Charts Incluse
+
+| Chart | Descrizione |
+| :--- | :--- |
+| **servarr** | Stack completo per media management (Sonarr, Radarr, etc.) |
+| **cloudflared** | Tunnel Cloudflare per accesso sicuro |
+| **outline** | Wiki/Knowledge base aziendale |
+| **penpot** | Alternativa open-source a Figma |
+| **traefik-whitelist-ddns** | Gestione whitelist IP dinamici per Traefik |
+
+## 🚀 Utilizzo Rapido
+
+Aggiungi il repository a Helm:
 
 ```bash
-helm repo add kubitodev https://charts.kubito.dev
-helm search repo kubitodev
-helm install example kubitodev/<chart>
+helm repo add pindaroli https://pindaroli.github.io/pindaroli-arr-helm/
+helm repo update
 ```
 
-## License
+Cerca una chart:
 
-Copyright &copy; 2022 Kubito
+```bash
+helm search repo pindaroli
+```
 
-Licensed under the Apache License, Version 2.0 (the "License");
-you may not use this file except in compliance with the License.
-You may obtain a copy of the License at
+## 📦 Installazione Esempio
 
-    http://www.apache.org/licenses/LICENSE-2.0
+```bash
+helm install mio-stack pindaroli/servarr -f mio-values.yaml
+```
 
-Unless required by applicable law or agreed to in writing, software
-distributed under the License is distributed on an "AS IS" BASIS,
-WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-See the License for the specific language governing permissions and
-limitations under the License.
+## 📄 Licenza
+
+Distribuito sotto licenza Apache 2.0. Copyright &copy; 2024 Pindaroli.
