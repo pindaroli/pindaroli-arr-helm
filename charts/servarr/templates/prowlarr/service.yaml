@@ -18,6 +18,12 @@ spec:
 {{ if (and (eq .Values.prowlarr.service.type "NodePort") (not (empty .Values.prowlarr.service.nodePort))) }}
       nodePort: {{.Values.prowlarr.service.nodePort}}
 {{ end }}
+{{- if and .Values.prowlarr.monitoring .Values.prowlarr.monitoring.enabled }}
+    - port: {{ .Values.prowlarr.monitoring.port | default 9811 }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+{{- end }}
   selector:
     app.kubernetes.io/name: prowlarr
     app.kubernetes.io/instance: {{ .Release.Name }}

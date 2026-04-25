@@ -18,6 +18,12 @@ spec:
 {{ if (and (eq .Values.readarr.service.type "NodePort") (not (empty .Values.readarr.service.nodePort))) }}
       nodePort: {{.Values.readarr.service.nodePort}}
 {{ end }}
+{{- if and .Values.readarr.monitoring .Values.readarr.monitoring.enabled }}
+    - port: {{ .Values.readarr.monitoring.port | default 9811 }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+{{- end }}
   selector:
     app.kubernetes.io/name: readarr
     app.kubernetes.io/instance: {{ .Release.Name }}

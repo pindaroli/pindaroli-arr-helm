@@ -18,6 +18,12 @@ spec:
 {{ if (and (eq .Values.sonarr.service.type "NodePort") (not (empty .Values.sonarr.service.nodePort))) }}
       nodePort: {{.Values.sonarr.service.nodePort}}
 {{ end }}
+{{- if and .Values.sonarr.monitoring .Values.sonarr.monitoring.enabled }}
+    - port: {{ .Values.sonarr.monitoring.port | default 9811 }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+{{- end }}
   selector:
     app.kubernetes.io/name: sonarr
     app.kubernetes.io/instance: {{ .Release.Name }}

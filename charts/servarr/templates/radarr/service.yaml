@@ -18,6 +18,12 @@ spec:
 {{ if (and (eq .Values.radarr.service.type "NodePort") (not (empty .Values.radarr.service.nodePort))) }}
       nodePort: {{.Values.radarr.service.nodePort}}
 {{ end }}
+{{- if and .Values.radarr.monitoring .Values.radarr.monitoring.enabled }}
+    - port: {{ .Values.radarr.monitoring.port | default 9811 }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+{{- end }}
   selector:
     app.kubernetes.io/name: radarr
     app.kubernetes.io/instance: {{ .Release.Name }}

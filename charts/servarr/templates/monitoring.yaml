@@ -1,0 +1,27 @@
+{{- $services := list "radarr" "lidarr" "sonarr" "prowlarr" "readarr" "bazarr" "qbittorrent" -}}
+{{- $namespace := .Release.Namespace -}}
+{{- $releaseName := .Release.Name -}}
+
+{{- range $service := $services -}}
+{{- $val := index $.Values $service -}}
+{{- if and $val.enabled (index $val "monitoring" | default dict).enabled -}}
+---
+apiVersion: operator.victoriametrics.com/v1beta1
+kind: VMServiceScrape
+metadata:
+  name: {{ $releaseName }}-{{ $service }}-metrics
+  namespace: {{ $namespace }}
+  labels:
+    app.kubernetes.io/name: {{ $service }}
+    app.kubernetes.io/instance: {{ $releaseName }}
+spec:
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: {{ $service }}
+      app.kubernetes.io/instance: {{ $releaseName }}
+  endpoints:
+  - port: metrics
+    interval: {{ (index $val "monitoring").interval | default "30s" }}
+    path: /metrics
+{{- end }}
+{{- end }}

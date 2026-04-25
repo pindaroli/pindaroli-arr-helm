@@ -18,6 +18,12 @@ spec:
 {{ if (and (eq .Values.bazarr.service.type "NodePort") (not (empty .Values.bazarr.service.nodePort))) }}
       nodePort: {{.Values.bazarr.service.nodePort}}
 {{ end }}
+{{- if and .Values.bazarr.monitoring .Values.bazarr.monitoring.enabled }}
+    - port: {{ .Values.bazarr.monitoring.port | default 9811 }}
+      targetPort: metrics
+      protocol: TCP
+      name: metrics
+{{- end }}
   selector:
     app.kubernetes.io/name: bazarr
     app.kubernetes.io/instance: {{ .Release.Name }}
