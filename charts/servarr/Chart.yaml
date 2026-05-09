@@ -7,7 +7,7 @@ appVersion: 1.1.7
 version: 1.2.5
 description: Pindaroli Servarr Helm Chart
 home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
-icon: https://pindaroli.github.io/pindaroli-arr-helm/images/pindaroli.svg
+icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
 keywords:
   - kubernetes
   - bazarr

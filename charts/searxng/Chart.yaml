@@ -7,7 +7,7 @@ appVersion: 1.0.1
 version: 1.0.7
 description: Pindaroli SearXNG Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/searxng
-icon: https://pindaroli.github.io/pindaroli-arr-helm/images/pindaroli.svg
+icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
 keywords:
   - kubernetes
   - searxng

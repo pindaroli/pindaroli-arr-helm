@@ -23,6 +23,7 @@ jobs:
       - name: Add Dependencies
         run: |
           helm repo add pindaroli https://pindaroli.github.io/pindaroli-arr-helm/
+          helm repo update pindaroli
       - name: Run Release
         uses: helm/chart-releaser-action@v1.6.0
         env:

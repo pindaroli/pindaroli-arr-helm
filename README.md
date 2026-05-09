@@ -21,7 +21,7 @@ Il repository è configurato con una pipeline **CI/CD** automatizzata che pubbli
 Aggiungi il repository a Helm:
 
 ```bash
-helm repo add pindaroli https://pindaroli.github.io/pindaroli-arr-helm/
+helm repo add pindaroli https://pindaroli.github.io/pindaroli-arr-helm//
 helm repo update
 ```
 

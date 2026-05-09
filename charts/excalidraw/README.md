@@ -5,7 +5,7 @@ Virtual whiteboard for sketching hand-drawn like diagrams.
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm/
 helm install excalidraw pindarolidev/excalidraw
 ```
 

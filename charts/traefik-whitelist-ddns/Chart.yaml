@@ -7,7 +7,7 @@ appVersion: 2.x.x
 version: 1.0.5
 description: Pindaroli Traefik Whitelist DDNS Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/traefik-whitelist-ddns
-icon: https://pindaroli.github.io/pindaroli-arr-helm/images/pindaroli.svg
+icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
 keywords:
   - kubernetes
   - traefik

@@ -5,7 +5,7 @@ A Helm chart for deploying the Servarr suite of applications - including Sonarr,
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm/
 helm install servarr pindarolidev/servarr
 ```
 

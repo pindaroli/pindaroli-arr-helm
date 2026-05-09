@@ -1,0 +1,270 @@
+Release Helm Charts	Set up job	﻿2026-05-09T12:30:56.6493187Z Current runner version: '2.334.0'
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6520266Z ##[group]Runner Image Provisioner
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6521213Z Hosted Compute Agent
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6521790Z Version: 20260213.493
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6522442Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6523349Z Build Date: 2026-02-13T00:28:41Z
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6524176Z Worker ID: {b55b8ac1-7e17-42d4-9cea-0813396ed19d}
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6524988Z Azure Region: northcentralus
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6525564Z ##[endgroup]
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6527167Z ##[group]Operating System
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6527878Z Ubuntu
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6528412Z 24.04.4
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6529004Z LTS
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6529574Z ##[endgroup]
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6530107Z ##[group]Runner Image
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6530831Z Image: ubuntu-24.04
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6531392Z Version: 20260413.86.1
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6532622Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260413.86/images/ubuntu/Ubuntu2404-Readme.md
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6534845Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260413.86
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6535930Z ##[endgroup]
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6539509Z ##[group]GITHUB_TOKEN Permissions
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6541711Z Actions: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6542395Z ArtifactMetadata: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6543371Z Attestations: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6543949Z Checks: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6544568Z Contents: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6545172Z Deployments: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6545695Z Discussions: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6546331Z Issues: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6546886Z Metadata: read
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6547464Z Models: read
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6547958Z Packages: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6548652Z Pages: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6549305Z PullRequests: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6549950Z RepositoryProjects: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6550720Z SecurityEvents: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6551313Z Statuses: write
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6551987Z VulnerabilityAlerts: read
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6552650Z ##[endgroup]
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6554792Z Secret source: Actions
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6555674Z Prepare workflow directory
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6851268Z Prepare all required actions
+Release Helm Charts	Set up job	2026-05-09T12:30:56.6893694Z Getting action download info
+Release Helm Charts	Set up job	2026-05-09T12:30:56.9616341Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+Release Helm Charts	Set up job	2026-05-09T12:30:57.1234951Z Download action repository 'helm/chart-releaser-action@v1.6.0' (SHA:a917fd15b20e8b64b94d9158ad54cd6345335584)
+Release Helm Charts	Set up job	2026-05-09T12:30:57.3488016Z Complete job name: Release Helm Charts
+Release Helm Charts	Checkout	﻿2026-05-09T12:30:57.4028878Z ##[group]Run actions/checkout@v4
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4029490Z with:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4029786Z   fetch-depth: 0
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4030120Z   repository: pindaroli/pindaroli-arr-helm
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4030659Z   token: ***
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4030961Z   ssh-strict: true
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4031260Z   ssh-user: git
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4031570Z   persist-credentials: true
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4031928Z   clean: true
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4032233Z   sparse-checkout-cone-mode: true
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4032588Z   fetch-tags: false
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4033110Z   show-progress: true
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4033413Z   lfs: false
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4033696Z   submodules: false
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4034004Z   set-safe-directory: true
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4034526Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4900910Z Syncing repository: pindaroli/pindaroli-arr-helm
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4902353Z ##[group]Getting Git version info
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4903093Z Working directory is '/home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm'
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4904006Z [command]/usr/bin/git version
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4933043Z git version 2.53.0
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4952007Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4964273Z Temporarily overriding HOME='/home/runner/work/_temp/6af0c1a0-e928-47af-beda-e7ee7d695fa5' before making global git config changes
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4966003Z Adding repository directory to the temporary git global config as a safe directory
+Release Helm Charts	Checkout	2026-05-09T12:30:57.4975344Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5001198Z Deleting the contents of '/home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm'
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5004297Z ##[group]Initializing the repository
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5008129Z [command]/usr/bin/git init /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5064286Z hint: Using 'master' as the name for the initial branch. This default branch name
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5065460Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5066570Z hint: to use in all of your new repositories, which will suppress this warning,
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5067411Z hint: call:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5067853Z hint:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5068397Z hint: 	git config --global init.defaultBranch <name>
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5069093Z hint:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5069740Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5070858Z hint: 'development'. The just-created branch can be renamed via this command:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5071701Z hint:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5072150Z hint: 	git branch -m <name>
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5072676Z hint:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5073553Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5074910Z Initialized empty Git repository in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/.git/
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5077007Z [command]/usr/bin/git remote add origin https://github.com/pindaroli/pindaroli-arr-helm
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5099402Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5100248Z ##[group]Disabling automatic garbage collection
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5103580Z [command]/usr/bin/git config --local gc.auto 0
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5126146Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5126935Z ##[group]Setting up auth
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5131929Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5155435Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5383103Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5405888Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5580926Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5604136Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5789393Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5815452Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5821709Z ##[group]Fetching the repository
+Release Helm Charts	Checkout	2026-05-09T12:30:57.5822932Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9888013Z From https://github.com/pindaroli/pindaroli-arr-helm
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9888911Z  * [new branch]      gh-pages          -> origin/gh-pages
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9889438Z  * [new branch]      main              -> origin/main
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9889957Z  * [new tag]         cloudflared-1.7.1 -> cloudflared-1.7.1
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9890496Z  * [new tag]         excalidraw-1.0.0  -> excalidraw-1.0.0
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9891139Z  * [new tag]         kubernetes-cloudflare-ddns-1.0.6 -> kubernetes-cloudflare-ddns-1.0.6
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9891780Z  * [new tag]         outline-1.2.2     -> outline-1.2.2
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9892263Z  * [new tag]         penpot-1.2.1      -> penpot-1.2.1
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9892913Z  * [new tag]         searxng-1.0.7     -> searxng-1.0.7
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9893647Z  * [new tag]         servarr-1.1.7     -> servarr-1.1.7
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9894111Z  * [new tag]         servarr-1.1.8     -> servarr-1.1.8
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9894622Z  * [new tag]         servarr-1.1.9     -> servarr-1.1.9
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9895089Z  * [new tag]         servarr-1.2.0     -> servarr-1.2.0
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9895541Z  * [new tag]         servarr-1.2.1     -> servarr-1.2.1
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9896049Z  * [new tag]         servarr-1.2.2     -> servarr-1.2.2
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9896540Z  * [new tag]         servarr-1.2.3     -> servarr-1.2.3
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9897003Z  * [new tag]         servarr-1.2.4     -> servarr-1.2.4
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9897664Z  * [new tag]         traefik-cloudflared-source-ip-1.0.11 -> traefik-cloudflared-source-ip-1.0.11
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9898460Z  * [new tag]         traefik-whitelist-ddns-1.0.5 -> traefik-whitelist-ddns-1.0.5
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9926745Z [command]/usr/bin/git branch --list --remote origin/main
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9947091Z   origin/main
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9953397Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9969351Z 82b6394b381d4e2699d4326db0cdfeab0d1985c2
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9972965Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9973737Z ##[group]Determining the checkout info
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9974605Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:57.9977118Z [command]/usr/bin/git sparse-checkout disable
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0004856Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0025197Z ##[group]Checking out the ref
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0028252Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0131167Z Switched to a new branch 'main'
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0133207Z branch 'main' set up to track 'origin/main'.
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0138895Z ##[endgroup]
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0166347Z [command]/usr/bin/git log -1 --format=%H
+Release Helm Charts	Checkout	2026-05-09T12:30:58.0184041Z 82b6394b381d4e2699d4326db0cdfeab0d1985c2
+Release Helm Charts	Configure Git	﻿2026-05-09T12:30:58.0328063Z ##[group]Run git config user.name "$GITHUB_ACTOR"
+Release Helm Charts	Configure Git	2026-05-09T12:30:58.0328662Z [36;1mgit config user.name "$GITHUB_ACTOR"[0m
+Release Helm Charts	Configure Git	2026-05-09T12:30:58.0329233Z [36;1mgit config user.email "$GITHUB_ACTOR@users.noreply.github.com"[0m
+Release Helm Charts	Configure Git	2026-05-09T12:30:58.0350480Z shell: /usr/bin/bash -e {0}
+Release Helm Charts	Configure Git	2026-05-09T12:30:58.0350897Z ##[endgroup]
+Release Helm Charts	Add Dependencies	﻿2026-05-09T12:30:58.0459174Z ##[group]Run helm repo add pindaroli https://pindaroli.github.io/pindaroli-arr-helm//
+Release Helm Charts	Add Dependencies	2026-05-09T12:30:58.0460026Z [36;1mhelm repo add pindaroli https://pindaroli.github.io/pindaroli-arr-helm//[0m
+Release Helm Charts	Add Dependencies	2026-05-09T12:30:58.0476732Z shell: /usr/bin/bash -e {0}
+Release Helm Charts	Add Dependencies	2026-05-09T12:30:58.0477102Z ##[endgroup]
+Release Helm Charts	Add Dependencies	2026-05-09T12:30:58.7057821Z "pindaroli" has been added to your repositories
+Release Helm Charts	Run Release	﻿2026-05-09T12:30:58.7267838Z ##[group]Run helm/chart-releaser-action@v1.6.0
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7268741Z with:
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7269309Z   version: v1.6.1
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7269905Z   charts_dir: charts
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7270533Z   mark_as_latest: true
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7271200Z   packages_with_index: false
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7271878Z env:
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7272949Z   CR_TOKEN: ***
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7273588Z ##[endgroup]
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7366601Z ##[group]Run owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7367814Z [36;1mowner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7368933Z [36;1mrepo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7369880Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7370526Z [36;1margs=(--owner "$owner" --repo "$repo")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7371467Z [36;1margs+=(--charts-dir "charts")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7372261Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7372940Z [36;1mif [[ -n "v1.6.1" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7373749Z [36;1m    args+=(--version "v1.6.1")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7374564Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7375117Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7375663Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7376382Z [36;1m    args+=(--config "")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7377254Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7377785Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7378327Z [36;1mif [[ -z "" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7379189Z [36;1m  install="$RUNNER_TOOL_CACHE/cr/v1.6.1/$(uname -m)"[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7380217Z [36;1m  echo "$install" >> "$GITHUB_PATH"[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7381104Z [36;1m  args+=(--install-dir "$install")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7381932Z [36;1melse[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7382536Z [36;1m  echo  >> "$GITHUB_PATH"[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7383416Z [36;1m  args+=(--install-dir "")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7384136Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7384655Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7385176Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7385879Z [36;1m    args+=(--install-only "")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7386629Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7387134Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7387650Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7388351Z [36;1m    args+=(--skip-packaging "")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7389104Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7445802Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7446418Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7447237Z [36;1m    args+=(--skip-existing "")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7448076Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7448581Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7449112Z [36;1mif [[ -n "true" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7449891Z [36;1m    args+=(--mark-as-latest "true")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7450668Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7451163Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7451683Z [36;1mif [[ -n "false" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7452490Z [36;1m    args+=(--packages-with-index "false")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7453512Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7454020Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7454531Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7455256Z [36;1m    args+=(--pages-branch "")[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7456005Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7456503Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7457080Z [36;1m"$GITHUB_ACTION_PATH/cr.sh" "${args[@]}"[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7457890Z [36;1m[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7458465Z [36;1mif [[ -f changed_charts.txt ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7459390Z [36;1m    cat changed_charts.txt >> "$GITHUB_OUTPUT"[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7460242Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7460827Z [36;1mif [[ -f chart_version.txt ]]; then[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7461741Z [36;1m    cat chart_version.txt >> "$GITHUB_OUTPUT"[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7462580Z [36;1mfi[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7463340Z [36;1mrm -f changed_charts.txt chart_version.txt[0m
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7484758Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7485678Z env:
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7486446Z   CR_TOKEN: ***
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7486986Z ##[endgroup]
+Release Helm Charts	Run Release	2026-05-09T12:30:58.7602300Z Looking up latest tag...
+Release Helm Charts	Run Release	2026-05-09T12:30:58.9536734Z Discovering changed charts since 'servarr-1.2.4'...
+Release Helm Charts	Run Release	2026-05-09T12:30:58.9730247Z Installing chart-releaser on /opt/hostedtoolcache/cr/v1.6.1/x86_64...
+Release Helm Charts	Run Release	2026-05-09T12:30:59.5592134Z Adding cr directory to PATH...
+Release Helm Charts	Run Release	2026-05-09T12:30:59.5629544Z Packaging chart 'charts/cloudflared'...
+Release Helm Charts	Run Release	2026-05-09T12:30:59.5779778Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/cloudflared and saved it to: .cr-release-packages/cloudflared-1.7.1.tgz
+Release Helm Charts	Run Release	2026-05-09T12:30:59.5789212Z Packaging chart 'charts/excalidraw'...
+Release Helm Charts	Run Release	2026-05-09T12:30:59.5927059Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/excalidraw and saved it to: .cr-release-packages/excalidraw-1.0.0.tgz
+Release Helm Charts	Run Release	2026-05-09T12:30:59.5936933Z Packaging chart 'charts/kubernetes-cloudflare-ddns'...
+Release Helm Charts	Run Release	2026-05-09T12:30:59.6070687Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/kubernetes-cloudflare-ddns and saved it to: .cr-release-packages/kubernetes-cloudflare-ddns-1.0.6.tgz
+Release Helm Charts	Run Release	2026-05-09T12:30:59.6080107Z Packaging chart 'charts/outline'...
+Release Helm Charts	Run Release	2026-05-09T12:31:19.4946993Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/outline and saved it to: .cr-release-packages/outline-1.2.2.tgz
+Release Helm Charts	Run Release	2026-05-09T12:31:19.5145928Z Packaging chart 'charts/penpot'...
+Release Helm Charts	Run Release	2026-05-09T12:31:33.4170701Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/penpot and saved it to: .cr-release-packages/penpot-1.2.1.tgz
+Release Helm Charts	Run Release	2026-05-09T12:31:33.4302224Z Packaging chart 'charts/searxng'...
+Release Helm Charts	Run Release	2026-05-09T12:31:33.4456489Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/searxng and saved it to: .cr-release-packages/searxng-1.0.7.tgz
+Release Helm Charts	Run Release	2026-05-09T12:31:33.4465960Z Packaging chart 'charts/servarr'...
+Release Helm Charts	Run Release	2026-05-09T12:31:33.4730640Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/servarr and saved it to: .cr-release-packages/servarr-1.2.5.tgz
+Release Helm Charts	Run Release	2026-05-09T12:31:33.4742667Z Packaging chart 'charts/traefik-cloudflared-source-ip'...
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5848751Z Error: cloudflared chart not found in repo https://pindaroli.github.io/pindaroli-arr-helm/
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5850687Z Usage:
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5851122Z   cr package [CHART_PATH] [...] [flags]
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5851270Z 
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5851329Z Flags:
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5851672Z   -h, --help                     help for package
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5852025Z       --key string               Name of the key to use when signing
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5852385Z       --keyring string           Location of a public keyring (default "~/.gnupg/pubring.gpg")
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5853067Z   -p, --package-path string      Path to directory with chart packages (default ".cr-release-packages")
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5853672Z       --passphrase-file string   Location of a file which contains the passphrase for the signing key. Use '-' in order to read from stdin
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5854363Z       --sign                     Use a PGP private key to sign this package
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5854693Z 
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5856172Z Global Flags:
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5856884Z       --config string   Config file (default is $HOME/.cr.yaml)
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5857209Z 
+Release Helm Charts	Run Release	2026-05-09T12:31:33.5878681Z ##[error]Process completed with exit code 1.
+Release Helm Charts	Post Checkout	﻿2026-05-09T12:31:33.5994798Z Post job cleanup.
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.6763384Z [command]/usr/bin/git version
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.6791856Z git version 2.53.0
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.6823182Z Temporarily overriding HOME='/home/runner/work/_temp/0323e67a-b782-407b-b881-902ccae68677' before making global git config changes
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.6823841Z Adding repository directory to the temporary git global config as a safe directory
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.6827375Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.6855960Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.6881748Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.7065544Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.7082101Z http.https://github.com/.extraheader
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.7091344Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.7115308Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.7294309Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release Helm Charts	Post Checkout	2026-05-09T12:31:33.7318296Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release Helm Charts	Complete job	﻿2026-05-09T12:31:33.7600032Z Cleaning up orphan processes
+Release Helm Charts	Complete job	2026-05-09T12:31:33.7834181Z ##[warning]Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/
