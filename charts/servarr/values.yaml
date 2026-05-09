@@ -1801,6 +1801,11 @@ recyclarr:
   # Cron schedule — default: every 12 hours
   schedule: "0 */12 * * *"
 
+  # Persistence for repository cache and logs
+  persistence:
+    enabled: false
+    existingClaim: ""
+
   # API Key management (hybrid pattern):
   # If existingSecret is set, keys are read from the K8s Secret (recommended for production).
   # Otherwise, radarrApiKey / sonarrApiKey are used directly (development only).

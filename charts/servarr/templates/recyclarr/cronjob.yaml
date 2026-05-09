@@ -55,6 +55,10 @@ spec:
                 - name: recyclarr-config
                   mountPath: /config/recyclarr.yaml
                   subPath: recyclarr.yaml
+                {{- if .Values.recyclarr.persistence.enabled }}
+                - name: recyclarr-data
+                  mountPath: /config
+                {{- end }}
               {{- with .Values.recyclarr.resources }}
               resources:
                 {{- toYaml . | nindent 16 }}
@@ -63,4 +67,9 @@ spec:
             - name: recyclarr-config
               configMap:
                 name: {{ .Release.Name }}-recyclarr-config
+            {{- if .Values.recyclarr.persistence.enabled }}
+            - name: recyclarr-data
+              persistentVolumeClaim:
+                claimName: {{ .Values.recyclarr.persistence.existingClaim | default (printf "%s-recyclarr-data" .Release.Name) }}
+            {{- end }}
 {{- end }}
