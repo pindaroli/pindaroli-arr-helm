@@ -30,4 +30,4 @@ dependencies:
   - condition: global.traefikEnabled
     name: traefik
     repository: "file://../cloudflared"
-    version: 26.0.0
+    version: ">= 26.0.0"
