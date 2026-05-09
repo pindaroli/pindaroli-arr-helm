@@ -800,3 +800,4 @@ limitations under the License.
 | `recyclarr.sonarr.enabled`                 | Whether to sync Sonarr (disabled by default, enable when Sonarr is deployed).                                                                         | `false`                                            |
 | `recyclarr.sonarr.url`                     | Internal service URL for Sonarr.                                                                                                                      | `http://servarr-sonarr.arr.svc.cluster.local:8989` |
 | `recyclarr.resources`                      | Resource requests and limits for the Recyclarr container.                                                                                             | `{}`                                               |
+ 
