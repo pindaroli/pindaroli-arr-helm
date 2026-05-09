@@ -5,7 +5,7 @@ This is a simple Traefik v2 DDNS updater script, which can be used in home lab s
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://charts.pindaroli.org
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
 helm install traefik-whitelist-ddns --namespace traefik pindarolidev/traefik-whitelist-ddns
 ```
 

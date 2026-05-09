@@ -1,0 +1,270 @@
+Release Helm Charts	UNKNOWN STEP	﻿2026-05-09T10:49:31.4061089Z Current runner version: '2.334.0'
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4096266Z ##[group]Runner Image Provisioner
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4097853Z Hosted Compute Agent
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4098804Z Version: 20260213.493
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4099811Z Commit: 5c115507f6dd24b8de37d8bbe0bb4509d0cc0fa3
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4100852Z Build Date: 2026-02-13T00:28:41Z
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4101999Z Worker ID: {aa0f6957-ad6c-4443-b676-9066c01d44aa}
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4103031Z Azure Region: northcentralus
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4103907Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4106132Z ##[group]Operating System
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4107351Z Ubuntu
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4108065Z 24.04.4
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4108828Z LTS
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4109542Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4110253Z ##[group]Runner Image
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4111207Z Image: ubuntu-24.04
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4111967Z Version: 20260413.86.1
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4113869Z Included Software: https://github.com/actions/runner-images/blob/ubuntu24/20260413.86/images/ubuntu/Ubuntu2404-Readme.md
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4116278Z Image Release: https://github.com/actions/runner-images/releases/tag/ubuntu24%2F20260413.86
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4118182Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4123201Z ##[group]GITHUB_TOKEN Permissions
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4126078Z Actions: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4127332Z ArtifactMetadata: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4128400Z Attestations: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4129268Z Checks: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4130263Z Contents: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4131128Z Deployments: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4131927Z Discussions: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4132828Z Issues: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4133673Z Metadata: read
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4134615Z Models: read
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4135408Z Packages: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4136514Z Pages: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4137856Z PullRequests: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4138759Z RepositoryProjects: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4139865Z SecurityEvents: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4140697Z Statuses: write
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4141575Z VulnerabilityAlerts: read
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4142557Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4145377Z Secret source: Actions
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4147226Z Prepare workflow directory
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4533173Z Prepare all required actions
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.4586557Z Getting action download info
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.7944924Z Download action repository 'actions/checkout@v4' (SHA:34e114876b0b11c390a56381ad16ebd13914f8d5)
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:31.9353797Z Download action repository 'helm/chart-releaser-action@v1.6.0' (SHA:a917fd15b20e8b64b94d9158ad54cd6345335584)
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.1920392Z Complete job name: Release Helm Charts
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2614555Z ##[group]Run actions/checkout@v4
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2615311Z with:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2615666Z   fetch-depth: 0
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2616074Z   repository: pindaroli/pindaroli-arr-helm
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2616921Z   token: ***
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2617287Z   ssh-strict: true
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2617644Z   ssh-user: git
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2618009Z   persist-credentials: true
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2618423Z   clean: true
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2618791Z   sparse-checkout-cone-mode: true
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2619230Z   fetch-tags: false
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2619606Z   show-progress: true
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2619974Z   lfs: false
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2620307Z   submodules: false
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2620674Z   set-safe-directory: true
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.2621315Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3683523Z Syncing repository: pindaroli/pindaroli-arr-helm
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3685236Z ##[group]Getting Git version info
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3686079Z Working directory is '/home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm'
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3687578Z [command]/usr/bin/git version
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3722697Z git version 2.53.0
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3749164Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3766416Z Temporarily overriding HOME='/home/runner/work/_temp/85b4a946-e749-4dc2-8495-7b2f9f92904e' before making global git config changes
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3768332Z Adding repository directory to the temporary git global config as a safe directory
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3781950Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3814577Z Deleting the contents of '/home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm'
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3818506Z ##[group]Initializing the repository
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3823615Z [command]/usr/bin/git init /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3905107Z hint: Using 'master' as the name for the initial branch. This default branch name
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3906259Z hint: will change to "main" in Git 3.0. To configure the initial branch name
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3907864Z hint: to use in all of your new repositories, which will suppress this warning,
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3908554Z hint: call:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3908894Z hint:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3909329Z hint: 	git config --global init.defaultBranch <name>
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3909848Z hint:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3910345Z hint: Names commonly chosen instead of 'master' are 'main', 'trunk' and
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3911403Z hint: 'development'. The just-created branch can be renamed via this command:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3912064Z hint:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3912414Z hint: 	git branch -m <name>
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3912806Z hint:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3913337Z hint: Disable this message with "git config set advice.defaultBranchName false"
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3914387Z Initialized empty Git repository in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/.git/
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3916536Z [command]/usr/bin/git remote add origin https://github.com/pindaroli/pindaroli-arr-helm
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3943340Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3944066Z ##[group]Disabling automatic garbage collection
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3947439Z [command]/usr/bin/git config --local gc.auto 0
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3974211Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3975425Z ##[group]Setting up auth
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.3981799Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4012709Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4287103Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4316992Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4540082Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4587757Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4819648Z [command]/usr/bin/git config --local http.https://github.com/.extraheader AUTHORIZATION: basic ***
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4852148Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4853007Z ##[group]Fetching the repository
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.4861078Z [command]/usr/bin/git -c protocol.version=2 fetch --prune --no-recurse-submodules origin +refs/heads/*:refs/remotes/origin/* +refs/tags/*:refs/tags/*
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9221769Z From https://github.com/pindaroli/pindaroli-arr-helm
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9223140Z  * [new branch]      gh-pages          -> origin/gh-pages
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9224296Z  * [new branch]      main              -> origin/main
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9225521Z  * [new tag]         cloudflared-1.7.1 -> cloudflared-1.7.1
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9227072Z  * [new tag]         excalidraw-1.0.0  -> excalidraw-1.0.0
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9228777Z  * [new tag]         kubernetes-cloudflare-ddns-1.0.6 -> kubernetes-cloudflare-ddns-1.0.6
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9230465Z  * [new tag]         outline-1.2.2     -> outline-1.2.2
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9231724Z  * [new tag]         penpot-1.2.1      -> penpot-1.2.1
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9232912Z  * [new tag]         searxng-1.0.7     -> searxng-1.0.7
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9234327Z  * [new tag]         servarr-1.1.7     -> servarr-1.1.7
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9235477Z  * [new tag]         servarr-1.1.8     -> servarr-1.1.8
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9237022Z  * [new tag]         servarr-1.1.9     -> servarr-1.1.9
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9238327Z  * [new tag]         servarr-1.2.0     -> servarr-1.2.0
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9239164Z  * [new tag]         servarr-1.2.1     -> servarr-1.2.1
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9240046Z  * [new tag]         servarr-1.2.2     -> servarr-1.2.2
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9240868Z  * [new tag]         servarr-1.2.3     -> servarr-1.2.3
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9241876Z  * [new tag]         servarr-1.2.4     -> servarr-1.2.4
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9243109Z  * [new tag]         traefik-cloudflared-source-ip-1.0.11 -> traefik-cloudflared-source-ip-1.0.11
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9244550Z  * [new tag]         traefik-whitelist-ddns-1.0.5 -> traefik-whitelist-ddns-1.0.5
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9275525Z [command]/usr/bin/git branch --list --remote origin/main
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9311477Z   origin/main
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9315655Z [command]/usr/bin/git rev-parse refs/remotes/origin/main
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9332748Z d7c05408b97737d089dc4b6a4ca0e50c573b3647
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9337692Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9338907Z ##[group]Determining the checkout info
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9340306Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9342442Z [command]/usr/bin/git sparse-checkout disable
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9375022Z [command]/usr/bin/git config --local --unset-all extensions.worktreeConfig
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9400353Z ##[group]Checking out the ref
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9403565Z [command]/usr/bin/git checkout --progress --force -B main refs/remotes/origin/main
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9529195Z Switched to a new branch 'main'
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9531784Z branch 'main' set up to track 'origin/main'.
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9538262Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9569514Z [command]/usr/bin/git log -1 --format=%H
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9589174Z d7c05408b97737d089dc4b6a4ca0e50c573b3647
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9771780Z ##[group]Run git config user.name "$GITHUB_ACTOR"
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9772862Z [36;1mgit config user.name "$GITHUB_ACTOR"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9774111Z [36;1mgit config user.email "$GITHUB_ACTOR@users.noreply.github.com"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9799333Z shell: /usr/bin/bash -e {0}
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9800055Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9943742Z ##[group]Run helm repo add kubitodev https://charts.kubito.dev
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9945195Z [36;1mhelm repo add kubitodev https://charts.kubito.dev[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9964443Z shell: /usr/bin/bash -e {0}
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:32.9965059Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9300897Z "kubitodev" has been added to your repositories
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9466161Z ##[group]Run helm/chart-releaser-action@v1.6.0
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9467228Z with:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9467815Z   version: v1.6.1
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9468417Z   charts_dir: charts
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9469023Z   mark_as_latest: true
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9469659Z   packages_with_index: false
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9470291Z env:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9471270Z   CR_TOKEN: ***
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9471976Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9585809Z ##[group]Run owner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9586985Z [36;1mowner=$(cut -d '/' -f 1 <<< "$GITHUB_REPOSITORY")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9587898Z [36;1mrepo=$(cut -d '/' -f 2 <<< "$GITHUB_REPOSITORY")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9588673Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9589356Z [36;1margs=(--owner "$owner" --repo "$repo")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9590149Z [36;1margs+=(--charts-dir "charts")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9590843Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9591448Z [36;1mif [[ -n "v1.6.1" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9592139Z [36;1m    args+=(--version "v1.6.1")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9592769Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9593305Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9593837Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9594455Z [36;1m    args+=(--config "")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9595263Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9659441Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9660571Z [36;1mif [[ -z "" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9662002Z [36;1m  install="$RUNNER_TOOL_CACHE/cr/v1.6.1/$(uname -m)"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9663318Z [36;1m  echo "$install" >> "$GITHUB_PATH"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9664643Z [36;1m  args+=(--install-dir "$install")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9665850Z [36;1melse[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9667188Z [36;1m  echo  >> "$GITHUB_PATH"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9668360Z [36;1m  args+=(--install-dir "")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9669431Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9670334Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9671265Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9672325Z [36;1m    args+=(--install-only "")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9673329Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9674202Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9675084Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9676168Z [36;1m    args+=(--skip-packaging "")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9677453Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9678338Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9679208Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9680312Z [36;1m    args+=(--skip-existing "")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9681029Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9681557Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9682097Z [36;1mif [[ -n "true" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9682762Z [36;1m    args+=(--mark-as-latest "true")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9683412Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9683931Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9684464Z [36;1mif [[ -n "false" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9685144Z [36;1m    args+=(--packages-with-index "false")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9685806Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9686327Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9687175Z [36;1mif [[ -n "" ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9687827Z [36;1m    args+=(--pages-branch "")[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9688447Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9688960Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9689533Z [36;1m"$GITHUB_ACTION_PATH/cr.sh" "${args[@]}"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9690185Z [36;1m[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9690738Z [36;1mif [[ -f changed_charts.txt ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9691466Z [36;1m    cat changed_charts.txt >> "$GITHUB_OUTPUT"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9692136Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9692690Z [36;1mif [[ -f chart_version.txt ]]; then[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9693409Z [36;1m    cat chart_version.txt >> "$GITHUB_OUTPUT"[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9694086Z [36;1mfi[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9694722Z [36;1mrm -f changed_charts.txt chart_version.txt[0m
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9717072Z shell: /usr/bin/bash --noprofile --norc -e -o pipefail {0}
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9717799Z env:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9718525Z   CR_TOKEN: ***
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9719073Z ##[endgroup]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:33.9843884Z Looking up latest tag...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.2311366Z Discovering changed charts since 'servarr-1.2.4'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.2439572Z Installing chart-releaser on /opt/hostedtoolcache/cr/v1.6.1/x86_64...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.8558893Z Adding cr directory to PATH...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.8600036Z Packaging chart 'charts/cloudflared'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.8774619Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/cloudflared and saved it to: .cr-release-packages/cloudflared-1.7.1.tgz
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.8785436Z Packaging chart 'charts/excalidraw'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.8951529Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/excalidraw and saved it to: .cr-release-packages/excalidraw-1.0.0.tgz
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.8962789Z Packaging chart 'charts/kubernetes-cloudflare-ddns'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.9131347Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/kubernetes-cloudflare-ddns and saved it to: .cr-release-packages/kubernetes-cloudflare-ddns-1.0.6.tgz
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:49:34.9141297Z Packaging chart 'charts/outline'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:00.3277665Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/outline and saved it to: .cr-release-packages/outline-1.2.2.tgz
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:00.3485650Z Packaging chart 'charts/penpot'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:16.9643074Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/penpot and saved it to: .cr-release-packages/penpot-1.2.1.tgz
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:16.9785431Z Packaging chart 'charts/searxng'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:16.9972705Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/searxng and saved it to: .cr-release-packages/searxng-1.0.7.tgz
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:16.9982926Z Packaging chart 'charts/servarr'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.0301728Z Successfully packaged chart in /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm/charts/servarr and saved it to: .cr-release-packages/servarr-1.2.5.tgz
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.0312560Z Packaging chart 'charts/traefik-cloudflared-source-ip'...
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1698204Z Error: no cached repository for helm-manager-6d7a3fb3a3f035043faf6b25a3130d1c2f82572824ba6df8597028ef6b55c726 found. (try 'helm repo update'): open /home/runner/.cache/helm/repository/helm-manager-6d7a3fb3a3f035043faf6b25a3130d1c2f82572824ba6df8597028ef6b55c726-index.yaml: no such file or directory
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1700784Z Usage:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1701046Z   cr package [CHART_PATH] [...] [flags]
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1701343Z 
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1701467Z Flags:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1701787Z   -h, --help                     help for package
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1702185Z       --key string               Name of the key to use when signing
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1702666Z       --keyring string           Location of a public keyring (default "~/.gnupg/pubring.gpg")
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1703314Z   -p, --package-path string      Path to directory with chart packages (default ".cr-release-packages")
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1704099Z       --passphrase-file string   Location of a file which contains the passphrase for the signing key. Use '-' in order to read from stdin
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1704817Z       --sign                     Use a PGP private key to sign this package
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1705060Z 
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1705130Z Global Flags:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1705369Z       --config string   Config file (default is $HOME/.cr.yaml)
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1705594Z 
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1731005Z ##[error]Process completed with exit code 1.
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.1874601Z Post job cleanup.
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.2762598Z [command]/usr/bin/git version
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.2796090Z git version 2.53.0
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.2835331Z Temporarily overriding HOME='/home/runner/work/_temp/8c8308bd-f39e-41ba-91d3-af8bac578189' before making global git config changes
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.2836041Z Adding repository directory to the temporary git global config as a safe directory
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.2840507Z [command]/usr/bin/git config --global --add safe.directory /home/runner/work/pindaroli-arr-helm/pindaroli-arr-helm
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.2873350Z [command]/usr/bin/git config --local --name-only --get-regexp core\.sshCommand
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.2904002Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'core\.sshCommand' && git config --local --unset-all 'core.sshCommand' || :"
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.3118633Z [command]/usr/bin/git config --local --name-only --get-regexp http\.https\:\/\/github\.com\/\.extraheader
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.3137444Z http.https://github.com/.extraheader
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.3150402Z [command]/usr/bin/git config --local --unset-all http.https://github.com/.extraheader
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.3182104Z [command]/usr/bin/git submodule foreach --recursive sh -c "git config --local --name-only --get-regexp 'http\.https\:\/\/github\.com\/\.extraheader' && git config --local --unset-all 'http.https://github.com/.extraheader' || :"
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.3393048Z [command]/usr/bin/git config --local --name-only --get-regexp ^includeIf\.gitdir:
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.3419918Z [command]/usr/bin/git submodule foreach --recursive git config --local --show-origin --name-only --get-regexp remote.origin.url
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.3721777Z Cleaning up orphan processes
+Release Helm Charts	UNKNOWN STEP	2026-05-09T10:50:17.4046192Z ##[warning]Node.js 20 actions are deprecated. The following actions are running on Node.js 20 and may not work as expected: actions/checkout@v4. Actions will be forced to run with Node.js 24 by default starting June 2nd, 2026. Node.js 20 will be removed from the runner on September 16th, 2026. Please check if updated versions of these actions are available that support Node.js 24. To opt into Node.js 24 now, set the FORCE_JAVASCRIPT_ACTIONS_TO_NODE24=true environment variable on the runner or in your workflow file. Once Node.js 24 becomes the default, you can temporarily opt out by setting ACTIONS_ALLOW_USE_UNSECURE_NODE_VERSION=true. For more information see: https://github.blog/changelog/2025-09-19-deprecation-of-node-20-on-github-actions-runners/

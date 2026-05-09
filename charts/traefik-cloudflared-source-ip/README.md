@@ -7,7 +7,7 @@ A Traefik plugin chart which can be used when you are running a Cloudflared (Arg
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://charts.pindaroli.org
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
 helm install traefik-cloudflared-source-ip pindarolidev/traefik-cloudflared-source-ip
 ```
 

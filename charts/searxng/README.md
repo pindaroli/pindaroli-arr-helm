@@ -5,7 +5,7 @@ Privacy-respecting, hackable metasearch engine. A metasearch engine (or search a
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://charts.pindaroli.org
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
 helm install searxng pindarolidev/searxng
 ```
 

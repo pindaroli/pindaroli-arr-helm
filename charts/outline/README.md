@@ -5,7 +5,7 @@ The fastest knowledge base for growing teams. Beautiful, realtime collaborative,
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://charts.pindaroli.org
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
 helm install outline pindarolidev/outline
 ```
 

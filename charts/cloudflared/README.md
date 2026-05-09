@@ -5,7 +5,7 @@ A tunneling daemon that proxies traffic from the Cloudflare network to your orig
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://charts.pindaroli.org
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
 helm install cloudflared pindarolidev/cloudflared
 ```
 

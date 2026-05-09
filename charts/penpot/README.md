@@ -5,7 +5,7 @@ Penpot is the first Open Source design and prototyping platform meant for cross-
 ## TL;DR
 
 ```console
-helm repo add pindarolidev https://charts.pindaroli.org
+helm repo add pindarolidev https://pindaroli.github.io/pindaroli-arr-helm
 helm install penpot pindarolidev/penpot
 ```
 

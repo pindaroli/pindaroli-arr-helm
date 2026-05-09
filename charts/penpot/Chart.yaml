@@ -7,7 +7,7 @@ appVersion: 2.2.1
 version: 1.2.1
 description: Pindaroli Penpot Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/penpot
-icon: https://pindaroli.org/images/pindaroli.svg
+icon: https://pindaroli.github.io/pindaroli-arr-helm/images/pindaroli.svg
 keywords:
   - kubernetes
   - penpot
