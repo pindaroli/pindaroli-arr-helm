@@ -22,7 +22,7 @@ jobs:
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
       - name: Add Dependencies
         run: |
-          helm repo add kubitodev https://charts.kubito.dev
+          helm repo add kubitodev https://pindaroli.github.io/pindaroli-arr-helm/
       - name: Run Release
         uses: helm/chart-releaser-action@v1.6.0
         env:
