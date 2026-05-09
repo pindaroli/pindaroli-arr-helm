@@ -24,10 +24,10 @@ sources:
 dependencies:
   - condition: global.cloudflaredEnabled
     name: cloudflared
-    repository: "file://../cloudflared"
+    repository: "https://pindaroli.github.io/pindaroli-arr-helm/"
     # https://github.com/Masterminds/semver#checking-version-constraints
     version: 1.x.x
   - condition: global.traefikEnabled
     name: traefik
-    repository: "file://../cloudflared"
+    repository: "https://pindaroli.github.io/pindaroli-arr-helm/"
     version: ">= 26.0.0"

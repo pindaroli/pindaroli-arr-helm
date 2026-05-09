@@ -16,15 +16,35 @@ jobs:
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
+
       - name: Configure Git
         run: |
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
-      - name: Add Dependencies
+
+      - name: Prepare Self-Aware Packaging
         run: |
-          helm repo add pindaroli https://pindaroli.github.io/pindaroli-arr-helm/
-          helm repo update pindaroli
-      - name: Run Release
+          mkdir .deploy
+          # Package all charts manually to handle internal dependencies
+          # First, package the base charts (cloudflared is a dependency)
+          helm package charts/cloudflared -d .deploy
+          
+          # Create a local index and register it so other charts can find cloudflared
+          helm repo index .deploy --url https://pindaroli.github.io/pindaroli-arr-helm/
+          helm repo add pindaroli file://$(pwd)/.deploy
+          helm repo update
+          
+          # Now package all other charts
+          for dir in charts/*; do
+            if [ -d "$dir" ]; then
+              helm package "$dir" -d .deploy
+            fi
+          done
+
+      - name: Run Chart Releaser
         uses: helm/chart-releaser-action@v1.6.0
+        with:
+          skip_packaging: true
+          charts_dir: .deploy
         env:
           CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
