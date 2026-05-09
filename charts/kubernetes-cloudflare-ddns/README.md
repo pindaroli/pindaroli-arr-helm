@@ -5,8 +5,8 @@ A simple Kubernetes cronjob which can be used for updating a DNS record on Cloud
 ## TL;DR
 
 ```console
-helm repo add kubitodev https://charts.kubito.dev
-helm install kubernetes-cloudflare-ddns kubitodev/kubernetes-cloudflare-ddns
+helm repo add pindarolidev https://charts.pindaroli.org
+helm install kubernetes-cloudflare-ddns pindarolidev/kubernetes-cloudflare-ddns
 ```
 
 ## Introduction
@@ -23,7 +23,7 @@ This chart can be used to solve the problem of a Kubernetes cluster being behind
 To install the chart with the release name `kubernetes-cloudflare-ddns`:
 
 ```console
-helm install kubernetes-cloudflare-ddns kubitodev/kubernetes-cloudflare-ddns
+helm install kubernetes-cloudflare-ddns pindarolidev/kubernetes-cloudflare-ddns
 ```
 
 The command deploys kubernetes-cloudflare-ddns on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -46,7 +46,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name               | Description                                   | Value                                  |
 | ------------------ | --------------------------------------------- | -------------------------------------- |
-| `image.repository` | The Docker repository to pull the image from. | `kubitodev/kubernetes-cloudflare-ddns` |
+| `image.repository` | The Docker repository to pull the image from. | `pindarolidev/kubernetes-cloudflare-ddns` |
 | `image.tag`        | The image tag to use.                         | `1.0.1`                                |
 
 
@@ -63,7 +63,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                    | Description                                                                                                                                                                                | Value |
 | ----------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | ----- |
-| `secret.existingSecret` | Name of an existing secret. Check [secret.yaml](https://artifacthub.io/packages/helm/kubitodev/kubernetes-cloudflare-ddns?modal=template&template=secret.yaml) for the required variables. | `""`  |
+| `secret.existingSecret` | Name of an existing secret. Check [secret.yaml](https://artifacthub.io/packages/helm/pindarolidev/kubernetes-cloudflare-ddns?modal=template&template=secret.yaml) for the required variables. | `""`  |
 | `secret.authKey`        | The value of your Cloudflare API Key.                                                                                                                                                      | `""`  |
 | `secret.dnsRecord`      | The A record you want to update.                                                                                                                                                           | `""`  |
 | `secret.recordId`       | The ID of the record you are updating.                                                                                                                                                     | `""`  |
@@ -76,13 +76,13 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 helm install example \
   --set user=example \
   --set password=example \
-    kubitodev/example
+    pindarolidev/example
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-helm install example -f values.yaml kubitodev/example
+helm install example -f values.yaml pindarolidev/example
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -123,7 +123,7 @@ You will get a JSON object returned, and you can use a prettifier or something t
 
 ## License
 
-Copyright &copy; 2022 Kubito
+Copyright &copy; 2022 Pindaroli
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

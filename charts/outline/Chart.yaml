@@ -1,13 +1,13 @@
 name: outline
 maintainers:
-  - name: kubitodev
-    url: https://kubito.dev
+  - name: pindarolidev
+    url: https://pindaroli.org
 apiVersion: v2
 appVersion: 0.82.0
 version: 1.2.2
-description: Kubito Outline Wiki Helm Chart
-home: https://github.com/kubitodev/helm/tree/main/charts/outline
-icon: https://kubito.dev/images/kubito.svg
+description: Pindaroli Outline Wiki Helm Chart
+home: https://github.com/pindarolidev/helm/tree/main/charts/outline
+icon: https://pindaroli.org/images/pindaroli.svg
 keywords:
   - kubernetes
   - outline

@@ -6,7 +6,7 @@
 ## @param image.tag The image tag to use.
 ##
 image:
-  repository: kubitodev/traefik-ip-whitelist-sync
+  repository: pindarolidev/traefik-ip-whitelist-sync
   tag: "1.0.2"
 
 ## @section Cron parameters

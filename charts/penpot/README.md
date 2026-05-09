@@ -5,8 +5,8 @@ Penpot is the first Open Source design and prototyping platform meant for cross-
 ## TL;DR
 
 ```console
-helm repo add kubitodev https://charts.kubito.dev
-helm install penpot kubitodev/penpot
+helm repo add pindarolidev https://charts.pindaroli.org
+helm install penpot pindarolidev/penpot
 ```
 
 ## Introduction
@@ -23,7 +23,7 @@ Penpot makes design and prototyping accessible to every team in the world. It ha
 To install the chart with the release name `penpot`:
 
 ```console
-helm install penpot kubitodev/penpot
+helm install penpot pindarolidev/penpot
 ```
 
 The command deploys penpot on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -246,13 +246,13 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 helm install example \
   --set user=example \
   --set password=example \
-    kubitodev/example
+    pindarolidev/example
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-helm install example -f values.yaml kubitodev/example
+helm install example -f values.yaml pindarolidev/example
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -285,7 +285,7 @@ The redis configuration is very simple, just provide a valid Redis URI. Redis is
 
 ## License
 
-Copyright &copy; 2024 Kubito
+Copyright &copy; 2024 Pindaroli
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

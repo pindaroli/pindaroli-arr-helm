@@ -7,8 +7,8 @@ A Traefik plugin chart which can be used when you are running a Cloudflared (Arg
 ## TL;DR
 
 ```console
-helm repo add kubitodev https://charts.kubito.dev
-helm install traefik-cloudflared-source-ip kubitodev/traefik-cloudflared-source-ip
+helm repo add pindarolidev https://charts.pindaroli.org
+helm install traefik-cloudflared-source-ip pindarolidev/traefik-cloudflared-source-ip
 ```
 
 ## Introduction
@@ -21,7 +21,7 @@ The plugin solves the issue by overwriting the `X-Real-Ip` header, as well the `
 
 - Kubernetes 1.12+
 - Helm 3.2.0+
-- Traefik running with the `kubitodev/traefik-cloudflared-source-ip` extended image
+- Traefik running with the `pindarolidev/traefik-cloudflared-source-ip` extended image
 - Cloudflared running with the Argo Tunnel ID ready
 - Cloudflare generated TLS certificate and full (strict) mode set for SSL/TLS
 
@@ -30,7 +30,7 @@ The plugin solves the issue by overwriting the `X-Real-Ip` header, as well the `
 To install the chart with the release name `traefik-cloudflared-source-ip`:
 
 ```console
-helm install traefik-cloudflared-source-ip kubitodev/traefik-cloudflared-source-ip
+helm install traefik-cloudflared-source-ip pindarolidev/traefik-cloudflared-source-ip
 ```
 
 The command deploys traefik-cloudflared-source-ip on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -53,14 +53,14 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                        | Description                                                                                                                                                                                                                                                                                                         | Value  |
 | --------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ------ |
-| `global.cloudflaredEnabled` | Whether to deploy the cloudflared subchart. It is required to have it, but you can deploy it on your own if you want. Check the [chart](https://artifacthub.io/packages/helm/kubitodev/cloudflared) for configuration.                                                                                              | `true` |
-| `global.traefikEnabled`     | Whether to deploy the official Traefik chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/traefik/traefik) for configuration. IMPORTANT: If you want to deploy it on your own, make sure you use the `kubitodev/traefik-cloudflared-source-ip` image as the base image for Traefik. | `true` |
+| `global.cloudflaredEnabled` | Whether to deploy the cloudflared subchart. It is required to have it, but you can deploy it on your own if you want. Check the [chart](https://artifacthub.io/packages/helm/pindarolidev/cloudflared) for configuration.                                                                                              | `true` |
+| `global.traefikEnabled`     | Whether to deploy the official Traefik chart as subchart. Check [the official chart](https://artifacthub.io/packages/helm/traefik/traefik) for configuration. IMPORTANT: If you want to deploy it on your own, make sure you use the `pindarolidev/traefik-cloudflared-source-ip` image as the base image for Traefik. | `true` |
 
 ### Image parameters
 
 | Name               | Description                                   | Value                                     |
 | ------------------ | --------------------------------------------- | ----------------------------------------- |
-| `image.repository` | The Docker repository to pull the image from. | `kubitodev/traefik-cloudflared-source-ip` |
+| `image.repository` | The Docker repository to pull the image from. | `pindarolidev/traefik-cloudflared-source-ip` |
 | `image.tag`        | The image tag to use.                         | `1.0.9`                                   |
 
 ### Middleware parameters
@@ -74,15 +74,15 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name                                   | Description                                                                                                         | Value                                                                                                                 |
 | -------------------------------------- | ------------------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------- |
-| `traefik.image.repository`             | The Docker repository to pull the image from.                                                                       | `kubitodev/traefik-cloudflared-source-ip`                                                                             |
+| `traefik.image.repository`             | The Docker repository to pull the image from.                                                                       | `pindarolidev/traefik-cloudflared-source-ip`                                                                             |
 | `traefik.namespace`                    | The namespace to deploy Traefik to.                                                                                 | `traefik`                                                                                                             |
 | `traefik.image.tag`                    | The image tag to use.                                                                                               | `1.0.9`                                                                                                               |
-| `traefik.additionalArguments`          | Additional arguments to run the image with. The default one is required.                                            | `["--experimental.localPlugins.cloudflared-source-ip.moduleName=github.com/kubitodev/traefik-cloudflared-source-ip"]` |
+| `traefik.additionalArguments`          | Additional arguments to run the image with. The default one is required.                                            | `["--experimental.localPlugins.cloudflared-source-ip.moduleName=github.com/pindarolidev/traefik-cloudflared-source-ip"]` |
 | `traefik.cloudflareTls.existingSecret` | The name of an existing secret containing the `tls.crt` and `tls.key`.                                              | `""`                                                                                                                  |
 | `traefik.cloudflareTls.crt`            | The TLS certificate obtained from Cloudflare. Check the configuration section for information on how to obtain one. | `""`                                                                                                                  |
 | `traefik.cloudflareTls.key`            | The TLS key obtained from Cloudflare. Check the configuration section for information on how to obtain one.         | `""`                                                                                                                  |
 
-### [Cloudflared](https://artifacthub.io/packages/helm/kubitodev/cloudflared) parameters
+### [Cloudflared](https://artifacthub.io/packages/helm/pindarolidev/cloudflared) parameters
 
 | Name                            | Description                                                                                            | Value                    |
 | ------------------------------- | ------------------------------------------------------------------------------------------------------ | ------------------------ |
@@ -103,13 +103,13 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 helm install example \
   --set user=example \
   --set password=example \
-    kubitodev/example
+    pindarolidev/example
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-helm install example -f values.yaml kubitodev/example
+helm install example -f values.yaml pindarolidev/example
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -190,7 +190,7 @@ spec:
 
 ## License
 
-Copyright &copy; 2022 Kubito
+Copyright &copy; 2022 Pindaroli
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

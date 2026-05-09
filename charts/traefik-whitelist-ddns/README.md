@@ -5,8 +5,8 @@ This is a simple Traefik v2 DDNS updater script, which can be used in home lab s
 ## TL;DR
 
 ```console
-helm repo add kubitodev https://charts.kubito.dev
-helm install traefik-whitelist-ddns --namespace traefik kubitodev/traefik-whitelist-ddns
+helm repo add pindarolidev https://charts.pindaroli.org
+helm install traefik-whitelist-ddns --namespace traefik pindarolidev/traefik-whitelist-ddns
 ```
 
 ## Introduction
@@ -24,7 +24,7 @@ This chart can be used to solve the problem of a whitelisting a single IP addres
 To install the chart with the release name `traefik-whitelist-ddns`:
 
 ```console
-helm install traefik-whitelist-ddns --namespace traefik kubitodev/traefik-whitelist-ddns
+helm install traefik-whitelist-ddns --namespace traefik pindarolidev/traefik-whitelist-ddns
 ```
 
 The command deploys traefik-whitelist-ddns on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -47,7 +47,7 @@ The command removes all the Kubernetes components associated with the chart and 
 
 | Name               | Description                                   | Value                                 |
 | ------------------ | --------------------------------------------- | ------------------------------------- |
-| `image.repository` | The Docker repository to pull the image from. | `kubitodev/traefik-ip-whitelist-sync` |
+| `image.repository` | The Docker repository to pull the image from. | `pindarolidev/traefik-ip-whitelist-sync` |
 | `image.tag`        | The image tag to use.                         | `1.0.2`                               |
 
 ### Cron parameters
@@ -81,13 +81,13 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 helm install --namespace traefik example \
   --set user=example \
   --set password=example \
-    kubitodev/example
+    pindarolidev/example
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-helm install --namespace traefik example -f values.yaml kubitodev/example
+helm install --namespace traefik example -f values.yaml pindarolidev/example
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -125,7 +125,7 @@ If the IP you are getting in Traefik's logs is incorrect, and it is the one of t
 
 ## License
 
-Copyright &copy; 2022 Kubito
+Copyright &copy; 2022 Pindaroli
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

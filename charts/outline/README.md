@@ -5,8 +5,8 @@ The fastest knowledge base for growing teams. Beautiful, realtime collaborative,
 ## TL;DR
 
 ```console
-helm repo add kubitodev https://charts.kubito.dev
-helm install outline kubitodev/outline
+helm repo add pindarolidev https://charts.pindaroli.org
+helm install outline pindarolidev/outline
 ```
 
 ## Introduction
@@ -23,7 +23,7 @@ This chart helps you create a modern team knowledge base for your internal docum
 To install the chart with the release name `outline`:
 
 ```console
-helm install outline kubitodev/outline
+helm install outline pindarolidev/outline
 ```
 
 The command deploys outline on the Kubernetes cluster in the default configuration. The [Parameters](#parameters) section lists the parameters that can be configured during installation.
@@ -213,13 +213,13 @@ Specify each parameter using the `--set key=value[,key=value]` argument to `helm
 helm install example \
   --set user=example \
   --set password=example \
-    kubitodev/example
+    pindarolidev/example
 ```
 
 Alternatively, a YAML file that specifies the values for the above parameters can be provided while installing the chart. For example,
 
 ```console
-helm install example -f values.yaml kubitodev/example
+helm install example -f values.yaml pindarolidev/example
 ```
 
 > **Tip**: You can use the default [values.yaml](values.yaml)
@@ -261,7 +261,7 @@ outline:
 postgresql:
   auth:
     database: outline
-    username: kubito
+    username: pindaroli
     existingSecret: outline-secret # see values for key naming
 
 auth:
@@ -292,7 +292,7 @@ minio:
 
 ## License
 
-Copyright &copy; 2024 Kubito
+Copyright &copy; 2024 Pindaroli
 
 Licensed under the Apache License, Version 2.0 (the "License");
 you may not use this file except in compliance with the License.

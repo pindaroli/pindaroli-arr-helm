@@ -1,13 +1,13 @@
 name: searxng
 maintainers:
-  - name: kubitodev
-    url: https://kubito.dev
+  - name: pindarolidev
+    url: https://pindaroli.org
 apiVersion: v2
 appVersion: 1.0.1
 version: 1.0.7
-description: Kubito SearXNG Helm Chart
-home: https://github.com/kubitodev/helm/tree/main/charts/searxng
-icon: https://kubito.dev/images/kubito.svg
+description: Pindaroli SearXNG Helm Chart
+home: https://github.com/pindarolidev/helm/tree/main/charts/searxng
+icon: https://pindaroli.org/images/pindaroli.svg
 keywords:
   - kubernetes
   - searxng

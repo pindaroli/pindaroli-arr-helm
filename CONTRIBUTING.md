@@ -48,12 +48,12 @@ Notice the `Author` and `Signed-off-by` lines match. If they don't your PR will 
 
 - A chart's `README.md` must include configuration options. The tables of parameters are generated based on the metadata information from the `values.yaml` file.
 - A chart's `NOTES.txt` must include relevant post-installation information.
-- The title of the PR starts with chart name (e.g. `[kubitodev/chart]`)
+- The title of the PR starts with chart name (e.g. `[pindarolidev/chart]`)
 
 ### PR Approval and Release Process
 
-1. Changes are manually reviewed by Kubito team members.
-1. Once the changes are accepted, the PR is verified that it includes the lint and the vulnerability checks. If that passes, the Kubito team will review the changes and trigger the verification and functional tests.
+1. Changes are manually reviewed by Pindaroli team members.
+1. Once the changes are accepted, the PR is verified that it includes the lint and the vulnerability checks. If that passes, the Pindaroli team will review the changes and trigger the verification and functional tests.
 1. When the PR passes all tests, the PR is merged by the reviewer(s) in the GitHub `master` branch.
 1. Then our CI/CD system is going to push the chart to the Helm registry including the recently merged changes and also the latest images and dependencies used by the chart. The changes in the images will be also committed by the CI/CD to the GitHub repository, bumping the chart version again.
 
@@ -61,17 +61,17 @@ Notice the `Author` and `Signed-off-by` lines match. If they don't your PR will 
 
 ### Testing
 
-1. Read the [Test Strategy](https://github.com/kubitodev/helm/blob/master/TESTING.md) guide.
+1. Read the [Test Strategy](https://github.com/pindarolidev/helm/blob/master/TESTING.md) guide.
 2. Determine the types of tests you will need based on the chart you are testing and the information in the test strategy.
-3. Before you create a pull request, make sure you achieved the [Test Acceptance Criteria](https://github.com/kubitodev/helm/blob/master/TESTING.md#Test-acceptance-criteria).
+3. Before you create a pull request, make sure you achieved the [Test Acceptance Criteria](https://github.com/pindarolidev/helm/blob/master/TESTING.md#Test-acceptance-criteria).
 4. If you were able to achieve them, congrats! Create a PR and wait for the approval. You should then be able to see the result of the test execution for multiple cloud platforms (AKS, TKG, GKE) after the approval.
 
 ### Adding a new chart to the repository
 
 There are three major technical requirements to add a new Helm chart to our catalog:
 
-- The chart should use Kubito based container images. If they don't exist, you can [open a GitHub issue](https://github.com/kubitodev/helm/issues/new/choose) and we will work together to create them.
-- Follow the same structure/patterns that the rest of the Kubito charts (you can find a basic scaffolding in the [`template` directory](https://github.com/kubitodev/helm/tree/master/template)).
+- The chart should use Pindaroli based container images. If they don't exist, you can [open a GitHub issue](https://github.com/pindarolidev/helm/issues/new/choose) and we will work together to create them.
+- Follow the same structure/patterns that the rest of the Pindaroli charts (you can find a basic scaffolding in the [`template` directory](https://github.com/pindarolidev/helm/tree/master/template)).
 - Use an [OSI approved license](https://opensource.org/licenses) for all the software.
 
 Please, note we will need to check internally and evaluate the feasibility of adding the new solution to the catalog. Due to limited resources this step could take some time.

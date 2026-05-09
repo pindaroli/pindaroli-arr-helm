@@ -4,7 +4,7 @@ This file provides context and guidance for Gemini when working with this Helm c
 
 ## Repository Overview
 
-This repository contains Helm charts for Kubernetes applications maintained by Pindaroli/Kubito. The primary focus is on the **Servarr stack** (Sonarr, Radarr, Lidarr, etc.) and related media services.
+This repository contains Helm charts for Kubernetes applications maintained by Pindaroli/Pindaroli. The primary focus is on the **Servarr stack** (Sonarr, Radarr, Lidarr, etc.) and related media services.
 
 **Key Files:**
 - `charts/servarr`: The main chart for the media stack.

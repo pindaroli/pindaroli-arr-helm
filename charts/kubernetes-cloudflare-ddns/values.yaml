@@ -6,7 +6,7 @@
 ## @param image.tag The image tag to use.
 ##
 image:
-  repository: kubitodev/kubernetes-cloudflare-ddns
+  repository: pindarolidev/kubernetes-cloudflare-ddns
   tag: "1.0.1"
 
 ## @section Cron parameters
@@ -25,7 +25,7 @@ cron:
 
 ## @section Secret parameters
 
-## @param secret.existingSecret Name of an existing secret. Check [secret.yaml](https://artifacthub.io/packages/helm/kubitodev/kubernetes-cloudflare-ddns?modal=template&template=secret.yaml) for the required variables.
+## @param secret.existingSecret Name of an existing secret. Check [secret.yaml](https://artifacthub.io/packages/helm/pindarolidev/kubernetes-cloudflare-ddns?modal=template&template=secret.yaml) for the required variables.
 ## @param secret.authKey The value of your Cloudflare API Key.
 ## @param secret.dnsRecord The A record you want to update.
 ## @param secret.recordId The ID of the record you are updating.

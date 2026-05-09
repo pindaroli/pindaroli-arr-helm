@@ -1,13 +1,13 @@
 name: excalidraw
 maintainers:
-  - name: kubitodev
-    url: https://kubito.dev
+  - name: pindarolidev
+    url: https://pindaroli.org
 apiVersion: v2
 appVersion: 0.17.6
 version: 1.0.0
-description: Kubito Excalidraw Helm Chart
-home: https://github.com/kubitodev/helm/tree/main/charts/excalidraw
-icon: https://kubito.dev/images/kubito.svg
+description: Pindaroli Excalidraw Helm Chart
+home: https://github.com/pindarolidev/helm/tree/main/charts/excalidraw
+icon: https://pindaroli.org/images/pindaroli.svg
 keywords:
   - kubernetes
   - excalidraw
