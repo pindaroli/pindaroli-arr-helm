@@ -4,7 +4,7 @@ maintainers:
     url: https://pindaroli.org
 apiVersion: v2
 appVersion: 2.x.x
-version: 1.0.5
+version: 1.2.6
 description: Pindaroli Traefik Whitelist DDNS Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/traefik-whitelist-ddns
 icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg

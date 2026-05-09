@@ -4,7 +4,7 @@ maintainers:
     url: https://pindaroli.org
 apiVersion: v2
 appVersion: 2.10.7
-version: 1.0.11
+version: 1.2.6
 description: Pindaroli Traefik Cloudflared (Argo Tunnel) Real IP Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/traefik-cloudflared-source-ip
 icon: https://pindaroli.github.io/pindaroli-arr-helm/images/pindaroli.svg
@@ -26,8 +26,8 @@ dependencies:
     name: cloudflared
     repository: "https://pindaroli.github.io/pindaroli-arr-helm/"
     # https://github.com/Masterminds/semver#checking-version-constraints
-    version: 1.x.x
+    version: 1.2.6
   - condition: global.traefikEnabled
     name: traefik
     repository: "https://pindaroli.github.io/pindaroli-arr-helm/"
-    version: ">= 26.0.0"
+    version: 1.2.6

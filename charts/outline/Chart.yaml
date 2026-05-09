@@ -4,7 +4,7 @@ maintainers:
     url: https://pindaroli.org
 apiVersion: v2
 appVersion: 0.82.0
-version: 1.2.2
+version: 1.2.6
 description: Pindaroli Outline Wiki Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/outline
 icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
@@ -21,12 +21,12 @@ dependencies:
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
     # https://github.com/Masterminds/semver#checking-version-constraints
-    version: 13.x.x
+    version: 1.2.6
   - condition: global.redisEnabled
     name: redis
     repository: https://charts.bitnami.com/bitnami
-    version: 18.x.x
+    version: 1.2.6
   - condition: global.minioEnabled
     name: minio
     repository: https://charts.bitnami.com/bitnami
-    version: 12.x.x
+    version: 1.2.6

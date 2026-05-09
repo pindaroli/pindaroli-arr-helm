@@ -4,7 +4,7 @@ maintainers:
     url: https://pindaroli.org
 apiVersion: v2
 appVersion: 2.2.1
-version: 1.2.1
+version: 1.2.6
 description: Pindaroli Penpot Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/penpot
 icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
@@ -20,8 +20,8 @@ dependencies:
   - condition: global.postgresqlEnabled
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
-    version: 15.x.x
+    version: 1.2.6
   - condition: global.redisEnabled
     name: redis
     repository: https://charts.bitnami.com/bitnami
-    version: 18.x.x
+    version: 1.2.6

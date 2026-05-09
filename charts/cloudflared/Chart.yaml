@@ -4,7 +4,7 @@ maintainers:
     url: https://pindaroli.org
 apiVersion: v2
 appVersion: 2025.5.0
-version: 1.7.1
+version: 1.2.6
 description: Pindaroli Cloudflared (Argo Tunnel) Helm Chart
 home: https://github.com/pindarolidev/helm/tree/main/charts/cloudflared
 icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
