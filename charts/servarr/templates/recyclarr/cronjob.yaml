@@ -1,0 +1,66 @@
+{{- if .Values.recyclarr.enabled }}
+apiVersion: batch/v1
+kind: CronJob
+metadata:
+  name: {{ .Release.Name }}-recyclarr
+  namespace: {{ .Release.Namespace }}
+  labels:
+    app.kubernetes.io/name: recyclarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  schedule: {{ .Values.recyclarr.schedule | quote }}
+  concurrencyPolicy: Forbid
+  successfulJobsHistoryLimit: 3
+  failedJobsHistoryLimit: 1
+  jobTemplate:
+    spec:
+      template:
+        metadata:
+          labels:
+            app.kubernetes.io/name: recyclarr
+            app.kubernetes.io/instance: {{ .Release.Name | quote }}
+        spec:
+          restartPolicy: OnFailure
+          containers:
+            - name: recyclarr
+              image: "{{ .Values.recyclarr.image.repository }}:{{ .Values.recyclarr.image.tag }}"
+              imagePullPolicy: {{ .Values.recyclarr.image.pullPolicy }}
+              args: ["sync"]
+              env:
+                {{- if .Values.recyclarr.radarr.enabled }}
+                - name: RADARR_API_KEY
+                  {{- if .Values.recyclarr.apiKeys.existingSecret }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.recyclarr.apiKeys.existingSecret }}
+                      key: {{ .Values.recyclarr.apiKeys.existingSecretKeyRadarr }}
+                  {{- else }}
+                  value: {{ .Values.recyclarr.apiKeys.radarrApiKey | quote }}
+                  {{- end }}
+                {{- end }}
+                {{- if .Values.recyclarr.sonarr.enabled }}
+                - name: SONARR_API_KEY
+                  {{- if .Values.recyclarr.apiKeys.existingSecret }}
+                  valueFrom:
+                    secretKeyRef:
+                      name: {{ .Values.recyclarr.apiKeys.existingSecret }}
+                      key: {{ .Values.recyclarr.apiKeys.existingSecretKeySonarr }}
+                  {{- else }}
+                  value: {{ .Values.recyclarr.apiKeys.sonarrApiKey | quote }}
+                  {{- end }}
+                {{- end }}
+              volumeMounts:
+                - name: recyclarr-config
+                  mountPath: /config/recyclarr.yaml
+                  subPath: recyclarr.yaml
+              {{- with .Values.recyclarr.resources }}
+              resources:
+                {{- toYaml . | nindent 16 }}
+              {{- end }}
+          volumes:
+            - name: recyclarr-config
+              configMap:
+                name: {{ .Release.Name }}-recyclarr-config
+{{- end }}

@@ -489,3 +489,9 @@ cleanuperr:
   #   SONARR__INSTANCES__0__URL: "http://oli-arr-sonarr:80"
   #   RADARR__INSTANCES__0__URL: "http://oli-arr-radarr:7878"
   #   LIDARR__INSTANCES__0__URL: "http://oli-arr-lidarr:8686"
+
+## Recyclarr - Quality Automation
+recyclarr:
+  enabled: true
+  apiKeys:
+    existingSecret: "servarr-api-keys"

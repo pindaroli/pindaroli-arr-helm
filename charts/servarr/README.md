@@ -781,3 +781,22 @@ distributed under the License is distributed on an "AS IS" BASIS,
 WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 See the License for the specific language governing permissions and
 limitations under the License.
+### Recyclarr parameters
+
+| Name                                       | Description                                                                                                                                           | Value                                              |
+| ------------------------------------------ | ----------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------- |
+| `recyclarr.enabled`                        | Whether to enable Recyclarr.                                                                                                                          | `false`                                            |
+| `recyclarr.image.repository`               | Docker image repository.                                                                                                                              | `ghcr.io/recyclarr/recyclarr`                      |
+| `recyclarr.image.tag`                      | Docker image tag.                                                                                                                                     | `6.0`                                              |
+| `recyclarr.image.pullPolicy`               | Image pull policy.                                                                                                                                    | `IfNotPresent`                                     |
+| `recyclarr.schedule`                       | Cron schedule for the sync job (default: every 12 hours).                                                                                             | `0 */12 * * *`                                     |
+| `recyclarr.apiKeys.existingSecret`         | Name of an existing K8s Secret containing API keys. If set, takes priority over direct values.                                                        | `""`                                               |
+| `recyclarr.apiKeys.existingSecretKeyRadarr` | Key name within the existing secret for the Radarr API key.                                                                                           | `radarr-api-key`                                   |
+| `recyclarr.apiKeys.existingSecretKeySonarr` | Key name within the existing secret for the Sonarr API key.                                                                                           | `sonarr-api-key`                                   |
+| `recyclarr.apiKeys.radarrApiKey`           | Radarr API key (plaintext fallback — do NOT use in production).                                                                                       | `""`                                               |
+| `recyclarr.apiKeys.sonarrApiKey`           | Sonarr API key (plaintext fallback — do NOT use in production).                                                                                       | `""`                                               |
+| `recyclarr.radarr.enabled`                 | Whether to sync Radarr.                                                                                                                               | `true`                                             |
+| `recyclarr.radarr.url`                     | Internal service URL for Radarr.                                                                                                                      | `http://servarr-radarr.arr.svc.cluster.local:7878` |
+| `recyclarr.sonarr.enabled`                 | Whether to sync Sonarr (disabled by default, enable when Sonarr is deployed).                                                                         | `false`                                            |
+| `recyclarr.sonarr.url`                     | Internal service URL for Sonarr.                                                                                                                      | `http://servarr-sonarr.arr.svc.cluster.local:8989` |
+| `recyclarr.resources`                      | Resource requests and limits for the Recyclarr container.                                                                                             | `{}`                                               |

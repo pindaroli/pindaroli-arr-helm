@@ -1771,3 +1771,59 @@ cleanuperr:
       size: 100Mi
       additionalVolumes: []
       additionalMounts: []
+
+## @section Recyclarr parameters
+
+## @param recyclarr.enabled Whether to enable Recyclarr.
+## @param recyclarr.image.repository Docker image repository.
+## @param recyclarr.image.tag Docker image tag.
+## @param recyclarr.image.pullPolicy Image pull policy.
+## @param recyclarr.schedule Cron schedule for the sync job (default: every 12 hours).
+## @param recyclarr.apiKeys.existingSecret Name of an existing K8s Secret containing API keys. If set, takes priority over direct values.
+## @param recyclarr.apiKeys.existingSecretKeyRadarr Key name within the existing secret for the Radarr API key.
+## @param recyclarr.apiKeys.existingSecretKeySonarr Key name within the existing secret for the Sonarr API key.
+## @param recyclarr.apiKeys.radarrApiKey Radarr API key (plaintext fallback — do NOT use in production).
+## @param recyclarr.apiKeys.sonarrApiKey Sonarr API key (plaintext fallback — do NOT use in production).
+## @param recyclarr.radarr.enabled Whether to sync Radarr.
+## @param recyclarr.radarr.url Internal service URL for Radarr.
+## @param recyclarr.sonarr.enabled Whether to sync Sonarr (disabled by default, enable when Sonarr is deployed).
+## @param recyclarr.sonarr.url Internal service URL for Sonarr.
+## @param recyclarr.resources Resource requests and limits for the Recyclarr container.
+##
+recyclarr:
+  enabled: false
+
+  image:
+    repository: ghcr.io/recyclarr/recyclarr
+    tag: "6.0"
+    pullPolicy: IfNotPresent
+
+  # Cron schedule — default: every 12 hours
+  schedule: "0 */12 * * *"
+
+  # API Key management (hybrid pattern):
+  # If existingSecret is set, keys are read from the K8s Secret (recommended for production).
+  # Otherwise, radarrApiKey / sonarrApiKey are used directly (development only).
+  apiKeys:
+    existingSecret: ""                          # Name of an existing K8s Secret
+    existingSecretKeyRadarr: "radarr-api-key"   # Key in the Secret for Radarr
+    existingSecretKeySonarr: "sonarr-api-key"   # Key in the Secret for Sonarr
+    radarrApiKey: ""                            # Plaintext fallback (NOT for production)
+    sonarrApiKey: ""                            # Plaintext fallback (NOT for production)
+
+  radarr:
+    enabled: true
+    url: "http://servarr-radarr.arr.svc.cluster.local:7878"
+
+  # Sonarr support is included but disabled by default.
+  # Set enabled: true when Sonarr is deployed in your cluster.
+  sonarr:
+    enabled: false
+    url: "http://servarr-sonarr.arr.svc.cluster.local:8989"
+
+  resources: {}
+    # requests:
+    #   cpu: 50m
+    #   memory: 64Mi
+    # limits:
+    #   memory: 128Mi
