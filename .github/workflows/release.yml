@@ -24,20 +24,19 @@ jobs:
 
       - name: Prepare Self-Aware Packaging
         run: |
-          mkdir .deploy
-          # Package all charts manually to handle internal dependencies
-          # First, package the base charts (cloudflared is a dependency)
-          helm package charts/cloudflared -d .deploy
+          mkdir .cr-release-packages
+          # 1. Package cloudflared first (it's a dependency for others)
+          helm package charts/cloudflared -d .cr-release-packages
           
-          # Create a local index and register it so other charts can find cloudflared
-          helm repo index .deploy --url https://pindaroli.github.io/pindaroli-arr-helm/
-          helm repo add pindaroli file://$(pwd)/.deploy
-          helm repo update
+          # 2. Create a local index and register it so other charts can find cloudflared
+          helm repo index .cr-release-packages --url https://pindaroli.github.io/pindaroli-arr-helm/
+          helm repo add pindaroli file://$(pwd)/.cr-release-packages
           
-          # Now package all other charts
+          # 3. Package all other charts with dependency update
           for dir in charts/*; do
-            if [ -d "$dir" ]; then
-              helm package "$dir" -d .deploy
+            if [ -d "$dir" ] && [ "$(basename "$dir")" != "cloudflared" ]; then
+              helm dependency update "$dir"
+              helm package "$dir" -d .cr-release-packages
             fi
           done
 

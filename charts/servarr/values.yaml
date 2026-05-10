@@ -1819,12 +1819,18 @@ recyclarr:
   radarr:
     enabled: true
     url: "http://servarr-radarr.arr.svc.cluster.local:7878"
+    include:
+      - radarr-quality-definition-movie
+      - radarr-custom-formats-movie
 
   # Sonarr support is included but disabled by default.
   # Set enabled: true when Sonarr is deployed in your cluster.
   sonarr:
     enabled: false
     url: "http://servarr-sonarr.arr.svc.cluster.local:8989"
+    include:
+      - sonarr-quality-definition-series
+      - sonarr-v4-custom-formats-web-dl
 
   resources: {}
     # requests:
