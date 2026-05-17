@@ -30,7 +30,9 @@ jobs:
           
           # 2. Create a local index and register it so other charts can find cloudflared
           helm repo index .cr-release-packages --url https://pindaroli.github.io/pindaroli-arr-helm/
-          helm repo add pindaroli file://$(pwd)/.cr-release-packages
+          python3 -m http.server 8000 --directory .cr-release-packages &
+          sleep 2
+          helm repo add pindaroli http://localhost:8000
           
           # 3. Package all other charts with dependency update
           for dir in charts/*; do
@@ -39,6 +41,9 @@ jobs:
               helm package "$dir" -d .cr-release-packages
             fi
           done
+          
+          # 4. Stop the local server
+          kill %1
 
       - name: Run Chart Releaser
         uses: helm/chart-releaser-action@v1.6.0

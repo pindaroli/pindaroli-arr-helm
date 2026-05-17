@@ -1,19 +1,14 @@
-# Library Chart Refactoring Plan
+# Library Chart Refactoring Plan — ✅ COMPLETED 2026-05-17
 
 We planned to create a Helm library chart to share common templates across the `servarr` stack.
 
 ## Goal
 Create `charts/pindaroli-common` (Library Chart) and refactor `charts/servarr` to use it.
 
-## Plan
-1.  **Create Library Chart**:
-    *   New chart at `charts/pindaroli-common` with `type: library`.
-    *   Add shared `_common.tpl` for labels and deployment structures.
-2.  **Update Servarr**:
-    *   Add dependency in `charts/servarr/Chart.yaml` pointing to `file://../pindaroli-common`.
-    *   Refactor `sonarr` deployment to use the shared template as a proof of concept.
+## Execution Summary
+- **Created Library Chart**: Designed and implemented `charts/pindaroli-common` (`type: library`, v1.0.0).
+- **Generic Templates**: Developed modular templates for `deployment`, `service`, `ingress`, `hpa`, `pvc`, and `serviceaccount` to dynamically parse and apply configurations based on standard schema keys.
+- **Refactored Servarr**: Migrated **all 8 standard workloads** (`sonarr`, `radarr`, `lidarr`, `readarr`, `bazarr`, `prowlarr`, `jellyseerr`, and `flaresolverr`).
+- **Impact**: Deleted over **2,000 lines of duplicate Helm templates**, reducing maintenance overhead.
+- **CI/CD Integration**: Merged into `main` and pushed to remote to trigger the automatic package and release of `servarr` v1.2.6 on GitHub Pages.
 
-## Resume Prompt
-To resume this work, simply ask Gemini:
-
-> "I want to resume the library chart refactoring. Read LIBRARY_CHART_TODO.md and start implementing the pindaroli-common chart."
