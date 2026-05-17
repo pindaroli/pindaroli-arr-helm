@@ -24,3 +24,8 @@ keywords:
   - recyclarr
 sources:
   - https://github.com/Servarr
+
+dependencies:
+  - name: pindaroli-common
+    version: 1.0.0
+    repository: "file://../pindaroli-common"
