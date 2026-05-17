@@ -1,6 +1,206 @@
 apiVersion: v1
 entries:
+  cloudflared:
+  - apiVersion: v2
+    appVersion: 2025.5.0
+    created: "2026-05-17T21:13:31.762722439Z"
+    description: Pindaroli Cloudflared (Argo Tunnel) Helm Chart
+    digest: 61af693f4d0a08d257336c6a7957706b1058f4b29dcd201f9b135172b0ac33a3
+    home: https://github.com/pindarolidev/helm/tree/main/charts/cloudflared
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - argo
+    - tunnel
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: cloudflared
+    sources:
+    - https://github.com/cloudflare/cloudflared
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/cloudflared-1.2.6/cloudflared-1.2.6.tgz
+    version: 1.2.6
+  excalidraw:
+  - apiVersion: v2
+    appVersion: 0.17.6
+    created: "2026-05-17T21:13:31.921829178Z"
+    description: Pindaroli Excalidraw Helm Chart
+    digest: 484d689b1f0fe14fd7892d6425ccba9409528f2b9ec782e2a31bc7343f980ce8
+    home: https://github.com/pindarolidev/helm/tree/main/charts/excalidraw
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - excalidraw
+    - diagrams
+    - design
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: excalidraw
+    sources:
+    - https://github.com/excalidraw/excalidraw
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/excalidraw-1.2.6/excalidraw-1.2.6.tgz
+    version: 1.2.6
+  kubernetes-cloudflare-ddns:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2026-05-17T21:13:32.054550895Z"
+    description: Pindaroli Kubernetes Cloudflare DDNS Helm Chart
+    digest: 0d19e1b0988f69fb050d920163e782ae1a1787eaa638ea9ee938797e6393e63f
+    home: https://github.com/pindarolidev/helm/tree/main/charts/kubernetes-cloudflare-ddns
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - ddns
+    - cronjob
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: kubernetes-cloudflare-ddns
+    sources:
+    - https://github.com/pindarolidev/kubernetes-cloudflare-ddns
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/kubernetes-cloudflare-ddns-1.2.6/kubernetes-cloudflare-ddns-1.2.6.tgz
+    version: 1.2.6
+  outline:
+  - apiVersion: v2
+    appVersion: 0.82.0
+    created: "2026-05-17T21:13:32.236665924Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 13.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    - condition: global.minioEnabled
+      name: minio
+      repository: https://charts.bitnami.com/bitnami
+      version: 12.x.x
+    description: Pindaroli Outline Wiki Helm Chart
+    digest: 26d116bbad52f0ed255523f514b1a96b29f2372d793208e28627d9e9777e01cf
+    home: https://github.com/pindarolidev/helm/tree/main/charts/outline
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - outline
+    - wiki
+    - docs
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: outline
+    sources:
+    - https://github.com/outline/outline
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/outline-1.2.6/outline-1.2.6.tgz
+    version: 1.2.6
+  penpot:
+  - apiVersion: v2
+    appVersion: 2.2.1
+    created: "2026-05-17T21:13:32.395708768Z"
+    dependencies:
+    - condition: global.postgresqlEnabled
+      name: postgresql
+      repository: https://charts.bitnami.com/bitnami
+      version: 15.x.x
+    - condition: global.redisEnabled
+      name: redis
+      repository: https://charts.bitnami.com/bitnami
+      version: 18.x.x
+    description: Pindaroli Penpot Helm Chart
+    digest: 958bbe6f46b8fd7c2f1ae709b86146aa23d0f736383323edc0e65b3685029af7
+    home: https://github.com/pindarolidev/helm/tree/main/charts/penpot
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - penpot
+    - penpotapp
+    - design
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: penpot
+    sources:
+    - https://github.com/penpot/penpot
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/penpot-1.2.6/penpot-1.2.6.tgz
+    version: 1.2.6
+  pindaroli-common:
+  - apiVersion: v2
+    created: "2026-05-17T21:13:32.513846314Z"
+    description: Pindaroli Homelab common Helm library chart
+    digest: ce5a6bde85ca14cc61c2397363f0fbf41857fbc88603a501751457ec00414f31
+    name: pindaroli-common
+    type: library
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/pindaroli-common-1.0.0/pindaroli-common-1.0.0.tgz
+    version: 1.0.0
+  searxng:
+  - apiVersion: v2
+    appVersion: 1.0.1
+    created: "2026-05-17T21:13:32.656497359Z"
+    description: Pindaroli SearXNG Helm Chart
+    digest: e54e3a18371ea0e349eb30c17c3452b82a053cf613e9029ee6c63b1d4c8b3f21
+    home: https://github.com/pindarolidev/helm/tree/main/charts/searxng
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - searxng
+    - metasearch
+    - search
+    - privacy
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: searxng
+    sources:
+    - https://github.com/searxng/searxng
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/searxng-1.2.6/searxng-1.2.6.tgz
+    version: 1.2.6
   servarr:
+  - apiVersion: v2
+    appVersion: 1.1.7
+    created: "2026-05-17T21:13:32.801539727Z"
+    dependencies:
+    - name: pindaroli-common
+      repository: file://../pindaroli-common
+      version: 1.0.0
+    description: Pindaroli Servarr Helm Chart
+    digest: 4507c05354372ba4402a747b2af19cccb59feb0ac929f5b29cb30053b15aeac8
+    home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - sonarr
+    - radarr
+    - readarr
+    - flaresolverr
+    - jellyfin
+    - jellyseerr
+    - qbittorrent
+    - prowlarr
+    - cleanuperr
+    - recyclarr
+    maintainers:
+    - name: pindaroli
+      url: https://github.com/pindaroli
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/servarr-1.2.6/servarr-1.2.6.tgz
+    version: 1.2.6
   - apiVersion: v2
     appVersion: 1.1.7
     created: "2026-05-09T10:30:49.556486178Z"
@@ -206,4 +406,65 @@ entries:
     urls:
     - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/servarr-1.1.8/servarr-1.1.8.tgz
     version: 1.1.8
-generated: "2026-05-09T10:30:49.556514992Z"
+  traefik-cloudflared-source-ip:
+  - apiVersion: v2
+    appVersion: 2.10.7
+    created: "2026-05-17T21:13:32.959588531Z"
+    dependencies:
+    - condition: global.cloudflaredEnabled
+      name: cloudflared
+      repository: file://../cloudflared
+      version: 1.2.6
+    - condition: global.traefikEnabled
+      name: traefik
+      repository: https://traefik.github.io/charts
+      version: '>= 26.0.0'
+    description: Pindaroli Traefik Cloudflared (Argo Tunnel) Real IP Helm Chart
+    digest: f09d8d57bfc95cf10f2127b36037ad98753d142b747e66f8c268af47bb7b47b7
+    home: https://github.com/pindarolidev/helm/tree/main/charts/traefik-cloudflared-source-ip
+    icon: https://pindaroli.github.io/pindaroli-arr-helm/images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - cloudflare
+    - cloudflared
+    - middleware
+    - real-ip
+    - source-ip
+    - argo-tunnel
+    - argo
+    - traefik
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: traefik-cloudflared-source-ip
+    sources:
+    - https://github.com/pindarolidev/traefik-cloudflared-source-ip
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/traefik-cloudflared-source-ip-1.2.6/traefik-cloudflared-source-ip-1.2.6.tgz
+    version: 1.2.6
+  traefik-whitelist-ddns:
+  - apiVersion: v2
+    appVersion: 2.x.x
+    created: "2026-05-17T21:13:33.09342234Z"
+    description: Pindaroli Traefik Whitelist DDNS Helm Chart
+    digest: cfd004316873f053f222a492131a05920ccfcff212166706209862bae740857c
+    home: https://github.com/pindarolidev/helm/tree/main/charts/traefik-whitelist-ddns
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - traefik
+    - ddns
+    - cronjob
+    - middleware
+    - ip
+    - whitelist
+    maintainers:
+    - name: pindarolidev
+      url: https://pindaroli.org
+    name: traefik-whitelist-ddns
+    sources:
+    - https://github.com/pindarolidev/traefik-whitelist-ddns
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/traefik-whitelist-ddns-1.2.6/traefik-whitelist-ddns-1.2.6.tgz
+    version: 1.2.6
+generated: "2026-05-17T21:13:33.093463071Z"
