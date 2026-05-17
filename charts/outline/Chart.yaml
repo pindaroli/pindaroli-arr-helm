@@ -21,12 +21,12 @@ dependencies:
     name: postgresql
     repository: https://charts.bitnami.com/bitnami
     # https://github.com/Masterminds/semver#checking-version-constraints
-    version: 1.2.6
+    version: 13.x.x
   - condition: global.redisEnabled
     name: redis
     repository: https://charts.bitnami.com/bitnami
-    version: 1.2.6
+    version: 18.x.x
   - condition: global.minioEnabled
     name: minio
     repository: https://charts.bitnami.com/bitnami
-    version: 1.2.6
+    version: 12.x.x
