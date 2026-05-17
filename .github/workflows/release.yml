@@ -22,33 +22,45 @@ jobs:
           git config user.name "$GITHUB_ACTOR"
           git config user.email "$GITHUB_ACTOR@users.noreply.github.com"
 
-      - name: Prepare Self-Aware Packaging
+      - name: Install Helm
+        uses: azure/setup-helm@v4
+        with:
+          version: v3.14.0
+
+      - name: Pre-populate Helm Dependency Cache
+        # Registriamo i repository esterni (come Traefik e Bitnami) prima di fare dependency update
+        # per aggirare il bug di cache di Helm (Issue #13632) in presenza di dipendenze locali file://
+        run: |
+          helm repo add traefik https://traefik.github.io/charts
+          helm repo add bitnami https://charts.bitnami.com/bitnami
+          helm repo update
+
+      - name: Update Dependencies and Package Charts
         run: |
           mkdir .cr-release-packages
-          # 1. Package cloudflared first (it's a dependency for others)
-          helm package charts/cloudflared -d .cr-release-packages
           
-          # 2. Create a local index and register it so other charts can find cloudflared
-          helm repo index .cr-release-packages --url https://pindaroli.github.io/pindaroli-arr-helm/
-          python3 -m http.server 8000 --directory .cr-release-packages &
-          sleep 2
-          helm repo add pindaroli http://localhost:8000
-          
-          # 3. Package all other charts with dependency update
+          # 1. Aggiorna le dipendenze per ciascuna chart.
+          # Le dipendenze contrassegnate con file:// saranno risolte localmente offline.
+          # Le dipendenze esterne (traefik, bitnami) verranno scaricate usando la cache pre-popolata.
           for dir in charts/*; do
-            if [ -d "$dir" ] && [ "$(basename "$dir")" != "cloudflared" ]; then
+            if [ -d "$dir" ]; then
+              echo "==> Aggiornamento dipendenze per $(basename "$dir")..."
               helm dependency update "$dir"
-              helm package "$dir" -d .cr-release-packages
             fi
           done
           
-          # 4. Stop the local server
-          kill %1
+          # 2. Genera il pacchetto .tgz per tutte le chart
+          for dir in charts/*; do
+            if [ -d "$dir" ]; then
+              echo "==> Pacchettizzazione di $(basename "$dir")..."
+              helm package "$dir" -d .cr-release-packages
+            fi
+          done
 
       - name: Run Chart Releaser
-        uses: helm/chart-releaser-action@v1.6.0
+        uses: helm/chart-releaser-action@v1.7.0
         with:
           skip_packaging: true
-          charts_dir: .deploy
+          charts_dir: charts
         env:
           CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
