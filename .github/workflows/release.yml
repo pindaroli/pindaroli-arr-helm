@@ -59,10 +59,11 @@ jobs:
           done
 
       - name: Run Chart Releaser
-        uses: helm/chart-releaser-action@v1.6.0
+        uses: helm/chart-releaser-action@v1.7.0
         with:
           skip_packaging: true
           charts_dir: charts
           skip_existing: true
         env:
           CR_TOKEN: '${{ secrets.GITHUB_TOKEN }}'
+          latest_tag: ""
