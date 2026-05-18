@@ -201,6 +201,110 @@ jellyfin:
       enabled: false
       host: ""
 
+## @section Jellyfin-Classic parameters
+jellyfin-classic:
+  enabled: false
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/jellyfin
+    tag: "10.10.1"
+    pullPolicy: IfNotPresent
+
+  enableDLNA: false
+
+  service:
+    type: ClusterIP
+    port: 8096
+    nodePort: ""
+    annotations: {}
+    labels: {}
+    loadBalancerIP: ""
+    loadBalancerSourceRanges: []
+    externalTrafficPolicy: null
+
+  ingress:
+    enabled: false
+    labels: {}
+    annotations: {}
+    path: /
+    hosts:
+      - chart-example.local
+    tls: []
+
+  persistence:
+    config:
+      enabled: true
+      storageClass: ""
+      existingClaim: ""
+      subPath: ""
+      accessMode: ReadWriteOnce
+      size: 1Gi
+      labels: {}
+      annotations: {}
+    media:
+      enabled: true
+      storageClass: "csi-nfs-stripe-arr-conf"
+      existingClaim: "servarr-classical-media"
+      subPath: "library"
+      accessMode: ReadOnlyMany
+      size: 500Gi
+      labels: {}
+      annotations: {}
+
+    extraExistingClaimMounts: []
+
+  resources: {}
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  extraVolumes: []
+
+  extraVolumeMounts: []
+
+  extraEnvVars: []
+
+  extraInitContainers: {}
+
+  extraContainers: {}
+
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
+  securityContext: {}
+
+  livenessProbe:
+    enabled: false
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+
+  readinessProbe:
+    enabled: false
+    failureThreshold: 3
+    initialDelaySeconds: 10
+    periodSeconds: 10
+    successThreshold: 1
+    timeoutSeconds: 1
+
+  tailscale:
+    enabled: false
+    sidecar:
+      enabled: true
+      authKey: ""
+      existingAuthSecret: ""
+    ingress:
+      enabled: false
+      host: ""
+
 ## @section Sonarr parameters
 
 ## @param sonarr.enabled Whether to enable Sonarr.
@@ -1331,6 +1435,85 @@ lidarr:
     existingClaim: ""
     accessMode: ReadWriteOnce
     size: 800Mi
+    additionalVolumes: []
+    additionalMounts: []
+
+## @section Lidarr-Classic parameters
+lidarr-classic:
+  enabled: false
+  replicaCount: 1
+
+  image:
+    repository: lscr.io/linuxserver/lidarr
+    pullPolicy: IfNotPresent
+    tag: "2.7.1"
+
+  imagePullSecrets: []
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext:
+    runAsUser: 1000
+    runAsGroup: 1000
+    fsGroup: 1000
+
+  securityContext: {}
+
+  initContainers: []
+
+  service:
+    type: ClusterIP
+    port: 8686
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+
+  resources: {}
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+    UMASK: "002"
+
+  persistence:
+    enabled: true
+    path: classical
+    storageClass: "csi-nfs-stripe-arr-conf"
+    existingClaim: "servarr-classical-media"
+    accessMode: ReadWriteMany
+    size: 500Gi
     additionalVolumes: []
     additionalMounts: []
 

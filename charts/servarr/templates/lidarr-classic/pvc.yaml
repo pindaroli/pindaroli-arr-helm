@@ -1,0 +1,3 @@
+{{- if and (index .Values "lidarr-classic").enabled (index .Values "lidarr-classic").persistence.enabled (not (index .Values "lidarr-classic").persistence.existingClaim) }}
+{{- include "pindaroli-common.pvc" (dict "root" . "component" "lidarr-classic") -}}
+{{- end }}

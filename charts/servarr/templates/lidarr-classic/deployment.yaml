@@ -1,0 +1,3 @@
+{{- if (index .Values "lidarr-classic").enabled }}
+{{- include "pindaroli-common.deployment" (dict "root" . "component" "lidarr-classic") -}}
+{{- end }}
