@@ -135,6 +135,15 @@ entries:
     version: 1.2.6
   pindaroli-common:
   - apiVersion: v2
+    created: "2026-07-04T05:05:29.741379089Z"
+    description: Pindaroli Homelab common Helm library chart
+    digest: 940e9f5838934752c9c0130f88e0ec0e783033aee5e8e402da053b6d3cb71a4f
+    name: pindaroli-common
+    type: library
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/pindaroli-common-1.0.1/pindaroli-common-1.0.1.tgz
+    version: 1.0.1
+  - apiVersion: v2
     created: "2026-05-17T21:13:32.513846314Z"
     description: Pindaroli Homelab common Helm library chart
     digest: ce5a6bde85ca14cc61c2397363f0fbf41857fbc88603a501751457ec00414f31
@@ -167,6 +176,40 @@ entries:
     - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/searxng-1.2.6/searxng-1.2.6.tgz
     version: 1.2.6
   servarr:
+  - apiVersion: v2
+    appVersion: 1.1.7
+    created: "2026-07-04T05:05:30.075622277Z"
+    dependencies:
+    - name: pindaroli-common
+      repository: file://../pindaroli-common
+      version: 1.0.1
+    description: Pindaroli Servarr Helm Chart
+    digest: 0a3f9943a3f1c22ed0ec44a65252a1c38994b1737403e70059fe3cc690f4fcdc
+    home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - sonarr
+    - radarr
+    - readarr
+    - flaresolverr
+    - jellyfin
+    - jellyseerr
+    - qbittorrent
+    - prowlarr
+    - cleanuperr
+    - recyclarr
+    maintainers:
+    - name: pindaroli
+      url: https://github.com/pindaroli
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/servarr-1.2.8/servarr-1.2.8.tgz
+    version: 1.2.8
   - apiVersion: v2
     appVersion: 1.1.7
     created: "2026-05-18T20:44:50.753584068Z"
@@ -501,4 +544,4 @@ entries:
     urls:
     - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/traefik-whitelist-ddns-1.2.6/traefik-whitelist-ddns-1.2.6.tgz
     version: 1.2.6
-generated: "2026-05-18T20:44:51.116960975Z"
+generated: "2026-07-04T05:05:30.425414049Z"
