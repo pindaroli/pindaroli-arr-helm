@@ -47,7 +47,7 @@ spec:
       serviceAccountName: {{ $compValues.serviceAccount.name | default (printf "%s-%s" $root.Release.Name $component) }}
       securityContext:
         {{- toYaml $compValues.podSecurityContext | nindent 8 }}
-      {{- if and $root.Values.jellyfin.enabled $root.Values.jellyfin.persistence.media.enabled $persistence.enabled $persistence.createInitContainer }}
+      {{- if and $root.Values.jellyfin.persistence.media.enabled $persistence.enabled $persistence.createInitContainer }}
       initContainers:
         - name: init-directories
           image: busybox
@@ -68,7 +68,7 @@ spec:
           emptyDir: { }
           {{- end }}
         - name: media
-          {{- if and $root.Values.jellyfin.enabled $root.Values.jellyfin.persistence.media.enabled $persistence.enabled }}
+          {{- if and $root.Values.jellyfin.persistence.media.enabled $persistence.enabled }}
           persistentVolumeClaim:
             claimName: {{ $root.Values.jellyfin.persistence.media.existingClaim | default (printf "%s-jellyfin-media" $root.Release.Name) }}
           {{- else }}
@@ -86,7 +86,7 @@ spec:
           volumeMounts:
             - mountPath: {{ $persistence.configPath | default (eq $component "jellyseerr" | ternary "/app/config" "/config") }}
               name: config
-          {{- if and $root.Values.jellyfin.enabled $root.Values.jellyfin.persistence.media.enabled $persistence.enabled }}
+          {{- if and $root.Values.jellyfin.persistence.media.enabled $persistence.enabled }}
             - mountPath: /media
               name: media
           {{- end }}

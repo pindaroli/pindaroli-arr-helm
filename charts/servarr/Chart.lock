@@ -1,6 +1,6 @@
 dependencies:
 - name: pindaroli-common
   repository: file://../pindaroli-common
-  version: 1.0.0
-digest: sha256:59ee876d48815253f93a7010b12a90a9436f9875a463f580680fa074a599ecbf
-generated: "2026-05-17T19:04:05.13699+02:00"
+  version: 1.0.1
+digest: sha256:114f9030d53547d05ed5c6821f2099bd06fb9a2d40bae7e9b8344ba67b3c8885
+generated: "2026-07-04T06:36:09.218767+02:00"
