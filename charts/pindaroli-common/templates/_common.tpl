@@ -102,22 +102,22 @@ spec:
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
-          {{- $livenessPath := "/ping" -}}
-          {{- $livenessFailureThreshold := 12 -}}
-          {{- $livenessPeriodSeconds := 10 -}}
-          {{- if $compValues.livenessProbe -}}
-            {{- $livenessPath = $compValues.livenessProbe.path | default $livenessPath -}}
-            {{- $livenessFailureThreshold = $compValues.livenessProbe.failureThreshold | default $livenessFailureThreshold -}}
-            {{- $livenessPeriodSeconds = $compValues.livenessProbe.periodSeconds | default $livenessPeriodSeconds -}}
-          {{- end -}}
-          {{- $startupPath := "/ping" -}}
-          {{- $startupFailureThreshold := 30 -}}
-          {{- $startupPeriodSeconds := 10 -}}
-          {{- if $compValues.startupProbe -}}
-            {{- $startupPath = $compValues.startupProbe.path | default $startupPath -}}
-            {{- $startupFailureThreshold = $compValues.startupProbe.failureThreshold | default $startupFailureThreshold -}}
-            {{- $startupPeriodSeconds = $compValues.startupProbe.periodSeconds | default $startupPeriodSeconds -}}
-          {{- end -}}
+          {{- $livenessPath := "/ping" }}
+          {{- $livenessFailureThreshold := 12 }}
+          {{- $livenessPeriodSeconds := 10 }}
+          {{- if $compValues.livenessProbe }}
+            {{- $livenessPath = $compValues.livenessProbe.path | default $livenessPath }}
+            {{- $livenessFailureThreshold = $compValues.livenessProbe.failureThreshold | default $livenessFailureThreshold }}
+            {{- $livenessPeriodSeconds = $compValues.livenessProbe.periodSeconds | default $livenessPeriodSeconds }}
+          {{- end }}
+          {{- $startupPath := "/ping" }}
+          {{- $startupFailureThreshold := 30 }}
+          {{- $startupPeriodSeconds := 10 }}
+          {{- if $compValues.startupProbe }}
+            {{- $startupPath = $compValues.startupProbe.path | default $startupPath }}
+            {{- $startupFailureThreshold = $compValues.startupProbe.failureThreshold | default $startupFailureThreshold }}
+            {{- $startupPeriodSeconds = $compValues.startupProbe.periodSeconds | default $startupPeriodSeconds }}
+          {{- end }}
           livenessProbe:
             httpGet:
               path: {{ $livenessPath }}

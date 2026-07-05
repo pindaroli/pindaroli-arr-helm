@@ -201,110 +201,6 @@ jellyfin:
       enabled: false
       host: ""
 
-## @section Jellyfin-Classic parameters
-jellyfin-classic:
-  enabled: false
-  replicaCount: 1
-
-  image:
-    repository: lscr.io/linuxserver/jellyfin
-    tag: "10.10.1"
-    pullPolicy: IfNotPresent
-
-  enableDLNA: false
-
-  service:
-    type: ClusterIP
-    port: 8096
-    nodePort: ""
-    annotations: {}
-    labels: {}
-    loadBalancerIP: ""
-    loadBalancerSourceRanges: []
-    externalTrafficPolicy: null
-
-  ingress:
-    enabled: false
-    labels: {}
-    annotations: {}
-    path: /
-    hosts:
-      - chart-example.local
-    tls: []
-
-  persistence:
-    config:
-      enabled: true
-      storageClass: ""
-      existingClaim: ""
-      subPath: ""
-      accessMode: ReadWriteOnce
-      size: 1Gi
-      labels: {}
-      annotations: {}
-    media:
-      enabled: true
-      storageClass: "csi-nfs-stripe-arr-conf"
-      existingClaim: "servarr-classical-media"
-      subPath: "library"
-      accessMode: ReadOnlyMany
-      size: 500Gi
-      labels: {}
-      annotations: {}
-
-    extraExistingClaimMounts: []
-
-  resources: {}
-
-  nodeSelector: {}
-
-  tolerations: []
-
-  affinity: {}
-
-  extraVolumes: []
-
-  extraVolumeMounts: []
-
-  extraEnvVars: []
-
-  extraInitContainers: {}
-
-  extraContainers: {}
-
-  podSecurityContext:
-    runAsUser: 1000
-    runAsGroup: 1000
-    fsGroup: 1000
-
-  securityContext: {}
-
-  livenessProbe:
-    enabled: false
-    failureThreshold: 3
-    initialDelaySeconds: 10
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-
-  readinessProbe:
-    enabled: false
-    failureThreshold: 3
-    initialDelaySeconds: 10
-    periodSeconds: 10
-    successThreshold: 1
-    timeoutSeconds: 1
-
-  tailscale:
-    enabled: false
-    sidecar:
-      enabled: true
-      authKey: ""
-      existingAuthSecret: ""
-    ingress:
-      enabled: false
-      host: ""
-
 ## @section Sonarr parameters
 
 ## @param sonarr.enabled Whether to enable Sonarr.
@@ -504,6 +400,7 @@ sonarr:
 ##
 qbittorrent:
   enabled: true
+  categories: []
   replicaCount: 1
 
   image:
