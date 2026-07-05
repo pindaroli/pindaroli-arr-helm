@@ -796,9 +796,14 @@ flaresolverr:
   image:
     repository: ghcr.io/flaresolverr/flaresolverr
     pullPolicy: IfNotPresent
-    tag: "v3.3.21"
+    tag: "v3.4.6"
 
   imagePullSecrets: []
+
+  livenessProbe:
+    path: /
+  startupProbe:
+    path: /
 
   deployment:
     strategy:

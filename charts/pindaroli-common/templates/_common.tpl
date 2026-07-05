@@ -102,18 +102,34 @@ spec:
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
+          {{- $livenessPath := "/ping" -}}
+          {{- $livenessFailureThreshold := 12 -}}
+          {{- $livenessPeriodSeconds := 10 -}}
+          {{- if $compValues.livenessProbe -}}
+            {{- $livenessPath = $compValues.livenessProbe.path | default $livenessPath -}}
+            {{- $livenessFailureThreshold = $compValues.livenessProbe.failureThreshold | default $livenessFailureThreshold -}}
+            {{- $livenessPeriodSeconds = $compValues.livenessProbe.periodSeconds | default $livenessPeriodSeconds -}}
+          {{- end -}}
+          {{- $startupPath := "/ping" -}}
+          {{- $startupFailureThreshold := 30 -}}
+          {{- $startupPeriodSeconds := 10 -}}
+          {{- if $compValues.startupProbe -}}
+            {{- $startupPath = $compValues.startupProbe.path | default $startupPath -}}
+            {{- $startupFailureThreshold = $compValues.startupProbe.failureThreshold | default $startupFailureThreshold -}}
+            {{- $startupPeriodSeconds = $compValues.startupProbe.periodSeconds | default $startupPeriodSeconds -}}
+          {{- end -}}
           livenessProbe:
             httpGet:
-              path: /ping
+              path: {{ $livenessPath }}
               port: http
-            failureThreshold: 12
-            periodSeconds: 10
+            failureThreshold: {{ $livenessFailureThreshold }}
+            periodSeconds: {{ $livenessPeriodSeconds }}
           startupProbe:
             httpGet:
-              path: /ping
+              path: {{ $startupPath }}
               port: http
-            failureThreshold: 30
-            periodSeconds: 10
+            failureThreshold: {{ $startupFailureThreshold }}
+            periodSeconds: {{ $startupPeriodSeconds }}
           resources:
             {{- toYaml $compValues.resources | nindent 12 }}
       {{- with $compValues.extraContainers }}
