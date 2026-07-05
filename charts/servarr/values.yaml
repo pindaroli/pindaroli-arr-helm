@@ -2002,18 +2002,23 @@ recyclarr:
   radarr:
     enabled: true
     url: "http://servarr-radarr.arr.svc.cluster.local:7878"
-    include:
-      - radarr-quality-definition-movie
-      - radarr-custom-formats-movie
+    quality_definition:
+      type: movie
+    quality_profiles:
+      - trash_id: fd161a61e3ab826d3a22d53f935696dd
+        reset_unmatched_scores:
+          enabled: true
+      - trash_id: d1d67249d3890e49bc12e275d989a7e9
+        reset_unmatched_scores:
+          enabled: true
 
   # Sonarr support is included but disabled by default.
   # Set enabled: true when Sonarr is deployed in your cluster.
   sonarr:
     enabled: false
     url: "http://servarr-sonarr.arr.svc.cluster.local:8989"
-    include:
-      - sonarr-quality-definition-series
-      - sonarr-v4-custom-formats-web-dl
+    quality_definition:
+      type: series
 
   resources: {}
     # requests:
