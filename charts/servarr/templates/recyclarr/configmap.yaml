@@ -18,6 +18,14 @@ data:
       radarr-instance:
         base_url: {{ .Values.recyclarr.radarr.url }}
         api_key: !env_var RADARR_API_KEY
+        {{- if .Values.recyclarr.radarr.quality_definition }}
+        quality_definition:
+          {{- toYaml .Values.recyclarr.radarr.quality_definition | nindent 10 }}
+        {{- end }}
+        {{- if .Values.recyclarr.radarr.quality_profiles }}
+        quality_profiles:
+          {{- toYaml .Values.recyclarr.radarr.quality_profiles | nindent 10 }}
+        {{- end }}
         {{- if .Values.recyclarr.radarr.include }}
         include:
           {{- range .Values.recyclarr.radarr.include }}
@@ -31,6 +39,14 @@ data:
       sonarr-instance:
         base_url: {{ .Values.recyclarr.sonarr.url }}
         api_key: !env_var SONARR_API_KEY
+        {{- if .Values.recyclarr.sonarr.quality_definition }}
+        quality_definition:
+          {{- toYaml .Values.recyclarr.sonarr.quality_definition | nindent 10 }}
+        {{- end }}
+        {{- if .Values.recyclarr.sonarr.quality_profiles }}
+        quality_profiles:
+          {{- toYaml .Values.recyclarr.sonarr.quality_profiles | nindent 10 }}
+        {{- end }}
         {{- if .Values.recyclarr.sonarr.include }}
         include:
           {{- range .Values.recyclarr.sonarr.include }}
