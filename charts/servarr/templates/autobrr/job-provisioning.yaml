@@ -102,7 +102,7 @@ spec:
       volumes:
       - name: autobrr-config
         persistentVolumeClaim:
-          claimName: {{ .Release.Name }}-autobrr-config
+          claimName: {{ .Release.Name }}-autobrr
       - name: admin-secrets-volume
         secret:
           secretName: {{ .Values.autobrr.provisioning.secrets.admin }}
