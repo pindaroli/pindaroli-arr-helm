@@ -1,0 +1,131 @@
+{{- if and .Values.autobrr.enabled .Values.autobrr.provisioning.enabled }}
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: {{ include "pindaroli-common.fullname" (dict "root" . "component" "autobrr") }}-provisioning
+  labels:
+    {{- include "pindaroli-common.labels" (dict "root" . "component" "autobrr") | nindent 4 }}
+  annotations:
+    "helm.sh/hook": post-install,post-upgrade
+    "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
+spec:
+  template:
+    spec:
+      restartPolicy: OnFailure
+      containers:
+      - name: provisioner
+        image: {{ .Values.autobrr.image.repository }}:{{ .Values.autobrr.image.tag }}
+        volumeMounts:
+        - name: autobrr-config
+          mountPath: /config
+        - name: admin-secrets-volume
+          mountPath: /var/run/secrets/autobrr-admin
+          readOnly: true
+        - name: qbit-secrets-volume
+          mountPath: /var/run/secrets/qbittorrent-creds
+          readOnly: true
+        - name: telegram-secrets-volume
+          mountPath: /var/run/secrets/telegram-creds
+          readOnly: true
+        command:
+        - /bin/sh
+        - -c
+        - |
+          set -e
+          API_URL="http://{{ include "pindaroli-common.fullname" (dict "root" . "component" "autobrr") }}:{{ .Values.autobrr.service.port }}/api"
+
+          # 1. ESTREZIONE CREDENZIALI
+          ADMIN_USER=$(cat /var/run/secrets/autobrr-admin/username)
+          ADMIN_PASS=$(cat /var/run/secrets/autobrr-admin/password)
+
+          # 2. CREAZIONE UTENTE (Database Layer via CLI)
+          echo "Inizializzazione utente amministratore nel database..."
+          echo "$ADMIN_PASS" | autobrrctl --config /config create-user "$ADMIN_USER" || echo "Utente già esistente."
+
+          # 3. ATTESA LIVENESS
+          until curl -s -f "${API_URL}/healthz/readiness" > /dev/null; do
+            echo "In attesa che il server web di Autobrr sia Ready..."
+            sleep 3
+          done
+
+          # 4. LOGIN APPLICATIVO
+          echo "Esecuzione login per recuperare il cookie di sessione..."
+          curl -s -f -c /tmp/cookies.txt \
+            -H "Content-Type: application/json" \
+            -d "{\"username\":\"$ADMIN_USER\",\"password\":\"$ADMIN_PASS\"}" \
+            "${API_URL}/auth/login" > /dev/null
+
+          # 5. CONFIGURAZIONE QBITTORRENT
+          Q_USER=$(cat /var/run/secrets/qbittorrent-creds/qbittorrent-user)
+          Q_PASS=$(cat /var/run/secrets/qbittorrent-creds/qbittorrent-pass)
+          CLIENT_PAYLOAD=$(cat <<EOF
+          {
+            "name": "qBittorrent-GEMINI",
+            "type": "QBITTORRENT",
+            "enabled": true,
+            "host": "http://{{ include "pindaroli-common.fullname" (dict "root" . "component" "qbittorrent") }}-web:{{ .Values.qbittorrent.service.web.port }}",
+            "port": 0,
+            "tls": false,
+            "tls_skip_verify": true,
+            "username": "${Q_USER}",
+            "password": "${Q_PASS}",
+            "settings": {
+              "basic": { "auth": true, "username": "${Q_USER}", "password": "${Q_PASS}" },
+              "rules": { "enabled": true, "max_active_downloads": 3, "ignore_slow_torrents": true, "ignore_slow_torrents_condition": "MAX_DOWNLOADS_REACHED" }
+            }
+          }
+          EOF
+          )
+          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${CLIENT_PAYLOAD}" "${API_URL}/download_clients"
+
+          # 6. CONFIGURAZIONE TELEGRAM
+          TG_TOKEN=$(cat /var/run/secrets/telegram-creds/token)
+          TELEGRAM_PAYLOAD=$(cat <<EOF
+          {
+            "name": "Telegram-Alerts",
+            "type": "TELEGRAM",
+            "enabled": true,
+            "token": "${TG_TOKEN}",
+            "targets": "{{ .Values.autobrr.provisioning.telegram.chatId }}",
+            "events": ["approved", "rejected", "error", "irc_down", "irc_up"]
+          }
+          EOF
+          )
+          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${TELEGRAM_PAYLOAD}" "${API_URL}/notification_clients"
+          
+          # 7. IMPORTAZIONE FILTRI
+          FILTER_PAYLOAD=$(cat <<EOF
+          {
+            "name": "GEMINI-Movies-Racing",
+            "enabled": true,
+            "priority": 100,
+            "use_regex": true,
+            "resolutions": ["1080p", "2160p"],
+            "codecs": ["H.264", "HEVC", "x265"],
+            "sources": ["BluRay", "WEB-DL"],
+            "containers": ["MKV"],
+            "origins": ["INTERNAL"],
+            "years": "2023-2030",
+            "match_releases": ".*(FRENCH|MULTi|TRUEFRENCH).*",
+            "except_releases": ".*(3D|REMUX|Stereo).*",
+            "indexers": []
+          }
+          EOF
+          )
+          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters"
+
+          echo "Provisioning completato con successo!"
+      volumes:
+      - name: autobrr-config
+        persistentVolumeClaim:
+          claimName: {{ include "pindaroli-common.fullname" (dict "root" . "component" "autobrr") }}-config
+      - name: admin-secrets-volume
+        secret:
+          secretName: {{ .Values.autobrr.provisioning.secrets.admin }}
+      - name: qbit-secrets-volume
+        secret:
+          secretName: {{ .Values.autobrr.provisioning.secrets.qbittorrent }}
+      - name: telegram-secrets-volume
+        secret:
+          secretName: {{ .Values.autobrr.provisioning.secrets.telegram }}
+{{- end }}

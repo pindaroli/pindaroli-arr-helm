@@ -8,7 +8,7 @@ This repository contains Helm charts for Kubernetes applications maintained by P
 
 **Key Files:**
 - `charts/servarr`: The main chart for the media stack.
-- `oli-arr-values.yaml`: Use this values file for the "Oli-Arr" deployment configuration.
+- `k8s-lab/servarr/arr-values.yaml`: The real values file used for deployment in the homelab.
 - `TESTING.md`: detailed testing strategies.
 - `instructions/`: Directory containing specific task instructions and prompts.
     - `instructions/LIBRARY_CHART_TODO.md`: Plan for creating the common library chart.
@@ -31,10 +31,10 @@ This repository contains Helm charts for Kubernetes applications maintained by P
 helm lint charts/servarr
 
 # Dry-run install with the specific values file
-helm install oli-arr charts/servarr -f oli-arr-values.yaml --dry-run --debug
+helm install oli-arr charts/servarr -f ../k8s-lab/servarr/arr-values.yaml --dry-run --debug
 
 # Install/Upgrade the release
-helm upgrade --install oli-arr charts/servarr -f oli-arr-values.yaml
+helm upgrade --install oli-arr charts/servarr -f ../k8s-lab/servarr/arr-values.yaml
 
 # Uninstall
 helm uninstall oli-arr
@@ -52,7 +52,7 @@ kubectl get ingress -l app.kubernetes.io/instance=oli-arr
 
 ## Service Directory
 
-Based on `oli-arr-values.yaml`, the following services are configured:
+Based on the default configuration, the following services are configured:
 
 | Service | Internal Port | External Host | Description |
 | :--- | :--- | :--- | :--- |
@@ -75,6 +75,6 @@ Based on `oli-arr-values.yaml`, the following services are configured:
 ## Development Workflow
 
 1.  **Modify Charts**: Edit files in `charts/servarr/templates/`.
-2.  **Update Values**: Reflect changes in `oli-arr-values.yaml` if they are configuration overrides.
+2.  **Update Values**: Reflect changes in `k8s-lab/servarr/arr-values.yaml` if they are configuration overrides.
 3.  **Test**: Use `helm template` to verify YAML validity.
 4.  **Deploy**: Apply changes to the cluster.

@@ -1968,6 +1968,14 @@ recyclarr:
 ## @param autobrr.persistence.additionalMounts Additional volume mounts to add to the pod.
 ##
 autobrr:
+  provisioning:
+    enabled: false
+    secrets:
+      admin: ""
+      qbittorrent: ""
+      telegram: ""
+    telegram:
+      chatId: ""
   enabled: true
   replicaCount: 1
 
