@@ -2,9 +2,10 @@
 apiVersion: batch/v1
 kind: Job
 metadata:
-  name: {{ include "pindaroli-common.fullname" (dict "root" . "component" "autobrr") }}-provisioning
+  name: {{ .Release.Name }}-autobrr-provisioning
   labels:
-    {{- include "pindaroli-common.labels" (dict "root" . "component" "autobrr") | nindent 4 }}
+    app.kubernetes.io/instance: {{ .Release.Name }}
+    app.kubernetes.io/name: autobrr
   annotations:
     "helm.sh/hook": post-install,post-upgrade
     "helm.sh/hook-delete-policy": before-hook-creation,hook-succeeded
@@ -39,7 +40,7 @@ spec:
         - -c
         - |
           set -e
-          API_URL="http://{{ include "pindaroli-common.fullname" (dict "root" . "component" "autobrr") }}:{{ .Values.autobrr.service.port }}/api"
+          API_URL="http://{{ .Release.Name }}-autobrr:{{ .Values.autobrr.service.port }}/api"
 
           # 1. ESTREZIONE CREDENZIALI
           ADMIN_USER=$(cat /var/run/secrets/autobrr-admin/username)
@@ -101,7 +102,7 @@ spec:
       volumes:
       - name: autobrr-config
         persistentVolumeClaim:
-          claimName: {{ include "pindaroli-common.fullname" (dict "root" . "component" "autobrr") }}-config
+          claimName: {{ .Release.Name }}-autobrr-config
       - name: admin-secrets-volume
         secret:
           secretName: {{ .Values.autobrr.provisioning.secrets.admin }}
