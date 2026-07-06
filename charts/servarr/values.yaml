@@ -1912,7 +1912,7 @@ autobrr:
     ##   identifier:     Autobrr internal slug (must match a supported definition)
     ##   implementation: "irc" | "torznab" | "newznab" | "rss"
     ##   enabled:        true | false
-    ##   settings:       List of {name, value} pairs (fields depend on implementation)
+    ##   settings:       Map of key: value pairs (fields depend on implementation)
     ##
     ## TORZNAB (Generic Torznab via Prowlarr)
     ##   The URL format from Prowlarr is:
@@ -1928,12 +1928,9 @@ autobrr:
     ##       implementation: "torznab"
     ##       enabled: true
     ##       settings:
-    ##         - name: "url"
-    ##           value: "http://servarr-prowlarr:9696/15/api"
-    ##         - name: "apikey"
-    ##           value: "SECRET_PROWLARR_APIKEY"
-    ##         - name: "download_type"
-    ##           value: "torrent"
+    ##         url: "http://servarr-prowlarr:9696/15/api"
+    ##         apikey: "SECRET_PROWLARR_APIKEY"
+    ##         download_type: "torrent"
     ##
     ## Example (IRC):
     ##   indexers:
@@ -1942,18 +1939,12 @@ autobrr:
     ##       implementation: "irc"
     ##       enabled: true
     ##       settings:
-    ##         - name: "server"
-    ##           value: "irc.mytracker.net"
-    ##         - name: "port"
-    ##           value: "6697"
-    ##         - name: "tls"
-    ##           value: true
-    ##         - name: "nick"
-    ##           value: "MyNick"
-    ##         - name: "pass"
-    ##           value: "secret"
-    ##         - name: "channels"
-    ##           value: "#announce"
+    ##         server: "irc.mytracker.net"
+    ##         port: "6697"
+    ##         tls: "true"
+    ##         nick: "MyNick"
+    ##         pass: "secret"
+    ##         channels: "#announce"
     indexers: []
   enabled: true
   replicaCount: 1
