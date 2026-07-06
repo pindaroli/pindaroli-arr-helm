@@ -106,10 +106,29 @@ spec:
       - name: admin-secrets-volume
         secret:
           secretName: {{ .Values.autobrr.provisioning.secrets.admin }}
+          {{- if eq .Values.autobrr.provisioning.secrets.admin "servarr-api-keys" }}
+          items:
+          - key: autobrr-admin-user
+            path: username
+          - key: autobrr-admin-password
+            path: password
+          {{- end }}
       - name: qbit-secrets-volume
         secret:
           secretName: {{ .Values.autobrr.provisioning.secrets.qbittorrent }}
+          {{- if eq .Values.autobrr.provisioning.secrets.qbittorrent "servarr-api-keys" }}
+          items:
+          - key: qbittorrent-user
+            path: qbittorrent-user
+          - key: qbittorrent-pass
+            path: qbittorrent-pass
+          {{- end }}
       - name: telegram-secrets-volume
         secret:
           secretName: {{ .Values.autobrr.provisioning.secrets.telegram }}
+          {{- if eq .Values.autobrr.provisioning.secrets.telegram "servarr-api-keys" }}
+          items:
+          - key: telegram-token
+            path: token
+          {{- end }}
 {{- end }}
