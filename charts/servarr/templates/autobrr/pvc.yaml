@@ -1,0 +1,3 @@
+{{- if and .Values.autobrr.enabled .Values.autobrr.persistence.enabled (not .Values.autobrr.persistence.existingClaim) }}
+{{- include "pindaroli-common.pvc" (dict "root" . "component" "autobrr") -}}
+{{- end }}

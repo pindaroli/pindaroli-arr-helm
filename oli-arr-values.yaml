@@ -495,3 +495,56 @@ recyclarr:
   enabled: true
   apiKeys:
     existingSecret: "servarr-api-keys"
+
+## Autobrr - Torrent Monitor and Automation
+autobrr:
+  enabled: true
+  replicaCount: 1
+  
+  image:
+    repository: ghcr.io/autobrr/autobrr
+    tag: "v1.80.0"
+    pullPolicy: IfNotPresent
+  
+  # Servizio
+  service:
+    type: ClusterIP
+    port: 7474
+  
+  # Ingress
+  ingress:
+    enabled: true
+    annotations:
+      kubernetes.io/ingress.class: nginx
+    hosts:
+      - host: autobrr.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+  
+  # Variabili ambiente
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/Rome"
+    AUTOBRR__DATABASE_TYPE: postgres
+    AUTOBRR__POSTGRES_HOST: postgres-main-rw.cnpg-system.svc.cluster.local
+    AUTOBRR__POSTGRES_PORT: "5432"
+    AUTOBRR__POSTGRES_DATABASE: autobrr
+    AUTOBRR__POSTGRES_USER: autobrr
+    AUTOBRR__POSTGRES_PASS: autobrr
+
+  # Persistence
+  persistence:
+    enabled: true
+    storageClass: ""
+    size: 1Gi
+    accessMode: ReadWriteOnce
+  
+  resources:
+    requests:
+      cpu: 50m
+      memory: 128Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi

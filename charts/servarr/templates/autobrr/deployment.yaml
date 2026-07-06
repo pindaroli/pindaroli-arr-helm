@@ -1,0 +1,3 @@
+{{- if .Values.autobrr.enabled }}
+{{- include "pindaroli-common.deployment" (dict "root" . "component" "autobrr") -}}
+{{- end }}

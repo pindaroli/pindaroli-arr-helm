@@ -1,0 +1,3 @@
+{{- if .Values.autobrr.enabled }}
+{{- include "pindaroli-common.service" (dict "root" . "component" "autobrr" "defaultPort" 7474) -}}
+{{- end }}

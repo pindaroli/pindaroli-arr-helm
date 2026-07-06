@@ -1928,3 +1928,125 @@ recyclarr:
     #   memory: 64Mi
     # limits:
     #   memory: 128Mi
+
+## @section Autobrr parameters
+
+## @param autobrr.enabled Whether to enable Autobrr.
+## @param autobrr.replicaCount The number of replicas to deploy.
+## @param autobrr.image.repository The Docker repository to pull the image from.
+## @param autobrr.image.tag The image tag to use.
+## @param autobrr.image.pullPolicy The logic of image pulling.
+## @param autobrr.imagePullSecrets The image pull secrets to use.
+## @param autobrr.livenessProbe.path The liveness probe path.
+## @param autobrr.startupProbe.path The startup probe path.
+## @param autobrr.deployment.strategy.type The deployment strategy to use.
+## @param autobrr.serviceAccount.create Whether to create a service account.
+## @param autobrr.serviceAccount.annotations Additional annotations to add to the service account.
+## @param autobrr.serviceAccount.name The name of the service account to use.
+## @param autobrr.podAnnotations Additional annotations to add to the pod.
+## @param autobrr.podSecurityContext The security context to use for the pod.
+## @param autobrr.securityContext The security context to use for the container.
+## @param autobrr.initContainers Additional init containers to add to the pod.
+## @param autobrr.service.type The type of service to create.
+## @param autobrr.service.port The port on which the service will run.
+## @param autobrr.service.nodePort The nodePort to use for the service.
+## @param autobrr.ingress.enabled Whether to create an ingress for the service.
+## @param autobrr.ingress.className The ingress class name to use.
+## @param autobrr.ingress.annotations Additional annotations to add to the ingress.
+## @param autobrr.ingress.hosts[0].host The host to use for the ingress.
+## @param autobrr.ingress.hosts[0].paths[0].path The path to use for the ingress.
+## @param autobrr.ingress.hosts[0].paths[0].pathType The path type to use for the ingress.
+## @param autobrr.ingress.tls The TLS configuration for the ingress.
+## @param autobrr.resources The resources to use for the pod.
+## @param autobrr.autoscaling.enabled Whether to enable autoscaling.
+## @param autobrr.persistence.enabled Whether to enable persistence.
+## @param autobrr.persistence.storageClass The storage class to use for the persistence.
+## @param autobrr.persistence.existingClaim The name of an existing claim to use for the persistence.
+## @param autobrr.persistence.accessMode The access mode to use for the persistence.
+## @param autobrr.persistence.size The size to use for the persistence.
+## @param autobrr.persistence.additionalVolumes Additional volumes to add to the pod.
+## @param autobrr.persistence.additionalMounts Additional volume mounts to add to the pod.
+##
+autobrr:
+  enabled: true
+  replicaCount: 1
+
+  image:
+    repository: ghcr.io/autobrr/autobrr
+    pullPolicy: IfNotPresent
+    tag: "v1.80.0"
+
+  imagePullSecrets: []
+
+  livenessProbe:
+    path: /
+  startupProbe:
+    path: /
+
+  deployment:
+    strategy:
+      type: Recreate
+
+  serviceAccount:
+    create: true
+    annotations: {}
+    name: ""
+
+  podAnnotations: {}
+
+  podSecurityContext: {}
+
+  securityContext: {}
+
+  initContainers: []
+
+  service:
+    type: ClusterIP
+    port: 7474
+    nodePort: ""
+
+  ingress:
+    enabled: false
+    className: ""
+    annotations: {}
+    hosts:
+      - host: chart-example.local
+        paths:
+          - path: /
+            pathType: ImplementationSpecific
+    tls: []
+
+  resources: {}
+
+  autoscaling:
+    enabled: false
+    minReplicas: 1
+    maxReplicas: 100
+    targetCPUUtilizationPercentage: 80
+    targetMemoryUtilizationPercentage: 80
+
+  nodeSelector: {}
+
+  tolerations: []
+
+  affinity: {}
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/London"
+    AUTOBRR__DATABASE_TYPE: postgres
+    AUTOBRR__POSTGRES_HOST: postgres-main-rw.cnpg-system.svc.cluster.local
+    AUTOBRR__POSTGRES_PORT: "5432"
+    AUTOBRR__POSTGRES_DATABASE: autobrr
+    AUTOBRR__POSTGRES_USER: autobrr
+    AUTOBRR__POSTGRES_PASS: autobrr
+
+  persistence:
+    enabled: true
+    storageClass: ""
+    existingClaim: ""
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    additionalVolumes: []
+    additionalMounts: []
