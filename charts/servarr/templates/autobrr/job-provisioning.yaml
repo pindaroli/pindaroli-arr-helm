@@ -16,12 +16,17 @@ spec:
       containers:
       - name: provisioner
         image: {{ .Values.autobrr.image.repository }}:{{ .Values.autobrr.image.tag }}
-        {{- if .Values.autobrr.env }}
         env:
         {{- range $key, $value := .Values.autobrr.env }}
         - name: {{ $key }}
           value: {{ $value | quote }}
         {{- end }}
+        {{- if .Values.autobrr.provisioning.secrets.prowlarr }}
+        - name: PROWLARR_KEY
+          valueFrom:
+            secretKeyRef:
+              name: {{ .Values.autobrr.provisioning.secrets.prowlarr }}
+              key: prowlarr-api-key
         {{- end }}
         volumeMounts:
         - name: autobrr-config
@@ -88,8 +93,21 @@ spec:
           NOTIF_PAYLOAD=$(echo "$NOTIF_PAYLOAD" | sed "s/SECRET_TELEGRAM_TOKEN/$TG_TOKEN/g" | sed "s/SECRET_TELEGRAM_CHATID/$TG_CHAT/g")
           curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${NOTIF_PAYLOAD}" "${API_URL}/notification_clients"
           {{- end }}
-          
-          # 7. IMPORTAZIONE FILTRI
+
+          # 7. CONFIGURAZIONE INDEXER
+          {{- if .Values.autobrr.provisioning.indexers }}
+          echo "Configurazione indexer..."
+          {{- range .Values.autobrr.provisioning.indexers }}
+          INDEXER_PAYLOAD=$(cat <<'EOF'
+          {{ toJson . }}
+          EOF
+          )
+          INDEXER_PAYLOAD=$(echo "$INDEXER_PAYLOAD" | sed "s/SECRET_PROWLARR_APIKEY/${PROWLARR_KEY}/g")
+          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${INDEXER_PAYLOAD}" "${API_URL}/indexer"
+          {{- end }}
+          {{- end }}
+
+          # 8. IMPORTAZIONE FILTRI
           {{- range .Values.autobrr.provisioning.filters }}
           FILTER_PAYLOAD=$(cat <<'EOF'
           {{ toJson . }}

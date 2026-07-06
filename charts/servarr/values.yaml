@@ -1895,11 +1895,66 @@ autobrr:
       admin: ""
       qbittorrent: ""
       telegram: ""
+      ## @param autobrr.provisioning.secrets.prowlarr Name of the Secret containing the Prowlarr API key.
+      ## The Secret must have a key named 'prowlarr-api-key'.
+      ## Used to substitute the SECRET_PROWLARR_APIKEY placeholder in indexer payloads.
+      ## Set to "" to disable Prowlarr secret mounting (e.g. for IRC-only setups).
+      prowlarr: ""
     telegram:
       chatId: ""
     clients: []
     notifications: []
     filters: []
+    ## @param autobrr.provisioning.indexers List of indexers to create via the Autobrr REST API (/api/indexer).
+    ## Each entry maps directly to the Autobrr indexer API payload.
+    ## Supported fields per indexer:
+    ##   name:           Human-readable label shown in the Autobrr UI
+    ##   identifier:     Autobrr internal slug (must match a supported definition)
+    ##   implementation: "irc" | "torznab" | "newznab" | "rss"
+    ##   enabled:        true | false
+    ##   settings:       List of {name, value} pairs (fields depend on implementation)
+    ##
+    ## TORZNAB (Generic Torznab via Prowlarr)
+    ##   The URL format from Prowlarr is:
+    ##     https://prowlarr.local/<indexer-id>/api?apikey=<key>&t=search
+    ##   Use only the base part (up to and including /api) as the 'url' setting.
+    ##   Use SECRET_PROWLARR_APIKEY as the 'apikey' value — it will be substituted
+    ##   at runtime from the secret defined in secrets.prowlarr.
+    ##
+    ## Example (Torznab via Prowlarr):
+    ##   indexers:
+    ##     - name: "Prowlarr-MyTracker"
+    ##       identifier: "generic-torznab"
+    ##       implementation: "torznab"
+    ##       enabled: true
+    ##       settings:
+    ##         - name: "url"
+    ##           value: "http://servarr-prowlarr:9696/15/api"
+    ##         - name: "apikey"
+    ##           value: "SECRET_PROWLARR_APIKEY"
+    ##         - name: "download_type"
+    ##           value: "torrent"
+    ##
+    ## Example (IRC):
+    ##   indexers:
+    ##     - name: "MyTracker-IRC"
+    ##       identifier: "mytracker"
+    ##       implementation: "irc"
+    ##       enabled: true
+    ##       settings:
+    ##         - name: "server"
+    ##           value: "irc.mytracker.net"
+    ##         - name: "port"
+    ##           value: "6697"
+    ##         - name: "tls"
+    ##           value: true
+    ##         - name: "nick"
+    ##           value: "MyNick"
+    ##         - name: "pass"
+    ##           value: "secret"
+    ##         - name: "channels"
+    ##           value: "#announce"
+    indexers: []
   enabled: true
   replicaCount: 1
 
