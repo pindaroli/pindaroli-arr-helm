@@ -1,0 +1,5 @@
+apiVersion: v2
+description: Pindaroli Homelab common Helm library chart
+name: pindaroli-common
+type: library
+version: 1.0.1
