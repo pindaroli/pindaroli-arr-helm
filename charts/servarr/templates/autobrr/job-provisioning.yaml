@@ -15,6 +15,13 @@ spec:
       containers:
       - name: provisioner
         image: {{ .Values.autobrr.image.repository }}:{{ .Values.autobrr.image.tag }}
+        {{- if .Values.autobrr.env }}
+        env:
+        {{- range $key, $value := .Values.autobrr.env }}
+        - name: {{ $key }}
+          value: {{ $value | quote }}
+        {{- end }}
+        {{- end }}
         volumeMounts:
         - name: autobrr-config
           mountPath: /config
@@ -55,64 +62,40 @@ spec:
             -d "{\"username\":\"$ADMIN_USER\",\"password\":\"$ADMIN_PASS\"}" \
             "${API_URL}/auth/login" > /dev/null
 
-          # 5. CONFIGURAZIONE QBITTORRENT
+          # 5. CONFIGURAZIONE QBITTORRENT (Clients)
           Q_USER=$(cat /var/run/secrets/qbittorrent-creds/qbittorrent-user)
           Q_PASS=$(cat /var/run/secrets/qbittorrent-creds/qbittorrent-pass)
-          CLIENT_PAYLOAD=$(cat <<EOF
-          {
-            "name": "qBittorrent-GEMINI",
-            "type": "QBITTORRENT",
-            "enabled": true,
-            "host": "http://{{ include "pindaroli-common.fullname" (dict "root" . "component" "qbittorrent") }}-web:{{ .Values.qbittorrent.service.web.port }}",
-            "port": 0,
-            "tls": false,
-            "tls_skip_verify": true,
-            "username": "${Q_USER}",
-            "password": "${Q_PASS}",
-            "settings": {
-              "basic": { "auth": true, "username": "${Q_USER}", "password": "${Q_PASS}" },
-              "rules": { "enabled": true, "max_active_downloads": 3, "ignore_slow_torrents": true, "ignore_slow_torrents_condition": "MAX_DOWNLOADS_REACHED" }
-            }
-          }
+          
+          {{- range .Values.autobrr.provisioning.clients }}
+          CLIENT_PAYLOAD=$(cat <<'EOF'
+          {{ toJson . }}
           EOF
           )
+          CLIENT_PAYLOAD=$(echo "$CLIENT_PAYLOAD" | sed "s/SECRET_QBITTORRENT_USERNAME/$Q_USER/g" | sed "s/SECRET_QBITTORRENT_PASSWORD/$Q_PASS/g")
           curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${CLIENT_PAYLOAD}" "${API_URL}/download_clients"
+          {{- end }}
 
-          # 6. CONFIGURAZIONE TELEGRAM
+          # 6. CONFIGURAZIONE TELEGRAM (Notifications)
           TG_TOKEN=$(cat /var/run/secrets/telegram-creds/token)
-          TELEGRAM_PAYLOAD=$(cat <<EOF
-          {
-            "name": "Telegram-Alerts",
-            "type": "TELEGRAM",
-            "enabled": true,
-            "token": "${TG_TOKEN}",
-            "targets": "{{ .Values.autobrr.provisioning.telegram.chatId }}",
-            "events": ["approved", "rejected", "error", "irc_down", "irc_up"]
-          }
+          TG_CHAT="{{ .Values.autobrr.provisioning.telegram.chatId }}"
+          
+          {{- range .Values.autobrr.provisioning.notifications }}
+          NOTIF_PAYLOAD=$(cat <<'EOF'
+          {{ toJson . }}
           EOF
           )
-          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${TELEGRAM_PAYLOAD}" "${API_URL}/notification_clients"
+          NOTIF_PAYLOAD=$(echo "$NOTIF_PAYLOAD" | sed "s/SECRET_TELEGRAM_TOKEN/$TG_TOKEN/g" | sed "s/SECRET_TELEGRAM_CHATID/$TG_CHAT/g")
+          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${NOTIF_PAYLOAD}" "${API_URL}/notification_clients"
+          {{- end }}
           
           # 7. IMPORTAZIONE FILTRI
-          FILTER_PAYLOAD=$(cat <<EOF
-          {
-            "name": "GEMINI-Movies-Racing",
-            "enabled": true,
-            "priority": 100,
-            "use_regex": true,
-            "resolutions": ["1080p", "2160p"],
-            "codecs": ["H.264", "HEVC", "x265"],
-            "sources": ["BluRay", "WEB-DL"],
-            "containers": ["MKV"],
-            "origins": ["INTERNAL"],
-            "years": "2023-2030",
-            "match_releases": ".*(FRENCH|MULTi|TRUEFRENCH).*",
-            "except_releases": ".*(3D|REMUX|Stereo).*",
-            "indexers": []
-          }
+          {{- range .Values.autobrr.provisioning.filters }}
+          FILTER_PAYLOAD=$(cat <<'EOF'
+          {{ toJson . }}
           EOF
           )
           curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters"
+          {{- end }}
 
           echo "Provisioning completato con successo!"
       volumes:

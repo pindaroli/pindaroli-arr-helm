@@ -1976,6 +1976,9 @@ autobrr:
       telegram: ""
     telegram:
       chatId: ""
+    clients: []
+    notifications: []
+    filters: []
   enabled: true
   replicaCount: 1
 
