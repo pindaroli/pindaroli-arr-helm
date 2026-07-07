@@ -150,12 +150,27 @@ spec:
             end
           ')
 
+          # Controlla se il filtro esiste già
           EXISTING_FILTERS=$(curl -s -b /tmp/cookies.txt "${API_URL}/filters")
-          if echo "$EXISTING_FILTERS" | jq -e ".[]? | select(.name == \"{{ .name }}\")" > /dev/null; then
-            echo "Filtro '{{ .name }}' già esistente. Salto."
+          FILTER_ID=$(echo "$EXISTING_FILTERS" | jq -r ".[]? | select(.name == \"{{ .name }}\") | .id" | head -n 1)
+
+          if [ -n "$FILTER_ID" ] && [ "$FILTER_ID" != "null" ]; then
+            echo "Filtro '{{ .name }}' (ID: $FILTER_ID) già esistente. Esecuzione sincronizzazione relazionale via PUT..."
+            curl -s -b /tmp/cookies.txt -X PUT -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters/$FILTER_ID" > /dev/null
           else
-            echo "Creazione filtro '{{ .name }}'..."
-            curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters"
+            echo "Creazione filtro '{{ .name }}' via POST..."
+            # 1. Crea il filtro (POST)
+            RESPONSE=$(curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters")
+            NEW_FILTER_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
+            
+            if [ -n "$NEW_FILTER_ID" ] && [ "$NEW_FILTER_ID" != "null" ]; then
+              echo "Filtro '{{ .name }}' creato con successo (ID: $NEW_FILTER_ID). Esecuzione associazione indexer via PUT..."
+              # 2. Associa gli indexer (PUT)
+              curl -s -b /tmp/cookies.txt -X PUT -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters/$NEW_FILTER_ID" > /dev/null
+            else
+              echo "Errore critico nella creazione del filtro '{{ .name }}'."
+              exit 1
+            fi
           fi
           {{- end }}
 
