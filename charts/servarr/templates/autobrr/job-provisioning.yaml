@@ -99,12 +99,12 @@ spec:
           )
           NOTIF_PAYLOAD=$(echo "$NOTIF_PAYLOAD" | sed "s/SECRET_TELEGRAM_TOKEN/$TG_TOKEN/g" | sed "s/SECRET_TELEGRAM_CHATID/$TG_CHAT/g")
           
-          EXISTING_NOTIFS=$(curl -s -b /tmp/cookies.txt "${API_URL}/notification_clients")
+          EXISTING_NOTIFS=$(curl -s -b /tmp/cookies.txt "${API_URL}/notification")
           if echo "$EXISTING_NOTIFS" | jq -e ".[]? | select(.name == \"{{ .name }}\")" > /dev/null; then
             echo "Notification client '{{ .name }}' già esistente. Salto."
           else
             echo "Creazione notification client '{{ .name }}'..."
-            curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${NOTIF_PAYLOAD}" "${API_URL}/notification_clients"
+            curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${NOTIF_PAYLOAD}" "${API_URL}/notification"
           fi
           {{- end }}
 
