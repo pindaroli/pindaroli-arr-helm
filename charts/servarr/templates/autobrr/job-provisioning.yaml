@@ -151,22 +151,25 @@ spec:
           ')
 
           # Controlla se il filtro esiste già
-          EXISTING_FILTERS=$(curl -s -b /tmp/cookies.txt "${API_URL}/filters")
+          EXISTING_FILTERS=$(curl -s -f -b /tmp/cookies.txt "${API_URL}/filters")
           FILTER_ID=$(echo "$EXISTING_FILTERS" | jq -r ".[]? | select(.name == \"{{ .name }}\") | .id" | head -n 1)
 
           if [ -n "$FILTER_ID" ] && [ "$FILTER_ID" != "null" ]; then
             echo "Filtro '{{ .name }}' (ID: $FILTER_ID) già esistente. Esecuzione sincronizzazione relazionale via PUT..."
-            curl -s -b /tmp/cookies.txt -X PUT -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters/$FILTER_ID" > /dev/null
+            FILTER_PAYLOAD_WITH_ID=$(echo "$FILTER_PAYLOAD" | jq --argjson id "$FILTER_ID" '.id = $id')
+            curl -s -f -b /tmp/cookies.txt -X PUT -H "Content-Type: application/json" -d "${FILTER_PAYLOAD_WITH_ID}" "${API_URL}/filters/$FILTER_ID"
           else
             echo "Creazione filtro '{{ .name }}' via POST..."
             # 1. Crea il filtro (POST)
-            RESPONSE=$(curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters")
+            RESPONSE=$(curl -s -f -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters")
             NEW_FILTER_ID=$(echo "$RESPONSE" | jq -r '.id // empty')
             
             if [ -n "$NEW_FILTER_ID" ] && [ "$NEW_FILTER_ID" != "null" ]; then
               echo "Filtro '{{ .name }}' creato con successo (ID: $NEW_FILTER_ID). Esecuzione associazione indexer via PUT..."
+              # Iniettiamo l'id nel payload per la PUT
+              FILTER_PAYLOAD_WITH_ID=$(echo "$FILTER_PAYLOAD" | jq --argjson id "$NEW_FILTER_ID" '.id = $id')
               # 2. Associa gli indexer (PUT)
-              curl -s -b /tmp/cookies.txt -X PUT -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters/$NEW_FILTER_ID" > /dev/null
+              curl -s -f -b /tmp/cookies.txt -X PUT -H "Content-Type: application/json" -d "${FILTER_PAYLOAD_WITH_ID}" "${API_URL}/filters/$NEW_FILTER_ID"
             else
               echo "Errore critico nella creazione del filtro '{{ .name }}'."
               exit 1
