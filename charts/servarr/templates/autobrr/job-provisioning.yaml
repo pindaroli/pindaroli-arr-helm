@@ -78,7 +78,14 @@ spec:
           EOF
           )
           CLIENT_PAYLOAD=$(echo "$CLIENT_PAYLOAD" | sed "s/SECRET_QBITTORRENT_USERNAME/$Q_USER/g" | sed "s/SECRET_QBITTORRENT_PASSWORD/$Q_PASS/g")
-          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${CLIENT_PAYLOAD}" "${API_URL}/download_clients"
+          
+          EXISTING_CLIENTS=$(curl -s -b /tmp/cookies.txt "${API_URL}/download_clients")
+          if echo "$EXISTING_CLIENTS" | jq -e ".[]? | select(.name == \"{{ .name }}\")" > /dev/null; then
+            echo "Download client '{{ .name }}' già esistente. Salto."
+          else
+            echo "Creazione download client '{{ .name }}'..."
+            curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${CLIENT_PAYLOAD}" "${API_URL}/download_clients"
+          fi
           {{- end }}
 
           # 6. CONFIGURAZIONE TELEGRAM (Notifications)
@@ -91,7 +98,14 @@ spec:
           EOF
           )
           NOTIF_PAYLOAD=$(echo "$NOTIF_PAYLOAD" | sed "s/SECRET_TELEGRAM_TOKEN/$TG_TOKEN/g" | sed "s/SECRET_TELEGRAM_CHATID/$TG_CHAT/g")
-          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${NOTIF_PAYLOAD}" "${API_URL}/notification_clients"
+          
+          EXISTING_NOTIFS=$(curl -s -b /tmp/cookies.txt "${API_URL}/notification_clients")
+          if echo "$EXISTING_NOTIFS" | jq -e ".[]? | select(.name == \"{{ .name }}\")" > /dev/null; then
+            echo "Notification client '{{ .name }}' già esistente. Salto."
+          else
+            echo "Creazione notification client '{{ .name }}'..."
+            curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${NOTIF_PAYLOAD}" "${API_URL}/notification_clients"
+          fi
           {{- end }}
 
           # 7. CONFIGURAZIONE INDEXER
@@ -103,18 +117,45 @@ spec:
           EOF
           )
           INDEXER_PAYLOAD=$(echo "$INDEXER_PAYLOAD" | sed "s/SECRET_PROWLARR_APIKEY/${PROWLARR_KEY}/g")
-          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${INDEXER_PAYLOAD}" "${API_URL}/indexer"
+          
+          EXISTING_INDEXERS=$(curl -s -b /tmp/cookies.txt "${API_URL}/indexer")
+          if echo "$EXISTING_INDEXERS" | jq -e ".[]? | select(.name == \"{{ .name }}\")" > /dev/null; then
+            echo "Indexer '{{ .name }}' già esistente. Salto."
+          else
+            echo "Creazione indexer '{{ .name }}'..."
+            curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${INDEXER_PAYLOAD}" "${API_URL}/indexer"
+          fi
           {{- end }}
           {{- end }}
 
           # 8. IMPORTAZIONE FILTRI
+          # Salviamo l'elenco degli indexer configurati per mapparne i nomi in ID numerici
+          curl -s -b /tmp/cookies.txt "${API_URL}/indexer" > /tmp/indexers.json
+
           {{- range .Values.autobrr.provisioning.filters }}
           FILTER_PAYLOAD=$(cat <<'EOF'
           {{ toJson . }}
           EOF
           )
-          curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters"
+          
+          # Risoluzione dinamica dei nomi degli indexer in ID numerici tramite jq
+          FILTER_PAYLOAD=$(echo "$FILTER_PAYLOAD" | jq --slurpfile idxs /tmp/indexers.json '
+            if .indexers != null and (.indexers | length > 0) then
+              .indexers = ([.indexers[] as $name | ($idxs[0][] | select(.name == $name) | .id) | select(. != null)])
+            else
+              .
+            fi
+          ')
+
+          EXISTING_FILTERS=$(curl -s -b /tmp/cookies.txt "${API_URL}/filters")
+          if echo "$EXISTING_FILTERS" | jq -e ".[]? | select(.name == \"{{ .name }}\")" > /dev/null; then
+            echo "Filtro '{{ .name }}' già esistente. Salto."
+          else
+            echo "Creazione filtro '{{ .name }}'..."
+            curl -s -b /tmp/cookies.txt -H "Content-Type: application/json" -d "${FILTER_PAYLOAD}" "${API_URL}/filters"
+          fi
           {{- end }}
+
 
           echo "Provisioning completato con successo!"
       volumes:
