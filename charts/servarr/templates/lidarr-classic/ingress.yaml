@@ -1,0 +1,3 @@
+{{- if and (index .Values "lidarr-classic").enabled .Values.lidarr.ingress.enabled }}
+{{- include "pindaroli-common.ingress" (dict "root" . "component" "lidarr-classic") -}}
+{{- end }}

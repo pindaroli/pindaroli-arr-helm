@@ -1,0 +1,3 @@
+{{- if and (index .Values "lidarr-classic").enabled .Values.lidarr.autoscaling.enabled }}
+{{- include "pindaroli-common.hpa" (dict "root" . "component" "lidarr-classic") -}}
+{{- end }}
