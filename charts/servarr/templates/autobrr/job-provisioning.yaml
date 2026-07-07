@@ -141,10 +141,10 @@ spec:
           EOF
           )
           
-          # Risoluzione dinamica dei nomi degli indexer in ID numerici tramite jq (Formato Oggetto)
+          # Risoluzione dinamica dei nomi degli indexer in ID numerici tramite jq (Formato indexer_ids)
           FILTER_PAYLOAD=$(echo "$FILTER_PAYLOAD" | jq --slurpfile idxs /tmp/indexers.json '
             if .indexers != null and (.indexers | length > 0) then
-              .indexers = ([.indexers[] as $name | ($idxs[0][] | select(.name == $name) | {id: .id}) | select(.id != null)])
+              .indexer_ids = ([.indexers[] as $name | ($idxs[0][] | select(.name == $name) | .id) | select(. != null)]) | del(.indexers)
             else
               .
             end
