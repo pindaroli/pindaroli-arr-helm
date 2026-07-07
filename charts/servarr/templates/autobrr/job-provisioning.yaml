@@ -144,7 +144,7 @@ spec:
               .indexers = ([.indexers[] as $name | ($idxs[0][] | select(.name == $name) | .id) | select(. != null)])
             else
               .
-            fi
+            end
           ')
 
           EXISTING_FILTERS=$(curl -s -b /tmp/cookies.txt "${API_URL}/filters")
