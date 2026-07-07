@@ -1891,6 +1891,7 @@ recyclarr:
 autobrr:
   provisioning:
     enabled: false
+    defaultLanguage: "it-it"
     secrets:
       admin: ""
       qbittorrent: ""

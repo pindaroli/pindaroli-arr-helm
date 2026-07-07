@@ -118,6 +118,9 @@ spec:
           )
           INDEXER_PAYLOAD=$(echo "$INDEXER_PAYLOAD" | sed "s/SECRET_PROWLARR_APIKEY/${PROWLARR_KEY}/g")
           
+          # Imposta la lingua di default se non specificata
+          INDEXER_PAYLOAD=$(echo "$INDEXER_PAYLOAD" | jq --arg lang "{{ default "it-it" $.Values.autobrr.provisioning.defaultLanguage }}" '. + {language: (.language // $lang)}')
+          
           EXISTING_INDEXERS=$(curl -s -b /tmp/cookies.txt "${API_URL}/indexer")
           if echo "$EXISTING_INDEXERS" | jq -e ".[]? | select(.name == \"{{ .name }}\")" > /dev/null; then
             echo "Indexer '{{ .name }}' già esistente. Salto."
@@ -138,10 +141,10 @@ spec:
           EOF
           )
           
-          # Risoluzione dinamica dei nomi degli indexer in ID numerici tramite jq
+          # Risoluzione dinamica dei nomi degli indexer in ID numerici tramite jq (Formato Oggetto)
           FILTER_PAYLOAD=$(echo "$FILTER_PAYLOAD" | jq --slurpfile idxs /tmp/indexers.json '
             if .indexers != null and (.indexers | length > 0) then
-              .indexers = ([.indexers[] as $name | ($idxs[0][] | select(.name == $name) | .id) | select(. != null)])
+              .indexers = ([.indexers[] as $name | ($idxs[0][] | select(.name == $name) | {id: .id}) | select(.id != null)])
             else
               .
             end
