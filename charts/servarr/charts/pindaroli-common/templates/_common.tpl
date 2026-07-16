@@ -102,6 +102,10 @@ spec:
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
+          {{- with $compValues.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- $livenessPath := "/ping" }}
           {{- $livenessFailureThreshold := 12 }}
           {{- $livenessPeriodSeconds := 10 }}

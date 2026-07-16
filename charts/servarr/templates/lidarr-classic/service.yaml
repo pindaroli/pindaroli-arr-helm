@@ -1,3 +1,0 @@
-{{- if (index .Values "lidarr-classic").enabled }}
-{{- include "pindaroli-common.service" (dict "root" . "component" "lidarr-classic" "defaultPort" 8686) -}}
-{{- end }}

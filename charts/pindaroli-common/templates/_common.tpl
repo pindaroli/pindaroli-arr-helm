@@ -100,8 +100,16 @@ spec:
           env:
             {{- range $k,$v := $compValues.env }}
             - name: {{ $k }}
+              {{- if or (kindIs "map" $v) (typeIs "map[string]interface {}" $v) }}
+              {{- toYaml $v | nindent 14 }}
+              {{- else }}
               value: {{ $v | quote }}
+              {{- end }}
             {{- end }}
+          {{- with $compValues.envFrom }}
+          envFrom:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
           {{- $livenessPath := "/ping" }}
           {{- $livenessFailureThreshold := 12 }}
           {{- $livenessPeriodSeconds := 10 }}

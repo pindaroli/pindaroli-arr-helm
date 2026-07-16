@@ -30,24 +30,24 @@ This repository contains Helm charts for Kubernetes applications maintained by P
 # Lint the servarr chart
 helm lint charts/servarr
 
-# Dry-run install with the specific values file
-helm install oli-arr charts/servarr -f ../k8s-lab/servarr/arr-values.yaml --dry-run --debug
+# Dry-run install con il file dei valori specifici
+helm install servarr charts/servarr -f ../k8s-lab/servarr/arr-values.yaml --dry-run --debug
 
-# Install/Upgrade the release
-helm upgrade --install oli-arr charts/servarr -f ../k8s-lab/servarr/arr-values.yaml
+# Install/Upgrade della release
+helm upgrade --install servarr charts/servarr -f ../k8s-lab/servarr/arr-values.yaml
 
 # Uninstall
-helm uninstall oli-arr
+helm uninstall servarr
 ```
 
 ### Verification
 
 ```bash
-# Check all pods in the release
-kubectl get pods -l app.kubernetes.io/instance=oli-arr
+# Controlla tutti i pod nella release
+kubectl get pods -l app.kubernetes.io/instance=servarr
 
-# Check ingress status
-kubectl get ingress -l app.kubernetes.io/instance=oli-arr
+# Controlla lo stato dell'ingress
+kubectl get ingress -l app.kubernetes.io/instance=servarr
 ```
 
 ## Service Directory
