@@ -2071,6 +2071,12 @@ minimserver:
       existingClaim: "servarr-jellyfin-media"
       subPath: ""
       mountPath: "/media"
+    libext:
+      enabled: true
+      storageClass: "csi-nfs-stripe-arr-conf"
+      size: 1Gi
+      existingClaim: ""
+      accessMode: ReadWriteOnce
 
   env:
     PUID: "1000"

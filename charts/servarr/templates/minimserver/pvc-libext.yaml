@@ -1,0 +1,20 @@
+{{- if and .Values.minimserver.enabled .Values.minimserver.persistence.libext.enabled (not .Values.minimserver.persistence.libext.existingClaim) }}
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  name: {{ .Release.Name }}-minimserver-ext
+  labels:
+    app.kubernetes.io/name: minimserver-ext
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+spec:
+  accessModes:
+    - {{ .Values.minimserver.persistence.libext.accessMode | default "ReadWriteOnce" | quote }}
+  {{- if .Values.minimserver.persistence.libext.storageClass }}
+  storageClassName: {{ .Values.minimserver.persistence.libext.storageClass | quote }}
+  {{- end }}
+  resources:
+    requests:
+      storage: {{ .Values.minimserver.persistence.libext.size | default "1Gi" | quote }}
+{{- end }}

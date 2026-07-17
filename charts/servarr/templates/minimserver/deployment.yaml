@@ -46,6 +46,10 @@ spec:
             - name: config
               mountPath: /opt/minimserver/data
             {{- end }}
+            {{- if .Values.minimserver.persistence.libext.enabled }}
+            - name: libext
+              mountPath: /opt/minimserver/libext
+            {{- end }}
             {{- if .Values.minimserver.persistence.media.enabled }}
             - name: media
               mountPath: {{ .Values.minimserver.persistence.media.mountPath | default "/media" }}
@@ -98,6 +102,11 @@ spec:
         - name: config
           persistentVolumeClaim:
             claimName: {{ if .Values.minimserver.persistence.config.existingClaim }}{{ .Values.minimserver.persistence.config.existingClaim }}{{ else }}{{ printf "%s-%s" .Release.Name "minimserver" }}{{ end }}
+        {{- end }}
+        {{- if .Values.minimserver.persistence.libext.enabled }}
+        - name: libext
+          persistentVolumeClaim:
+            claimName: {{ if .Values.minimserver.persistence.libext.existingClaim }}{{ .Values.minimserver.persistence.libext.existingClaim }}{{ else }}{{ printf "%s-%s-ext" .Release.Name "minimserver" }}{{ end }}
         {{- end }}
         {{- if .Values.minimserver.persistence.media.enabled }}
         - name: media
