@@ -66,10 +66,13 @@ spec:
               echo "Avvio del demone autosymlink per playlist..."
               while true; do
                 find /media -type f -name "*.m3u" | while read -r m3u_file; do
-                  m3u8_file="${m3u_file}8"
-                  if [ ! -f "$m3u8_file" ] && [ ! -L "$m3u8_file" ]; then
-                    echo "Creazione link: $m3u8_file -> $(basename "$m3u_file")"
-                    ln -sf "$(basename "$m3u_file")" "$m3u8_file"
+                  if [ -n "$m3u_file" ]; then
+                    m3u8_file="${m3u_file}8"
+                    if [ ! -f "$m3u8_file" ] && [ ! -L "$m3u8_file" ]; then
+                      target_file="./$(basename "$m3u_file")"
+                      echo "Creazione link: $m3u8_file -> $target_file"
+                      ln -sf "$target_file" "$m3u8_file"
+                    fi
                   fi
                 done
                 sleep 30
