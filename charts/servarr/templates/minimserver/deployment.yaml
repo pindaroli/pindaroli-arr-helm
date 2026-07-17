@@ -63,15 +63,25 @@ spec:
             - /bin/sh
             - -c
             - |
+              echo "Installazione file utility..."
+              apk add --no-cache file
               echo "Avvio del demone autosymlink per playlist..."
               while true; do
                 find /media -type f -name "*.m3u" | while read -r m3u_file; do
                   if [ -n "$m3u_file" ]; then
                     m3u8_file="${m3u_file}8"
-                    if [ ! -f "$m3u8_file" ] && [ ! -L "$m3u8_file" ]; then
-                      target_file="./$(basename "$m3u_file")"
-                      echo "Creazione link: $m3u8_file -> $target_file"
-                      ln -sf "$target_file" "$m3u8_file"
+                    encoding=$(file -b --mime-encoding "$m3u_file" 2>/dev/null)
+                    if [ "$encoding" = "utf-8" ]; then
+                      if [ ! -f "$m3u8_file" ] && [ ! -L "$m3u8_file" ]; then
+                        target_file="./$(basename "$m3u_file")"
+                        echo "Creazione link UTF-8: $m3u8_file -> $target_file"
+                        ln -sf "$target_file" "$m3u8_file"
+                      fi
+                    else
+                      if [ -L "$m3u8_file" ]; then
+                        echo "Rimozione symlink errato (non-UTF8): $m3u8_file"
+                        rm -f "$m3u8_file"
+                      fi
                     fi
                   fi
                 done
