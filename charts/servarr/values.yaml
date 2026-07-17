@@ -2030,3 +2030,49 @@ autobrr:
     size: 1Gi
     additionalVolumes: []
     additionalMounts: []
+
+minimserver:
+  enabled: false
+  replicaCount: 1
+
+  image:
+    repository: minimworld/minimserver
+    pullPolicy: IfNotPresent
+    tag: "2.2"
+
+  service:
+    type: ClusterIP
+    port: 9790
+    statusPort: 9791
+
+  resources:
+    requests:
+      cpu: 50m
+      memory: 256Mi
+    limits:
+      cpu: 500m
+      memory: 512Mi
+
+  persistence:
+    enabled: true
+    storageClass: "csi-nfs-stripe-arr-conf"
+    accessMode: ReadWriteOnce
+    size: 1Gi
+    config:
+      enabled: true
+      storageClass: "csi-nfs-stripe-arr-conf"
+      size: 1Gi
+      existingClaim: ""
+      accessMode: ReadWriteOnce
+    media:
+      enabled: true
+      existingClaim: "servarr-jellyfin-media"
+      subPath: ""
+      mountPath: "/media"
+
+  env:
+    PUID: "1000"
+    PGID: "1000"
+    TZ: "Europe/Rome"
+
+

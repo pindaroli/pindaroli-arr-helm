@@ -1,0 +1,3 @@
+{{- if and .Values.minimserver.enabled .Values.minimserver.persistence.config.enabled (not .Values.minimserver.persistence.config.existingClaim) }}
+{{- include "pindaroli-common.pvc" (dict "root" . "component" "minimserver") -}}
+{{- end }}

@@ -1,0 +1,68 @@
+{{- if .Values.minimserver.enabled }}
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ printf "%s-%s" .Release.Name "minimserver" }}
+  labels:
+    app.kubernetes.io/name: minimserver
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+spec:
+  replicas: {{ .Values.minimserver.replicaCount | default 1 }}
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: minimserver
+      app.kubernetes.io/instance: {{ .Release.Name | quote }}
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: minimserver
+        app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    spec:
+      hostNetwork: true
+      dnsPolicy: ClusterFirstWithHostNet
+      serviceAccountName: {{ printf "%s-%s" .Release.Name "minimserver" }}
+      containers:
+        - name: minimserver
+          image: "{{ .Values.minimserver.image.repository }}:{{ .Values.minimserver.image.tag }}"
+          imagePullPolicy: {{ .Values.minimserver.image.pullPolicy }}
+          env:
+            - name: PUID
+              value: {{ .Values.minimserver.env.PUID | quote }}
+            - name: PGID
+              value: {{ .Values.minimserver.env.PGID | quote }}
+            - name: TZ
+              value: {{ .Values.minimserver.env.TZ | quote }}
+          ports:
+            - name: http
+              containerPort: {{ .Values.minimserver.service.port }}
+              protocol: TCP
+            - name: status
+              containerPort: {{ .Values.minimserver.service.statusPort }}
+              protocol: TCP
+          volumeMounts:
+            {{- if .Values.minimserver.persistence.config.enabled }}
+            - name: config
+              mountPath: /config
+            {{- end }}
+            {{- if .Values.minimserver.persistence.media.enabled }}
+            - name: media
+              mountPath: {{ .Values.minimserver.persistence.media.mountPath | default "/media" }}
+              readOnly: true
+              {{- if .Values.minimserver.persistence.media.subPath }}
+              subPath: {{ .Values.minimserver.persistence.media.subPath }}
+              {{- end }}
+            {{- end }}
+          resources:
+            {{- toYaml .Values.minimserver.resources | nindent 12 }}
+      volumes:
+        {{- if .Values.minimserver.persistence.config.enabled }}
+        - name: config
+          persistentVolumeClaim:
+            claimName: {{ if .Values.minimserver.persistence.config.existingClaim }}{{ .Values.minimserver.persistence.config.existingClaim }}{{ else }}{{ printf "%s-%s" .Release.Name "minimserver" }}{{ end }}
+        {{- end }}
+        {{- if .Values.minimserver.persistence.media.enabled }}
+        - name: media
+          persistentVolumeClaim:
+            claimName: {{ .Values.minimserver.persistence.media.existingClaim }}
+        {{- end }}
+{{- end }}
