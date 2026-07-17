@@ -75,6 +75,14 @@ Based on the default configuration, the following services are configured:
 ## Development Workflow
 
 1.  **Modify Charts**: Edit files in `charts/servarr/templates/`.
-2.  **Update Values**: Reflect changes in `k8s-lab/servarr/arr-values.yaml` if they are configuration overrides.
-3.  **Test**: Use `helm template` to verify YAML validity.
-4.  **Deploy**: Apply changes to the cluster.
+2.  **Bump Version**: Increment `version` in `Chart.yaml` following SemVer rules (z for minor/patch fixes, y for new features/components).
+3.  **Update Values**: Reflect changes in `k8s-lab/servarr/arr-values.yaml` if they are configuration overrides.
+4.  **Test**: Use `helm template` to verify YAML validity and `helm lint charts/servarr`.
+5.  **Deploy**: Commit, push to trigger release pipeline, and apply changes to the cluster using `-n arr`.
+
+## Chart Versioning & Namespace Rules (Mandatory)
+- **Semantic Versioning**: Ogni volta che si apportano modifiche ai chart Helm (`Chart.yaml`), è **obbligatorio** incrementare la versione del chart (`version: x.y.z`):
+  - **Modifiche di lieve entità / Bugfix**: Incrementare la versione patch `z` (es. `1.5.9` → `1.5.10`).
+  - **Modifiche sostanziose / Nuove funzionalità / Nuovi componenti**: Incrementare la versione minor `y` (es. `1.5.9` → `1.6.0`).
+- **Namespace Enforcing**: Tutti i comandi di `helm` (`upgrade`, `install`, `list`, `rollback`) per lo stack Servarr DEVONO tassativamente includere la flag del namespace `-n arr` (es. `helm upgrade --install servarr charts/servarr -f ../k8s-lab/servarr/arr-values.yaml -n arr`).
+
