@@ -2034,6 +2034,8 @@ autobrr:
 minimserver:
   enabled: false
   replicaCount: 1
+  autosymlink:
+    enabled: true
 
   image:
     repository: minimworld/minimserver

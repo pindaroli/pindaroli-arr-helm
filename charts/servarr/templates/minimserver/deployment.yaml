@@ -56,6 +56,30 @@ spec:
             {{- end }}
           resources:
             {{- toYaml .Values.minimserver.resources | nindent 12 }}
+        {{- if .Values.minimserver.autosymlink.enabled }}
+        - name: autosymlink
+          image: "alpine:3.18"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              echo "Avvio del demone autosymlink per playlist..."
+              while true; do
+                find /media -type f -name "*.m3u" | while read -r m3u_file; do
+                  m3u8_file="${m3u_file}8"
+                  if [ ! -f "$m3u8_file" ] && [ ! -L "$m3u8_file" ]; then
+                    echo "Creazione link: $m3u8_file -> $(basename "$m3u_file")"
+                    ln -sf "$(basename "$m3u_file")" "$m3u8_file"
+                  fi
+                done
+                sleep 30
+              done
+          volumeMounts:
+            {{- if .Values.minimserver.persistence.media.enabled }}
+            - name: media
+              mountPath: {{ .Values.minimserver.persistence.media.mountPath | default "/media" }}
+            {{- end }}
+        {{- end }}
       volumes:
         {{- if .Values.minimserver.persistence.config.enabled }}
         - name: config
