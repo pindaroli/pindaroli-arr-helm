@@ -44,7 +44,7 @@ spec:
           volumeMounts:
             {{- if .Values.minimserver.persistence.config.enabled }}
             - name: config
-              mountPath: /config
+              mountPath: /opt/minimserver/data
             {{- end }}
             {{- if .Values.minimserver.persistence.media.enabled }}
             - name: media
