@@ -32,6 +32,8 @@ spec:
               value: {{ .Values.minimserver.env.PGID | quote }}
             - name: TZ
               value: {{ .Values.minimserver.env.TZ | quote }}
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Dfile.encoding=UTF-8"
           ports:
             - name: http
               containerPort: {{ .Values.minimserver.service.port }}
