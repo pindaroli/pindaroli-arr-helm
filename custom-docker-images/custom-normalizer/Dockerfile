@@ -21,8 +21,8 @@ RUN curl -L "https://downloads.sourceforge.net/project/fmedia/v${FMEDIA_VERSION}
 # 3. Installa cuefix per la normalizzazione dei file CUE
 RUN pip3 install --no-cache-dir cuefix --break-system-packages
 
-# 4. Copia lo script di normalizzazione direttamente all'interno dell'immagine
-COPY normalize.sh /app/normalize.sh
+# 4. Copia lo script di normalizzazione e il pre-processore python
+COPY normalize.sh preprocess_cue.py /app/
 RUN chmod +x /app/normalize.sh
 
 WORKDIR /app

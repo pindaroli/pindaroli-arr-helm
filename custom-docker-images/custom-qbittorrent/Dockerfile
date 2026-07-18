@@ -27,8 +27,8 @@ RUN \
     echo "**** Installazione cuefix ****" && \
     pip3 install --no-cache-dir cuefix --break-system-packages
 
-# Copia e installazione dello script di normalizzazione
-COPY normalize.sh /usr/local/bin/normalize.sh
+# Copia e installazione dello script di normalizzazione e del pre-processore python
+COPY normalize.sh preprocess_cue.py /usr/local/bin/
 RUN chmod +x /usr/local/bin/normalize.sh
 
 RUN \

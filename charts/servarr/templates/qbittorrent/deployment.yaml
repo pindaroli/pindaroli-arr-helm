@@ -56,6 +56,10 @@ spec:
           {{- else }}
           emptyDir: { }
           {{- end }}
+        - name: trigger-script
+          configMap:
+            name: {{ .Release.Name }}-qbittorrent-trigger-job
+            defaultMode: 0755
         {{- if .Values.qbittorrent.persistence.additionalVolumes }}
           {{- .Values.qbittorrent.persistence.additionalVolumes | toYaml | nindent 8}}
         {{- end }}
@@ -71,6 +75,9 @@ spec:
           volumeMounts:
             - mountPath: /config
               name: config
+            - mountPath: /scripts/trigger-job.sh
+              name: trigger-script
+              subPath: trigger-job.sh
           {{- if .Values.jellyfin.persistence.media.enabled }}
             - mountPath: "/media/{{ .Values.qbittorrent.persistence.path }}"
               name: media

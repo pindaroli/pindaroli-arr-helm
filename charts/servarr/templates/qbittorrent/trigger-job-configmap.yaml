@@ -1,0 +1,107 @@
+{{- if .Values.qbittorrent.enabled }}
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: {{ .Release.Name }}-qbittorrent-trigger-job
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+    app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
+    app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
+data:
+  trigger-job.sh: |
+    #!/usr/bin/env bash
+    set -euo pipefail
+
+    CONTENT_PATH="${1:-}"
+
+    if [ -z "$CONTENT_PATH" ]; then
+        echo "⚠️ Errore: Nessun CONTENT_PATH fornito a trigger-job.sh"
+        exit 1
+    fi
+
+    echo "🚀 Innesco Job K8s per: $CONTENT_PATH"
+
+    K8S_TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
+    K8S_CA="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
+    K8S_API="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}"
+    NAMESPACE="$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace 2>/dev/null || echo "{{ .Release.Namespace }}")"
+
+    JSON_PAYLOAD=$(jq -n \
+      --arg path "$CONTENT_PATH" \
+      '{
+        "apiVersion": "batch/v1",
+        "kind": "Job",
+        "metadata": {
+          "generateName": "audio-normalizer-",
+          "namespace": "'"$NAMESPACE"'"
+        },
+        "spec": {
+          "ttlSecondsAfterFinished": 600,
+          "backoffLimit": 0,
+          "template": {
+            "metadata": {
+              "labels": {
+                "app.kubernetes.io/name": "audio-normalizer"
+              }
+            },
+            "spec": {
+              "restartPolicy": "Never",
+              "affinity": {
+                "podAntiAffinity": {
+                  "requiredDuringSchedulingIgnoredDuringExecution": [
+                    {
+                      "labelSelector": {
+                        "matchExpressions": [
+                          { "key": "app.kubernetes.io/name", "operator": "In", "values": ["qbittorrent"] }
+                        ]
+                      },
+                      "topologyKey": "kubernetes.io/hostname"
+                    }
+                  ]
+                }
+              },
+              "containers": [
+                {
+                  "name": "normalizer",
+                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.1",
+                  "args": [$path, "", "/media/downloads"],
+                  "env": [
+                    {
+                      "name": "TELEGRAM_BOT_TOKEN",
+                      "valueFrom": { "secretKeyRef": { "name": "servarr-api-keys", "key": "telegram-token" } }
+                    },
+                    {
+                      "name": "TELEGRAM_CHAT_ID",
+                      "valueFrom": { "secretKeyRef": { "name": "servarr-api-keys", "key": "telegram-chat-id" } }
+                    }
+                  ],
+                  "volumeMounts": [
+                    { "name": "media-data", "mountPath": "/media/downloads" }
+                  ]
+                }
+              ],
+              "volumes": [
+                {
+                  "name": "media-data",
+                  "persistentVolumeClaim": { "claimName": "{{ .Values.jellyfin.persistence.media.existingClaim | default (printf "%s-jellyfin-media" .Release.Name) }}" }
+                }
+              ]
+            }
+          }
+        }
+      }'
+    )
+
+    HTTP_CODE=$(curl -sS -o /dev/null -w "%{http_code}" --cacert "$K8S_CA" \
+      -H "Authorization: Bearer $K8S_TOKEN" \
+      -H "Content-Type: application/json" \
+      -X POST -d "$JSON_PAYLOAD" "${K8S_API}/apis/batch/v1/namespaces/${NAMESPACE}/jobs")
+
+    if [ "$HTTP_CODE" -eq 201 ]; then
+        echo "✅ Job creato con successo per: $CONTENT_PATH"
+    else
+        echo "❌ Errore nella creazione del Job. Codice HTTP: $HTTP_CODE"
+        exit 1
+    fi
+{{- end }}

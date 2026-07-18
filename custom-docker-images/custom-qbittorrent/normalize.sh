@@ -2,12 +2,12 @@
 set -euo pipefail
 
 # Script di normalizzazione CUE e splitting mega-FLAC tramite fmedia con notifiche Telegram
-# USO: normalize.sh <SOURCE_PATH> [OUTPUT_DIR]
+# USO: normalize.sh <SOURCE_PATH> [OUTPUT_DIR] [MEDIA_BASE]
 #
 # Esempio:
-#   normalize.sh lidarr-classical/The Masterworks /media/downloads/lidarr-classical-normalize
+#   normalize.sh lidarr-classical/The Masterworks /media/downloads/lidarr-classical-normalize /media/downloads
 
-MEDIA_BASE="/media/downloads"
+MEDIA_BASE="${3:-/media/downloads}"
 
 RAW_SOURCE="${1:-lidarr-classical/The Masterworks}"
 RAW_TARGET="${2:-}"
@@ -111,56 +111,8 @@ while IFS= read -r -d '' cue_file; do
     echo "📁 Cartella CD : '$cd_dir'"
     echo "   File CUE    : '$cue_name'"
 
-    # Pre-processing encoding & case matching via Python
-    python3 -c '
-import os, sys
-
-cue_path = sys.argv[1]
-dirname = os.path.dirname(cue_path)
-if not os.path.exists(dirname):
-    sys.exit(0)
-
-# Convert encoding from ISO-8859-1/Windows-1252 to UTF-8 if needed
-raw = open(cue_path, "rb").read()
-try:
-    content = raw.decode("utf-8")
-except UnicodeDecodeError:
-    content = raw.decode("latin1", errors="replace")
-    with open(cue_path, "w", encoding="utf-8") as f:
-        f.write(content)
-
-files_in_dir = {f.lower(): f for f in os.listdir(dirname)}
-with open(cue_path, "r", encoding="utf-8", errors="ignore") as f:
-    lines = f.readlines()
-
-new_lines = []
-modified = False
-for line in lines:
-    if line.strip().startswith("FILE "):
-        parts = line.split("\"")
-        if len(parts) >= 3:
-            filename = parts[1]
-            if not os.path.exists(os.path.join(dirname, filename)):
-                lower_name = filename.lower()
-                if lower_name in files_in_dir:
-                    parts[1] = files_in_dir[lower_name]
-                    line = "\"".join(parts)
-                    modified = True
-                else:
-                    prefix = filename.split()[0] if filename else ""
-                    if prefix:
-                        for f_lower, f_exact in files_in_dir.items():
-                            if f_lower.startswith(prefix.lower()):
-                                parts[1] = f_exact
-                                line = "\"".join(parts)
-                                modified = True
-                                break
-    new_lines.append(line)
-
-if modified:
-    with open(cue_path, "w", encoding="utf-8") as f:
-        f.writelines(new_lines)
-' "$cue_file"
+    # Pre-processing encoding & case matching via Python script
+    python3 "$(dirname "$0")/preprocess_cue.py" "$cue_file"
 
     # Esecuzione di cuefix per correggere la sintassi del .cue
     cuefix -y "$cue_file" >/dev/null 2>&1 || true
