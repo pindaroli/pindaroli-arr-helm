@@ -29,12 +29,13 @@ data:
 
     JSON_PAYLOAD=$(jq -n \
       --arg path "$CONTENT_PATH" \
+      --arg ns "$NAMESPACE" \
       '{
         "apiVersion": "batch/v1",
         "kind": "Job",
         "metadata": {
           "generateName": "audio-normalizer-",
-          "namespace": "'"$NAMESPACE"'"
+          "namespace": $ns
         },
         "spec": {
           "ttlSecondsAfterFinished": 600,

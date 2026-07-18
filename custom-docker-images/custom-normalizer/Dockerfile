@@ -16,6 +16,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -L "https://downloads.sourceforge.net/project/fmedia/v${FMEDIA_VERSION}/fmedia-${FMEDIA_VERSION}-linux-amd64.tar.xz" -o fmedia.tar.xz \
     && tar Jxf fmedia.tar.xz -C /usr/local \
     && ln -s /usr/local/fmedia-1/fmedia /usr/local/bin/fmedia \
+    && sed -i 's/mod "dbussleep"/#mod "dbussleep"/g' /usr/local/fmedia-1/fmedia.conf \
     && rm fmedia.tar.xz
 
 # 3. Installa cuefix per la normalizzazione dei file CUE
