@@ -61,10 +61,14 @@ data:
                   ]
                 }
               },
+              "securityContext": {
+                "runAsUser": 1000,
+                "runAsGroup": 1000
+              },
               "containers": [
                 {
                   "name": "normalizer",
-                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.1",
+                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.2",
                   "args": [$path, "", "/media/downloads"],
                   "env": [
                     {
@@ -77,7 +81,7 @@ data:
                     }
                   ],
                   "volumeMounts": [
-                    { "name": "media-data", "mountPath": "/media/downloads" }
+                    { "name": "media-data", "mountPath": "/media/downloads", "subPath": "{{ .Values.qbittorrent.persistence.path | default "downloads" }}" }
                   ]
                 }
               ],

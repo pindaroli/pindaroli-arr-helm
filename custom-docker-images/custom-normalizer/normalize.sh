@@ -61,10 +61,16 @@ echo "Sorgente : '$SOURCE_DIR'"
 echo "Target   : '$TARGET_DIR'"
 echo "=========================================================="
 
-if [ ! -d "$SOURCE_DIR" ]; then
+if [ ! -e "$SOURCE_DIR" ]; then
     ERR_MSG="❌ <b>[Normalizzazione Audio] Errore Sorgente</b>
 La directory sorgente <code>$SOURCE_DIR</code> non esiste!"
     echo "❌ Errore: La directory sorgente '$SOURCE_DIR' non esiste!"
+    send_telegram "$ERR_MSG"
+    exit 1
+elif [ ! -r "$SOURCE_DIR" ] || [ ! -x "$SOURCE_DIR" ]; then
+    ERR_MSG="❌ <b>[Normalizzazione Audio] Errore Permessi</b>
+Permessi insufficienti per accedere alla directory sorgente <code>$SOURCE_DIR</code>!"
+    echo "❌ Errore: Permessi insufficienti per accedere alla directory '$SOURCE_DIR'!"
     send_telegram "$ERR_MSG"
     exit 1
 fi
