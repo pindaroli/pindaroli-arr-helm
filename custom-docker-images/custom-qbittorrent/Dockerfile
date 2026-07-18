@@ -13,7 +13,8 @@ RUN \
     gcompat \
     bash \
     python3 \
-    py3-pip
+    py3-pip \
+    alsa-lib
 
 RUN \
     echo "**** Installazione fmedia ****" && \
