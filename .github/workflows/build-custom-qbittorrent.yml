@@ -8,6 +8,10 @@ on:
       - 'custom-docker-images/custom-qbittorrent/**'
       - '.github/workflows/build-custom-qbittorrent.yml'
   workflow_dispatch:
+    inputs:
+      image_tag:
+        description: 'Custom Image Tag (leave empty to use VERSION file)'
+        required: false
 
 permissions:
   contents: read
@@ -20,6 +24,19 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+
+      - name: Read Version Tag
+        id: version
+        run: |
+          if [ -n "${{ github.event.inputs.image_tag }}" ]; then
+            TAG="${{ github.event.inputs.image_tag }}"
+          elif [ -f "./custom-docker-images/custom-qbittorrent/VERSION" ]; then
+            TAG=$(cat ./custom-docker-images/custom-qbittorrent/VERSION | tr -d '\r\n ')
+          else
+            TAG="latest"
+          fi
+          echo "tag=${TAG}" >> $GITHUB_OUTPUT
+          echo "Image tag set to: ${TAG}"
 
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
@@ -37,6 +54,7 @@ jobs:
         with:
           images: ghcr.io/${{ github.repository_owner }}/custom-qbittorrent
           tags: |
+            type=raw,value=${{ steps.version.outputs.tag }}
             type=raw,value=latest,enable=${{ github.ref == 'refs/heads/main' }}
             type=sha,prefix=sha-,format=short
 
