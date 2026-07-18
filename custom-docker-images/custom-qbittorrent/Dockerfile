@@ -27,6 +27,10 @@ RUN \
     echo "**** Installazione cuefix ****" && \
     pip3 install --no-cache-dir cuefix --break-system-packages
 
+# Copia e installazione dello script di normalizzazione
+COPY normalize.sh /usr/local/bin/normalize.sh
+RUN chmod +x /usr/local/bin/normalize.sh
+
 RUN \
     echo "**** Pulizia finale ****" && \
     rm -rf /var/cache/apk/* ~/.cache/pip

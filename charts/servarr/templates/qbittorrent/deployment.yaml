@@ -94,6 +94,9 @@ spec:
             - name: {{ $k }}
               value: {{ $v | quote }}
             {{- end }}
+            {{- if .Values.qbittorrent.extraEnv }}
+            {{- toYaml .Values.qbittorrent.extraEnv | nindent 12 }}
+            {{- end }}
           resources:
             {{- toYaml .Values.qbittorrent.resources | nindent 12 }}
         {{- if .Values.qbittorrent.extraContainers }}
