@@ -24,7 +24,7 @@ RUN curl -L "https://downloads.sourceforge.net/project/fmedia/v${FMEDIA_VERSION}
 RUN pip3 install --no-cache-dir cuefix --break-system-packages
 
 # 4. Scarica e installa SongKong headless (versione Premium/CommandLine)
-RUN curl -L "https://www.jthink.net/songkong/downloads/latest/songkong-linux-headless.tgz" -o songkong.tgz \
+RUN curl -L "https://www.jthink.net/songkong/downloads/current/songkong-linux-headless.tgz" -o songkong.tgz \
     && tar zxf songkong.tgz -C /opt \
     && ln -s /opt/songkong/songkong.sh /usr/local/bin/songkong \
     && rm songkong.tgz
