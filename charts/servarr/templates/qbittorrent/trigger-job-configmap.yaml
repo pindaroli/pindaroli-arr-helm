@@ -94,8 +94,18 @@ data:
               "containers": [
                 {
                   "name": "normalizer",
-                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.6",
+                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.7",
                   "args": [$path, $target_output, "/media"],
+                  "resources": {
+                    "requests": {
+                      "cpu": "200m",
+                      "memory": "512Mi"
+                    },
+                    "limits": {
+                      "cpu": "2",
+                      "memory": "2Gi"
+                    }
+                  },
                   "env": [
                     {
                       "name": "SONGKONG_VERBOSE",

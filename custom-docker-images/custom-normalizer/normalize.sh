@@ -172,18 +172,23 @@ if [ -x "/opt/songkong/songkong.sh" ]; then
     echo "=========================================================="
     echo "Avvio dell'ottimizzazione dei tag per MinimServer e Musica Classica..."
     
-    SONGKONG_FLAGS=("-m")
-    if [ "${SONGKONG_VERBOSE:-false}" = "true" ] || [ "${SONGKONG_VERBOSE:-false}" = "1" ]; then
-        echo "ℹ️ Modalità SONGKONG_VERBOSE attiva: aggiunta opzione -v"
-        SONGKONG_FLAGS+=("-v")
-    fi
-
     # Invocazione di SongKong in modalità "Fix Songs" (-m)
     # Impostando il path della directory target per l'elaborazione dei tag
-    if (cd /opt/songkong && ./songkong.sh "${SONGKONG_FLAGS[@]}" "$TARGET_DIR"); then
+    if (cd /opt/songkong && ./songkong.sh -m "$TARGET_DIR"); then
         echo "✅ SongKong ha completato la taggatura con successo."
     else
         echo "⚠️  Avviso: SongKong ha completato l'elaborazione (verificare eventuali warning)."
+    fi
+
+    if [ "${SONGKONG_VERBOSE:-false}" = "true" ] || [ "${SONGKONG_VERBOSE:-false}" = "1" ]; then
+        echo "🔍 [SONGKONG_VERBOSE] Dump log dettagliati di SongKong:"
+        for logfile in /tmp/.songkong/Logs/songkong_*.log; do
+            if [ -f "$logfile" ]; then
+                echo "--- START $logfile ---"
+                cat "$logfile"
+                echo "--- END $logfile ---"
+            fi
+        done
     fi
 else
     echo "⚠️  Avviso: SongKong non è installato in questo container, salto la fase di tagging."
