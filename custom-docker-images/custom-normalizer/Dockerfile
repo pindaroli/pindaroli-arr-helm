@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     xz-utils \
     openjdk-17-jre-headless \
+    swaks \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Scarica e installa fmedia da SourceForge (sorgente ufficiale funzionante)
