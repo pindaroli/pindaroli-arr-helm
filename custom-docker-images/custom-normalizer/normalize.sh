@@ -162,7 +162,7 @@ Impossibile trovare un mega-audio file unico valido abbinato al file CUE."
 done < <(find "$TARGET_DIR" -type f -iname "*.cue" ! -name "*.backup" -print0)
 
 # 3. Tagging e Ottimizzazione con SongKong Premium per MinimServer/Musica Classica
-if command -v songkong &>/dev/null; then
+if [ -x "/opt/songkong/songkong.sh" ]; then
     echo ""
     echo "=========================================================="
     echo "🔍 [3/3] Esecuzione SongKong Premium in corso..."
@@ -171,7 +171,7 @@ if command -v songkong &>/dev/null; then
     
     # Invocazione di SongKong in modalità "Fix Songs" (-m)
     # Impostando il path della directory target per l'elaborazione dei tag
-    if songkong -m "$TARGET_DIR"; then
+    if (cd /opt/songkong && ./songkong.sh -m "$TARGET_DIR"); then
         echo "✅ SongKong ha completato la taggatura con successo."
     else
         echo "⚠️  Avviso: SongKong ha completato l'elaborazione (verificare eventuali warning)."
