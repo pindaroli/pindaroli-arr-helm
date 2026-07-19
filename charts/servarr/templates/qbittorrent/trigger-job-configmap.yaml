@@ -48,9 +48,12 @@ data:
     K8S_API="https://${KUBERNETES_SERVICE_HOST}:${KUBERNETES_SERVICE_PORT}"
     NAMESPACE="$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace 2>/dev/null || echo "{{ .Release.Namespace }}")"
 
+    SONGKONG_VERBOSE="${SONGKONG_VERBOSE:-{{ .Values.qbittorrent.triggerJob.verbose | default false }}}"
+
     JSON_PAYLOAD=$(jq -n \
       --arg path "$CONTENT_PATH" \
       --arg target_output "$TARGET_OUTPUT" \
+      --arg songkong_verbose "$SONGKONG_VERBOSE" \
       --arg ns "$NAMESPACE" \
       '{
         "apiVersion": "batch/v1",
@@ -91,9 +94,13 @@ data:
               "containers": [
                 {
                   "name": "normalizer",
-                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.5",
+                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.6",
                   "args": [$path, $target_output, "/media"],
                   "env": [
+                    {
+                      "name": "SONGKONG_VERBOSE",
+                      "value": $songkong_verbose
+                    },
                     {
                       "name": "TELEGRAM_BOT_TOKEN",
                       "valueFrom": { "secretKeyRef": { "name": "servarr-api-keys", "key": "telegram-token" } }

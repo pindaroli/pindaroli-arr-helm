@@ -403,6 +403,7 @@ qbittorrent:
   categories: []
   triggerJob:
     enabled: false
+    verbose: false
     filters: {}
   replicaCount: 1
 
