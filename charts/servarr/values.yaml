@@ -401,6 +401,9 @@ sonarr:
 qbittorrent:
   enabled: true
   categories: []
+  triggerJob:
+    enabled: false
+    filters: {}
   replicaCount: 1
 
   image:

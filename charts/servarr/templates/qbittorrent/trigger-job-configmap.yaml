@@ -14,13 +14,34 @@ data:
     set -euo pipefail
 
     CONTENT_PATH="${1:-}"
+    CATEGORY="${2:-}"
 
     if [ -z "$CONTENT_PATH" ]; then
         echo "⚠️ Errore: Nessun CONTENT_PATH fornito a trigger-job.sh"
         exit 1
     fi
 
-    echo "🚀 Innesco Job K8s per: $CONTENT_PATH"
+    echo "🚀 Innesco Job K8s per: $CONTENT_PATH (Categoria: $CATEGORY)"
+
+    TARGET_OUTPUT=""
+    
+    {{- if .Values.qbittorrent.triggerJob.filters }}
+    case "$CATEGORY" in
+      {{- range $cat, $dest := .Values.qbittorrent.triggerJob.filters }}
+      "{{ $cat }}")
+        TARGET_OUTPUT="{{ $dest }}"
+        echo "ℹ️ Applicato filtro categoria '$CATEGORY'. Destinazione: $TARGET_OUTPUT"
+        ;;
+      {{- end }}
+      *)
+        echo "ℹ️ Categoria '$CATEGORY' non presente nei filtri. Esco senza lanciare il Job."
+        exit 0
+        ;;
+    esac
+    {{- else }}
+    echo "ℹ️ Nessun filtro configurato per le categorie. Esco senza lanciare il Job."
+    exit 0
+    {{- end }}
 
     K8S_TOKEN="$(cat /var/run/secrets/kubernetes.io/serviceaccount/token)"
     K8S_CA="/var/run/secrets/kubernetes.io/serviceaccount/ca.crt"
@@ -29,6 +50,7 @@ data:
 
     JSON_PAYLOAD=$(jq -n \
       --arg path "$CONTENT_PATH" \
+      --arg target_output "$TARGET_OUTPUT" \
       --arg ns "$NAMESPACE" \
       '{
         "apiVersion": "batch/v1",
@@ -70,7 +92,7 @@ data:
                 {
                   "name": "normalizer",
                   "image": "ghcr.io/pindaroli/custom-normalizer:1.0.2",
-                  "args": [$path, "", "/media/downloads"],
+                  "args": [$path, $target_output, "/media/downloads"],
                   "env": [
                     {
                       "name": "TELEGRAM_BOT_TOKEN",

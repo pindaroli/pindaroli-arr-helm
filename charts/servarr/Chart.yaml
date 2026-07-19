@@ -4,7 +4,7 @@ maintainers:
     url: https://github.com/pindaroli
 apiVersion: v2
 appVersion: 1.1.7
-version: 1.7.3
+version: 1.7.5
 description: Pindaroli Servarr Helm Chart
 home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
 icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg

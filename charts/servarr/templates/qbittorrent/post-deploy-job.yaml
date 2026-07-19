@@ -76,5 +76,18 @@ spec:
                     "$QB_URL/api/v2/torrents/createCategory"
                 fi
               done
+              
+              {{- if .Values.qbittorrent.triggerJob.enabled }}
+              echo "Configuring post-download trigger program..."
+              curl -s -H "Cookie: $COOKIE" -X POST \
+                --data-urlencode 'json={"autorun_enabled": true, "autorun_program": "/scripts/trigger-job.sh \"%F\" \"%L\""}' \
+                "$QB_URL/api/v2/app/setPreferences"
+              {{- else }}
+              echo "Disabling post-download trigger program..."
+              curl -s -H "Cookie: $COOKIE" -X POST \
+                --data-urlencode 'json={"autorun_enabled": false, "autorun_program": ""}' \
+                "$QB_URL/api/v2/app/setPreferences"
+              {{- end }}
+
               echo "qBittorrent categories provisioning completed successfully!"
 {{- end }}
