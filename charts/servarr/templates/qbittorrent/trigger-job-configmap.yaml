@@ -49,11 +49,13 @@ data:
     NAMESPACE="$(cat /var/run/secrets/kubernetes.io/serviceaccount/namespace 2>/dev/null || echo "{{ .Release.Namespace }}")"
 
     SONGKONG_VERBOSE="${SONGKONG_VERBOSE:-{{ .Values.qbittorrent.triggerJob.verbose | default false }}}"
+    EMAIL_RECIPIENT="${EMAIL_RECIPIENT:-{{ .Values.qbittorrent.triggerJob.recipient | default "" }}}"
 
     JSON_PAYLOAD=$(jq -n \
       --arg path "$CONTENT_PATH" \
       --arg target_output "$TARGET_OUTPUT" \
       --arg songkong_verbose "$SONGKONG_VERBOSE" \
+      --arg email_recipient "$EMAIL_RECIPIENT" \
       --arg ns "$NAMESPACE" \
       '{
         "apiVersion": "batch/v1",
@@ -94,8 +96,8 @@ data:
               "containers": [
                 {
                   "name": "normalizer",
-                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.7",
-                  "args": [$path, $target_output, "/media"],
+                  "image": "ghcr.io/pindaroli/custom-normalizer:1.2.0",
+                  "args": [$path, $target_output, "/media", $email_recipient],
                   "resources": {
                     "requests": {
                       "cpu": "200m",
@@ -108,8 +110,40 @@ data:
                   },
                   "env": [
                     {
+                      "name": "LANG",
+                      "value": "C.UTF-8"
+                    },
+                    {
+                      "name": "LC_ALL",
+                      "value": "C.UTF-8"
+                    },
+                    {
                       "name": "SONGKONG_VERBOSE",
                       "value": $songkong_verbose
+                    },
+                    {
+                      "name": "EMAIL_RECIPIENT",
+                      "value": $email_recipient
+                    },
+                    {
+                      "name": "SMTP_HOST",
+                      "valueFrom": { "secretKeyRef": { "name": "smtp-creds", "key": "smtp-host" } }
+                    },
+                    {
+                      "name": "SMTP_PORT",
+                      "valueFrom": { "secretKeyRef": { "name": "smtp-creds", "key": "smtp-port" } }
+                    },
+                    {
+                      "name": "SMTP_USER",
+                      "valueFrom": { "secretKeyRef": { "name": "smtp-creds", "key": "smtp-user" } }
+                    },
+                    {
+                      "name": "SMTP_PASS",
+                      "valueFrom": { "secretKeyRef": { "name": "smtp-creds", "key": "smtp-pass" } }
+                    },
+                    {
+                      "name": "SMTP_FROM",
+                      "valueFrom": { "secretKeyRef": { "name": "smtp-creds", "key": "smtp-from" } }
                     },
                     {
                       "name": "TELEGRAM_BOT_TOKEN",
@@ -121,7 +155,8 @@ data:
                     }
                   ],
                   "volumeMounts": [
-                    { "name": "media-data", "mountPath": "/media" }
+                    { "name": "media-data", "mountPath": "/media" },
+                    { "name": "songkong-license", "mountPath": "/root/.songkong/license.properties", "subPath": "license.properties" }
                   ]
                 }
               ],
@@ -129,6 +164,10 @@ data:
                 {
                   "name": "media-data",
                   "persistentVolumeClaim": { "claimName": "{{ .Values.jellyfin.persistence.media.existingClaim | default (printf "%s-jellyfin-media" .Release.Name) }}" }
+                },
+                {
+                  "name": "songkong-license",
+                  "secret": { "secretName": "songkong-license" }
                 }
               ]
             }

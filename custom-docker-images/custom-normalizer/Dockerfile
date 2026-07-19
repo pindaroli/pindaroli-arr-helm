@@ -1,12 +1,9 @@
-FROM golang:1.21-alpine AS builder
-RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest
-
 FROM debian:bookworm-slim
 
 # Argomento per gestire facilmente la versione di fmedia
 ARG FMEDIA_VERSION="1.23.1"
 
-# 1. Installa le dipendenze di sistema minime e pip3 per cuefix
+# 1. Installa le dipendenze di sistema minime e pip3 per cuefix/apprise
 RUN apt-get update && apt-get install -y \
     python3 \
     python3-pip \
@@ -16,10 +13,6 @@ RUN apt-get update && apt-get install -y \
     openjdk-17-jre-headless \
     && rm -rf /var/lib/apt/lists/*
 
-# Copia il binario di notify dallo stage builder
-COPY --from=builder /go/bin/notify /usr/local/bin/notify
-
-
 # 2. Scarica e installa fmedia da SourceForge (sorgente ufficiale funzionante)
 RUN curl -L "https://downloads.sourceforge.net/project/fmedia/v${FMEDIA_VERSION}/fmedia-${FMEDIA_VERSION}-linux-amd64.tar.xz" -o fmedia.tar.xz \
     && tar Jxf fmedia.tar.xz -C /usr/local \
@@ -27,8 +20,8 @@ RUN curl -L "https://downloads.sourceforge.net/project/fmedia/v${FMEDIA_VERSION}
     && sed -i 's/mod "dbussleep"/#mod "dbussleep"/g' /usr/local/fmedia-1/fmedia.conf \
     && rm fmedia.tar.xz
 
-# 3. Installa cuefix per la normalizzazione dei file CUE
-RUN pip3 install --no-cache-dir cuefix --break-system-packages
+# 3. Installa cuefix e apprise per notifiche e normalizzazione CUE
+RUN pip3 install --no-cache-dir cuefix apprise --break-system-packages
 
 # 4. Scarica e installa SongKong headless (versione Premium/CommandLine)
 RUN curl -L "https://www.jthink.net/songkong/downloads/current/songkong-linux-headless.tgz" -o songkong.tgz \

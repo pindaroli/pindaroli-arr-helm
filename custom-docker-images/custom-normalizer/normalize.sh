@@ -11,6 +11,7 @@ export HOME="${HOME:-/tmp}"
 [ "$HOME" = "/" ] && export HOME=/tmp
 
 MEDIA_BASE="${3:-/media/downloads}"
+EMAIL_RECIPIENT="${4:-}"
 
 RAW_SOURCE="${1:-lidarr-classical/The Masterworks}"
 RAW_TARGET="${2:-}"
@@ -21,10 +22,7 @@ TELEGRAM_CHAT_ID="${TELEGRAM_CHAT_ID:-}"
 send_telegram() {
     local msg="$1"
     if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
-        curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-            -d chat_id="${TELEGRAM_CHAT_ID}" \
-            -d parse_mode="HTML" \
-            --data-urlencode "text=${msg}" >/dev/null 2>&1 || true
+        apprise -t "🎵 [Normalizzatore]" -b "$msg" "tgram://${TELEGRAM_BOT_TOKEN}/${TELEGRAM_CHAT_ID}/?format=html" >/dev/null 2>&1 || true
     fi
 }
 
@@ -209,3 +207,51 @@ echo "Directory finale       : '$TARGET_DIR'"
 echo "=========================================================="
 
 send_telegram "$END_MSG"
+
+if [ -n "$EMAIL_RECIPIENT" ]; then
+    if [ -n "${SMTP_HOST:-}" ] && [ -n "${SMTP_USER:-}" ] && [ -n "${SMTP_PASS:-}" ]; then
+        echo "📧 Invio email di riepilogo a $EMAIL_RECIPIENT..."
+        
+        # Trova l'ultimo report HTML generato da SongKong
+        LATEST_REPORT=""
+        if [ -d "/root/.songkong/Reports" ]; then
+            LATEST_REPORT="$(find /root/.songkong/Reports -name "*.html" -type f | sort | tail -n 1 || echo "")"
+        fi
+
+        # Statistiche di SongKong
+        SONG_STATS=""
+        if [ -n "$LATEST_REPORT" ] && [ -f "$LATEST_REPORT" ]; then
+            SONG_STATS="
+Report SongKong Premium Allegato: $(basename "$LATEST_REPORT")"
+        fi
+
+        # Composizione del corpo dell'email
+        EMAIL_BODY="🎵 PROCESSO DI NORMALIZZAZIONE COMPLETATO
+
+Dettagli dell'elaborazione:
+----------------------------------------------------------
+Sorgente: $SOURCE_DIR
+Destinazione: $TARGET_DIR
+Cartelle CD elaborate: $PROCESSED_CDS
+Errori riscontrati: $ERRORS
+----------------------------------------------------------
+$SONG_STATS
+
+Servizio di notifica automatico K8s normalizer."
+
+        # Invocazione di Apprise per l'invio email con allegato HTML
+        SMTP_PARAMS="from=${SMTP_FROM:-$SMTP_USER}&to=${EMAIL_RECIPIENT}"
+        if [ "${SMTP_PORT:-465}" = "465" ]; then
+            SMTP_PARAMS="${SMTP_PARAMS}&mode=ssl"
+        fi
+
+        APPRISE_SMTP_URL="mailtos://${SMTP_USER}:${SMTP_PASS}@${SMTP_HOST}:${SMTP_PORT:-465}?${SMTP_PARAMS}"
+
+        apprise -t "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" \
+            -b "$EMAIL_BODY" \
+            ${LATEST_REPORT:+--attach "$LATEST_REPORT"} \
+            "$APPRISE_SMTP_URL"
+    else
+        echo "⚠️ Errore: Destinatario email impostato ma credenziali SMTP non configurate."
+    fi
+fi
