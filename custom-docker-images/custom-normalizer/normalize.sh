@@ -161,6 +161,25 @@ Impossibile trovare un mega-audio file unico valido abbinato al file CUE."
     PROCESSED_CDS=$((PROCESSED_CDS + 1))
 done < <(find "$TARGET_DIR" -type f -iname "*.cue" ! -name "*.backup" -print0)
 
+# 3. Tagging e Ottimizzazione con SongKong Premium per MinimServer/Musica Classica
+if command -v songkong &>/dev/null; then
+    echo ""
+    echo "=========================================================="
+    echo "🔍 [3/3] Esecuzione SongKong Premium in corso..."
+    echo "=========================================================="
+    echo "Avvio dell'ottimizzazione dei tag per MinimServer e Musica Classica..."
+    
+    # Invocazione di SongKong in modalità "Fix Songs" (-m)
+    # Impostando il path della directory target per l'elaborazione dei tag
+    if songkong -m "$TARGET_DIR"; then
+        echo "✅ SongKong ha completato la taggatura con successo."
+    else
+        echo "⚠️  Avviso: SongKong ha completato l'elaborazione (verificare eventuali warning)."
+    fi
+else
+    echo "⚠️  Avviso: SongKong non è installato in questo container, salto la fase di tagging."
+fi
+
 END_MSG="🎉 <b>[Normalizzazione Audio] Elaborazione Completata</b>
 <b>Sorgente:</b> <code>$SOURCE_DIR</code>
 <b>Target:</b> <code>$TARGET_DIR</code>

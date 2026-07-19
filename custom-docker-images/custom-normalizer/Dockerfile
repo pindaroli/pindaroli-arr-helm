@@ -10,6 +10,7 @@ RUN apt-get update && apt-get install -y \
     curl \
     ffmpeg \
     xz-utils \
+    openjdk-17-jre-headless \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Scarica e installa fmedia da SourceForge (sorgente ufficiale funzionante)
@@ -22,7 +23,16 @@ RUN curl -L "https://downloads.sourceforge.net/project/fmedia/v${FMEDIA_VERSION}
 # 3. Installa cuefix per la normalizzazione dei file CUE
 RUN pip3 install --no-cache-dir cuefix --break-system-packages
 
-# 4. Copia lo script di normalizzazione e il pre-processore python
+# 4. Scarica e installa SongKong headless (versione Premium/CommandLine)
+RUN curl -L "https://www.jthink.net/songkong/downloads/latest/songkong-linux-headless.tgz" -o songkong.tgz \
+    && tar zxf songkong.tgz -C /opt \
+    && ln -s /opt/songkong/songkong.sh /usr/local/bin/songkong \
+    && rm songkong.tgz
+
+# Creazione cartella preferenze di SongKong per montaggio licenza
+RUN mkdir -p /root/.songkong
+
+# 5. Copia lo script di normalizzazione e il pre-processore python
 COPY normalize.sh preprocess_cue.py /app/
 RUN chmod +x /app/normalize.sh
 
