@@ -1,3 +1,6 @@
+FROM golang:1.21-alpine AS builder
+RUN go install -v github.com/projectdiscovery/notify/cmd/notify@latest
+
 FROM debian:bookworm-slim
 
 # Argomento per gestire facilmente la versione di fmedia
@@ -11,8 +14,11 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     xz-utils \
     openjdk-17-jre-headless \
-    swaks \
     && rm -rf /var/lib/apt/lists/*
+
+# Copia il binario di notify dallo stage builder
+COPY --from=builder /go/bin/notify /usr/local/bin/notify
+
 
 # 2. Scarica e installa fmedia da SourceForge (sorgente ufficiale funzionante)
 RUN curl -L "https://downloads.sourceforge.net/project/fmedia/v${FMEDIA_VERSION}/fmedia-${FMEDIA_VERSION}-linux-amd64.tar.xz" -o fmedia.tar.xz \
