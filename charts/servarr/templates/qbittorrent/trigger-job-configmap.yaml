@@ -91,7 +91,7 @@ data:
               "containers": [
                 {
                   "name": "normalizer",
-                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.4",
+                  "image": "ghcr.io/pindaroli/custom-normalizer:1.0.5",
                   "args": [$path, $target_output, "/media"],
                   "env": [
                     {
