@@ -47,17 +47,19 @@ spec:
       serviceAccountName: {{ $compValues.serviceAccount.name | default (printf "%s-%s" $root.Release.Name $component) }}
       securityContext:
         {{- toYaml $compValues.podSecurityContext | nindent 8 }}
-      {{- if and $root.Values.jellyfin.persistence.media.enabled $persistence.enabled $persistence.createInitContainer }}
+      {{- if or (and $root.Values.jellyfin.persistence.media.enabled $persistence.enabled $persistence.createInitContainer) $compValues.initContainers }}
       initContainers:
+        {{- if and $root.Values.jellyfin.persistence.media.enabled $persistence.enabled $persistence.createInitContainer }}
         - name: init-directories
           image: busybox
           command: ['sh', '-c', 'mkdir -p /media/{{ $persistence.path }} /media/{{ $root.Values.qbittorrent.persistence.path }} && chown -R 1000:1000 /media/{{ $persistence.path }} /media/{{ $root.Values.qbittorrent.persistence.path }}']
           volumeMounts:
             - name: media
               mountPath: /media
-      {{- if $compValues.initContainers }}
-        {{- toYaml $compValues.initContainers | nindent 8 }}
-      {{- end }}
+        {{- end }}
+        {{- if $compValues.initContainers }}
+          {{- toYaml $compValues.initContainers | nindent 8 }}
+        {{- end }}
       {{- end }}
       volumes:
         - name: config
