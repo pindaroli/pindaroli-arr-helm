@@ -29,10 +29,11 @@ spec:
             - /bin/sh
             - -c
             - |
-              cat << 'EOF' > /opt/minimserver/data/default.profile
-{{ .Values.minimserver.profile | indent 14 }}
-EOF
+              printf '%s\n' "$MINIM_PROFILE" > /opt/minimserver/data/default.profile
               cp /opt/minimserver/data/default.profile /opt/minimserver/data/default.profile.save
+          env:
+            - name: MINIM_PROFILE
+              value: {{ .Values.minimserver.profile | quote }}
           volumeMounts:
             - name: config
               mountPath: /opt/minimserver/data
