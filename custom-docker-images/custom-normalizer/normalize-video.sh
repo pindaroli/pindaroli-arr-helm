@@ -88,11 +88,11 @@ process_filebot() {
         --action hardlink \
         --conflict override \
         -non-strict \
-        --db TheMovieDB \
         --lang it \
+        --def movieDB=TheMovieDB \
         --def "movieFormat={n} ({y}) [tmdbid-{id}]/{n} ({y}) [tmdbid-{id}] - [{vf} {vc}]" \
-        --def artwork=y nfo=y \
-        --def ignore="subrip,sample"; then
+        --def artwork=y \
+        --def ignore="subrip,sample,trickplay"; then
         echo "✅ Elaborazione completata per '$(basename "$src")'."
         PROCESSED_ITEMS=$((PROCESSED_ITEMS + 1))
     else
@@ -106,18 +106,25 @@ Si è verificato un errore durante l'esecuzione di FileBot." "🎬 [Video Normal
 
 echo "🔧 Analisi della struttura sorgente..."
 if [ -d "$SOURCE_DIR" ]; then
-    # Se sorgente contiene directory multiple, considera solo i film contenuti della subdir di primo livello
-    SUBDIRS=$(find "$SOURCE_DIR" -mindepth 1 -maxdepth 1 -type d | wc -l)
-    
-    if [ "$SUBDIRS" -gt 0 ]; then
-        echo "📁 Trovate $SUBDIRS sottocartelle di primo livello. Elaborazione in corso..."
-        # Usare null-byte separator per gestire file con spazi e iterare le subdirs
-        while IFS= read -r -d '' dir; do
-            process_filebot "$dir"
-        done < <(find "$SOURCE_DIR" -mindepth 1 -maxdepth 1 -type d -print0)
-    else
-        echo "📄 Nessuna sottocartella trovata. Elaborazione della directory principale come singola entità."
+    # Verifica se la cartella sorgente contiene direttamente dei file video
+    HAS_DIRECT_VIDEO=$(find "$SOURCE_DIR" -maxdepth 1 -type f \( -iname "*.mkv" -o -iname "*.mp4" -o -iname "*.avi" -o -iname "*.m4v" -o -iname "*.ts" -o -iname "*.iso" \) | head -n 1)
+
+    if [ -n "$HAS_DIRECT_VIDEO" ]; then
+        echo "📄 La cartella sorgente contiene direttamente file video. Elaborazione come singola entità."
         process_filebot "$SOURCE_DIR"
+    else
+        # Se non ha file video diretti, cerca sottocartelle di primo livello che non siano nascoste o di sistema (.trickplay, ecc.)
+        SUBDIRS_COUNT=$(find "$SOURCE_DIR" -mindepth 1 -maxdepth 1 -type d ! -name ".*" ! -iname "*trickplay*" | wc -l)
+        
+        if [ "$SUBDIRS_COUNT" -gt 0 ]; then
+            echo "📁 Trovate $SUBDIRS_COUNT sottocartelle valide di primo livello. Elaborazione in corso..."
+            while IFS= read -r -d '' dir; do
+                process_filebot "$dir"
+            done < <(find "$SOURCE_DIR" -mindepth 1 -maxdepth 1 -type d ! -name ".*" ! -iname "*trickplay*" -print0)
+        else
+            echo "📄 Nessuna sottocartella valida trovata. Tentativo di elaborazione della cartella principale."
+            process_filebot "$SOURCE_DIR"
+        fi
     fi
 else
     echo "📄 Il percorso sorgente è un file. Elaborazione file singolo..."
