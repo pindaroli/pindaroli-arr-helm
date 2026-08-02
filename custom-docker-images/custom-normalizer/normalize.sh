@@ -214,8 +214,11 @@ if [ -n "$EMAIL_RECIPIENT" ]; then
         
         # Trova l'ultimo report HTML generato da SongKong
         LATEST_REPORT=""
-        if [ -d "/root/.songkong/Reports" ]; then
-            LATEST_REPORT="$(find /root/.songkong/Reports -name "*.html" -type f | sort | tail -n 1 || echo "")"
+        REPORT_DIR="${HOME:-/tmp}/.songkong/Reports"
+        [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/tmp/.songkong/Reports"
+        [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/root/.songkong/Reports"
+        if [ -d "$REPORT_DIR" ]; then
+            LATEST_REPORT="$(find "$REPORT_DIR" -name "*.html" -type f | sort | tail -n 1 || echo "")"
         fi
 
         # Statistiche di SongKong
@@ -245,12 +248,14 @@ Servizio di notifica automatico K8s normalizer."
             SMTP_PARAMS="${SMTP_PARAMS}&mode=ssl"
         fi
 
-        APPRISE_SMTP_URL="mailtos://${SMTP_USER}:${SMTP_PASS}@${SMTP_HOST}:${SMTP_PORT:-465}?${SMTP_PARAMS}"
+        # Codifica URL della @ nel nome utente per evitare errori di parsing in Apprise
+        ENCODED_USER="$(echo "$SMTP_USER" | sed 's/@/%40/g')"
+        APPRISE_SMTP_URL="mailtos://${ENCODED_USER}:${SMTP_PASS}@${SMTP_HOST}:${SMTP_PORT:-465}?${SMTP_PARAMS}"
 
         apprise -t "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" \
             -b "$EMAIL_BODY" \
             ${LATEST_REPORT:+--attach "$LATEST_REPORT"} \
-            "$APPRISE_SMTP_URL"
+            "$APPRISE_SMTP_URL" || echo "⚠️ Warning: Invio email di riepilogo tramite Apprise fallito."
     else
         echo "⚠️ Errore: Destinatario email impostato ma credenziali SMTP non configurate."
     fi
