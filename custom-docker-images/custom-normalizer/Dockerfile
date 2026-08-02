@@ -11,6 +11,7 @@ RUN apt-get update && apt-get install -y \
     ffmpeg \
     xz-utils \
     openjdk-17-jre-headless \
+    gnupg \
     && rm -rf /var/lib/apt/lists/*
 
 # 2. Scarica e installa fmedia da SourceForge (sorgente ufficiale funzionante)
@@ -31,9 +32,20 @@ RUN curl -L "https://www.jthink.net/songkong/downloads/current/songkong-linux-he
 # Creazione cartella preferenze di SongKong per montaggio licenza
 RUN mkdir -p /root/.songkong
 
-# 5. Copia lo script di normalizzazione e il pre-processore python
-COPY normalize.sh preprocess_cue.py /app/
-RUN chmod +x /app/normalize.sh
+# 5. Installa FileBot via APT repository ufficiale
+RUN apt-key adv --fetch-keys https://raw.githubusercontent.com/filebot/plugins/master/gpg/maintainer.pub \
+    && echo "deb [arch=all] https://get.filebot.net/deb/ universal main" > /etc/apt/sources.list.d/filebot.list \
+    && apt-get update \
+    && apt-get install -y filebot \
+    && rm -rf /var/lib/apt/lists/*
+
+# Creazione cartella per configurazione e licenza di FileBot
+RUN mkdir -p /root/.filebot
+
+# 6. Copia script di normalizzazione (audio e video) e il pre-processore python
+COPY normalize.sh normalize-video.sh utils.sh preprocess_cue.py /app/
+RUN chmod +x /app/normalize.sh /app/normalize-video.sh /app/utils.sh
 
 WORKDIR /app
-ENTRYPOINT ["/app/normalize.sh"]
+# L'entrypoint è stato rimosso per permettere l'override agevole dal Job Kubernetes.
+# Il comando di default verrà specificato nei manifest.

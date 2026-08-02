@@ -16,15 +16,7 @@ EMAIL_RECIPIENT="${4:-}"
 RAW_SOURCE="${1:-lidarr-classical/The Masterworks}"
 RAW_TARGET="${2:-}"
 
-TELEGRAM_BOT_TOKEN="${TELEGRAM_BOT_TOKEN:-}"
-TELEGRAM_CHAT_ID="${TELEGRAM_CHAT_ID:-}"
-
-send_telegram() {
-    local msg="$1"
-    if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
-        apprise -t "🎵 [Normalizzatore]" -b "$msg" "tgram://${TELEGRAM_BOT_TOKEN}/${TELEGRAM_CHAT_ID}/?format=html" >/dev/null 2>&1 || true
-    fi
-}
+source "$(dirname "$0")/utils.sh"
 
 # Risoluzione percorso sorgente (assoluto o relativo a /media/downloads)
 if [[ "$RAW_SOURCE" == /* ]]; then
@@ -66,13 +58,13 @@ if [ ! -e "$SOURCE_DIR" ]; then
     ERR_MSG="❌ <b>[Normalizzazione Audio] Errore Sorgente</b>
 La directory sorgente <code>$SOURCE_DIR</code> non esiste!"
     echo "❌ Errore: La directory sorgente '$SOURCE_DIR' non esiste!"
-    send_telegram "$ERR_MSG"
+    send_telegram "$ERR_MSG" "🎵 [Normalizzatore]"
     exit 1
 elif [ ! -r "$SOURCE_DIR" ] || [ ! -x "$SOURCE_DIR" ]; then
     ERR_MSG="❌ <b>[Normalizzazione Audio] Errore Permessi</b>
 Permessi insufficienti per accedere alla directory sorgente <code>$SOURCE_DIR</code>!"
     echo "❌ Errore: Permessi insufficienti per accedere alla directory '$SOURCE_DIR'!"
-    send_telegram "$ERR_MSG"
+    send_telegram "$ERR_MSG" "🎵 [Normalizzatore]"
     exit 1
 fi
 
@@ -89,7 +81,7 @@ La directory di destinazione esiste già. L'elaborazione viene saltata per evita
     echo "L'elaborazione viene saltata per evitare sovrascritture"
     echo "o duplicazioni indesiderate di dati."
     echo "=========================================================="
-    send_telegram "$SKIP_MSG"
+    send_telegram "$SKIP_MSG" "🎵 [Normalizzatore]"
     exit 0
 fi
 
@@ -145,7 +137,7 @@ while IFS= read -r -d '' cue_file; do
             ERRORS=$((ERRORS + 1))
             send_telegram "❌ <b>[Normalizzazione Audio] Errore Splitting</b>
 <b>Cartella:</b> <code>$cd_dir</code>
-<code>fmedia</code> ha fallito lo splitting sul file CUE <code>$cue_name</code>."
+<code>fmedia</code> ha fallito lo splitting sul file CUE <code>$cue_name</code>." "🎵 [Normalizzatore]"
         fi
     else
         if [ "$audio_count" -gt 1 ]; then
@@ -155,7 +147,7 @@ while IFS= read -r -d '' cue_file; do
             ERRORS=$((ERRORS + 1))
             send_telegram "⚠️ <b>[Normalizzazione Audio] Check CD Rip Fallito</b>
 <b>Cartella:</b> <code>$cd_dir</code>
-Impossibile trovare un mega-audio file unico valido abbinato al file CUE."
+Impossibile trovare un mega-audio file unico valido abbinato al file CUE." "🎵 [Normalizzatore]"
         fi
     fi
 
@@ -206,30 +198,27 @@ echo "Errori riscontrati     : $ERRORS"
 echo "Directory finale       : '$TARGET_DIR'"
 echo "=========================================================="
 
-send_telegram "$END_MSG"
+send_telegram "$END_MSG" "🎵 [Normalizzatore]"
 
 if [ -n "$EMAIL_RECIPIENT" ]; then
-    if [ -n "${SMTP_HOST:-}" ] && [ -n "${SMTP_USER:-}" ] && [ -n "${SMTP_PASS:-}" ]; then
-        echo "📧 Invio email di riepilogo a $EMAIL_RECIPIENT..."
-        
-        # Trova l'ultimo report HTML generato da SongKong
-        LATEST_REPORT=""
-        REPORT_DIR="${HOME:-/tmp}/.songkong/Reports"
-        [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/tmp/.songkong/Reports"
-        [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/root/.songkong/Reports"
-        if [ -d "$REPORT_DIR" ]; then
-            LATEST_REPORT="$(find "$REPORT_DIR" -name "*.html" -type f | sort | tail -n 1 || echo "")"
-        fi
+    # Trova l'ultimo report HTML generato da SongKong
+    LATEST_REPORT=""
+    REPORT_DIR="${HOME:-/tmp}/.songkong/Reports"
+    [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/tmp/.songkong/Reports"
+    [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/root/.songkong/Reports"
+    if [ -d "$REPORT_DIR" ]; then
+        LATEST_REPORT="$(find "$REPORT_DIR" -name "*.html" -type f | sort | tail -n 1 || echo "")"
+    fi
 
-        # Statistiche di SongKong
-        SONG_STATS=""
-        if [ -n "$LATEST_REPORT" ] && [ -f "$LATEST_REPORT" ]; then
-            SONG_STATS="
+    # Statistiche di SongKong
+    SONG_STATS=""
+    if [ -n "$LATEST_REPORT" ] && [ -f "$LATEST_REPORT" ]; then
+        SONG_STATS="
 Report SongKong Premium Allegato: $(basename "$LATEST_REPORT")"
-        fi
+    fi
 
-        # Composizione del corpo dell'email
-        EMAIL_BODY="🎵 PROCESSO DI NORMALIZZAZIONE COMPLETATO
+    # Composizione del corpo dell'email
+    EMAIL_BODY="🎵 PROCESSO DI NORMALIZZAZIONE COMPLETATO
 
 Dettagli dell'elaborazione:
 ----------------------------------------------------------
@@ -242,37 +231,9 @@ $SONG_STATS
 
 Servizio di notifica automatico K8s normalizer."
 
-        # Invocazione di Apprise per l'invio email con allegato HTML
-        SMTP_PARAMS="from=${SMTP_FROM:-$SMTP_USER}&to=${EMAIL_RECIPIENT}"
-        if [ "${SMTP_PORT:-465}" = "465" ]; then
-            SMTP_PARAMS="${SMTP_PARAMS}&mode=ssl"
-        fi
-
-        # Codifica URL della @ nel nome utente per evitare errori di parsing in Apprise
-        ENCODED_USER="$(echo "$SMTP_USER" | sed 's/@/%40/g')"
-        APPRISE_SMTP_URL="mailtos://${ENCODED_USER}:${SMTP_PASS}@${SMTP_HOST}:${SMTP_PORT:-465}?${SMTP_PARAMS}"
-
-        # Tenta l'invio dell'email via Apprise. Se fallisce, invia notifica Telegram via curl usando i segreti K8s
-        if ! apprise -t "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" \
-            -b "$EMAIL_BODY" \
-            ${LATEST_REPORT:+--attach "$LATEST_REPORT"} \
-            "$APPRISE_SMTP_URL"; then
-
-            echo "⚠️ Warning: Invio email tramite Apprise fallito. Invio avviso di backup via Telegram..."
-            
-            if [ -n "${TELEGRAM_BOT_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
-                TEXT_MSG="⚠️ [Normalizzatore] Invio email di riepilogo fallito per '$BASENAME', ma l'elaborazione audio e i tag sono stati completati con successo."
-                
-                curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
-                    -d chat_id="${TELEGRAM_CHAT_ID}" \
-                    -d text="${TEXT_MSG}" || true
-            else
-                echo "⚠️ Warning: Credenziali Telegram non disponibili per l'avviso di backup."
-            fi
-        fi
-    else
-        echo "⚠️ Errore: Destinatario email impostato ma credenziali SMTP non configurate."
-    fi
+    TEXT_MSG="⚠️ [Normalizzatore] Invio email di riepilogo fallito per '$BASENAME', ma l'elaborazione audio e i tag sono stati completati con successo."
+    
+    send_summary_email "$EMAIL_RECIPIENT" "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" "$EMAIL_BODY" "$TEXT_MSG" "$LATEST_REPORT"
 fi
 
 # Chiusura sempre con successo per Kubernetes (exit 0)
