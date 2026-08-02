@@ -252,11 +252,28 @@ Servizio di notifica automatico K8s normalizer."
         ENCODED_USER="$(echo "$SMTP_USER" | sed 's/@/%40/g')"
         APPRISE_SMTP_URL="mailtos://${ENCODED_USER}:${SMTP_PASS}@${SMTP_HOST}:${SMTP_PORT:-465}?${SMTP_PARAMS}"
 
-        apprise -t "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" \
+        # Tenta l'invio dell'email via Apprise. Se fallisce, invia notifica Telegram via curl usando i segreti K8s
+        if ! apprise -t "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" \
             -b "$EMAIL_BODY" \
             ${LATEST_REPORT:+--attach "$LATEST_REPORT"} \
-            "$APPRISE_SMTP_URL" || echo "⚠️ Warning: Invio email di riepilogo tramite Apprise fallito."
+            "$APPRISE_SMTP_URL"; then
+
+            echo "⚠️ Warning: Invio email tramite Apprise fallito. Invio avviso di backup via Telegram..."
+            
+            if [ -n "${TELEGRAM_BOT_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
+                TEXT_MSG="⚠️ [Normalizzatore] Invio email di riepilogo fallito per '$BASENAME', ma l'elaborazione audio e i tag sono stati completati con successo."
+                
+                curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
+                    -d chat_id="${TELEGRAM_CHAT_ID}" \
+                    -d text="${TEXT_MSG}" || true
+            else
+                echo "⚠️ Warning: Credenziali Telegram non disponibili per l'avviso di backup."
+            fi
+        fi
     else
         echo "⚠️ Errore: Destinatario email impostato ma credenziali SMTP non configurate."
     fi
 fi
+
+# Chiusura sempre con successo per Kubernetes (exit 0)
+exit 0
