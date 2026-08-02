@@ -21,6 +21,22 @@ spec:
       hostNetwork: true
       dnsPolicy: ClusterFirstWithHostNet
       serviceAccountName: {{ printf "%s-%s" .Release.Name "minimserver" }}
+      {{- if .Values.minimserver.profile }}
+      initContainers:
+        - name: init-profile
+          image: "alpine:3.18"
+          command:
+            - /bin/sh
+            - -c
+            - |
+              cat << 'EOF' > /opt/minimserver/data/default.profile
+{{ .Values.minimserver.profile | indent 14 }}
+EOF
+              cp /opt/minimserver/data/default.profile /opt/minimserver/data/default.profile.save
+          volumeMounts:
+            - name: config
+              mountPath: /opt/minimserver/data
+      {{- end }}
       containers:
         - name: minimserver
           image: "{{ .Values.minimserver.image.repository }}:{{ .Values.minimserver.image.tag }}"
