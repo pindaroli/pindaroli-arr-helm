@@ -68,7 +68,8 @@ Permessi insufficienti per accedere a <code>$SOURCE_DIR</code>!"
 fi
 
 if [ -f "/root/.filebot/license.psm" ]; then
-    echo "🔑 Licenza FileBot trovata."
+    echo "🔑 Attivazione licenza FileBot..."
+    filebot --license /root/.filebot/license.psm || true
 else
     echo "⚠️  Attenzione: Nessuna licenza FileBot trovata in /root/.filebot/license.psm. Alcune funzionalità di rename potrebbero fallire."
 fi
