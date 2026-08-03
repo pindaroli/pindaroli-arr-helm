@@ -10,7 +10,7 @@ send_telegram() {
     local msg="$1"
     local title="$2"
     if [ -n "$TELEGRAM_BOT_TOKEN" ] && [ -n "$TELEGRAM_CHAT_ID" ]; then
-        apprise -t "$title" -b "$msg" "tgram://${TELEGRAM_BOT_TOKEN}/${TELEGRAM_CHAT_ID}/?format=html" >/dev/null 2>&1 || true
+        apprise -t "$title" -b "$msg" -i html "tgram://${TELEGRAM_BOT_TOKEN}/${TELEGRAM_CHAT_ID}/" >/dev/null 2>&1 || true
     fi
 }
 
@@ -47,6 +47,7 @@ send_summary_email() {
                 if [ -n "${TELEGRAM_BOT_TOKEN:-}" ] && [ -n "${TELEGRAM_CHAT_ID:-}" ]; then
                     curl -s -X POST "https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage" \
                         -d chat_id="${TELEGRAM_CHAT_ID}" \
+                        -d parse_mode="HTML" \
                         -d text="${fallback_text}" || true
                 else
                     echo "⚠️ Warning: Credenziali Telegram non disponibili per l'avviso di backup."
