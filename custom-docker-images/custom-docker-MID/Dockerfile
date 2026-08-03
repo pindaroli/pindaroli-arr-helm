@@ -15,7 +15,7 @@ RUN apt-get update && apt-get install -y --no-install-recommends \
     && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /opt
-RUN wget --no-check-certificate https://install.service-now.com/glide/distribution/builds/package/app-signed/mid/2026/06/12/mid.australia-02-11-2026__patch3-05-25-2026_06-12-2026_1106.linux.x86_64.zip -O mid.zip \
+RUN wget --no-check-certificate https://install.service-now.com/glide/distribution/builds/package/app-signed/mid-core/2026/06/12/mid-core.australia-02-11-2026__patch3-05-25-2026_06-12-2026_1106.universal.universal.zip -O mid.zip \
     && unzip mid.zip \
     && rm mid.zip
 
