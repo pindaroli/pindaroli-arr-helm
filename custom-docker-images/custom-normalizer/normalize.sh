@@ -207,6 +207,9 @@ echo "Errori riscontrati     : $ERRORS"
 echo "Directory finale       : '$TARGET_DIR'"
 echo "=========================================================="
 
+# Assicuriamo permessi 777 per permettere modifiche/taggatura da SMB/NFS
+chmod -R 777 "$TARGET_DIR" 2>/dev/null || true
+
 send_telegram "$END_MSG" "🎵 [Normalizzatore]"
 
 if [ -n "$EMAIL_RECIPIENT" ]; then
