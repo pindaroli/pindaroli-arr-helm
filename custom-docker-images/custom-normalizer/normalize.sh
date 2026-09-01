@@ -158,6 +158,11 @@ Impossibile trovare un mega-audio file unico valido abbinato al file CUE." "🎵
     PROCESSED_CDS=$((PROCESSED_CDS + 1))
 done < <(find "$TARGET_DIR" -type f -iname "*.cue" ! -name "*.backup" -print0)
 
+# Inject internal TRACKNUMBER and DISCNUMBER tags into FLAC files for seamless tagging/matching
+echo ""
+echo "🏷️ Iniezione automatica metadati di traccia e disco (TRACKNUMBER/DISCNUMBER)..."
+python3 "$(dirname "$0")/tag_flac_after_split.py" "$TARGET_DIR" || true
+
 # 3. Tagging e Ottimizzazione con SongKong Premium per MinimServer/Musica Classica
 if [ -x "/opt/songkong/songkong.sh" ]; then
     echo ""
