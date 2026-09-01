@@ -9,6 +9,6 @@ metadata:
     app.kubernetes.io/version: {{ .Chart.AppVersion | quote }}
     app.kubernetes.io/managed-by: {{ .Release.Service | quote }}
 data:
-  trigger-job.sh: |-
-{{ tpl (.Files.Get "files/trigger-job.sh") . | nindent 4 }}
+  trigger-job.sh: |
+{{ tpl (.Files.Get "files/trigger-job.sh") . | indent 4 }}
 {{- end }}
