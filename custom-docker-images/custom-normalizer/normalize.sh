@@ -131,7 +131,8 @@ while IFS= read -r -d '' cue_file; do
         echo "🔍 Check OK: Trovato CD Rip con mega-audio file unico: '$(basename "$MEGA_AUDIO_FILE")'"
         echo "⚡ Esecuzione splitting tracce con fmedia in corso..."
         
-        out_pattern="${cd_dir}/\$tracknumber - \$title.flac"
+        cue_base="${cue_name%.*}"
+        out_pattern="${cd_dir}/${cue_base} - \$tracknumber - \$title.flac"
         if fmedia "$cue_file" --out="$out_pattern" --overwrite --notui; then
             echo "✅ Splitting fmedia completato con successo per '$(basename "$cd_dir")'."
             rm -f "$MEGA_AUDIO_FILE"
