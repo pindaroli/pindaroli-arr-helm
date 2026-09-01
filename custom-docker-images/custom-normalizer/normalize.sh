@@ -116,12 +116,15 @@ while IFS= read -r -d '' cue_file; do
     # Esecuzione di cuefix per correggere la sintassi del .cue
     cuefix -y "$cue_file" >/dev/null 2>&1 || true
 
-    # CHECK PREVENTIVO: Verifichiamo se c'è un mega-audio file unico (.flac, .ape, .wv, .wav)
+    # CHECK PREVENTIVO: Verifichiamo se c'è un mega-audio file (usando la direttiva FILE nel CUE)
     MEGA_AUDIO_FILE=""
-    audio_count="$(find "$cd_dir" -maxdepth 1 -type f \( -iname "*.flac" -o -iname "*.ape" -o -iname "*.wv" -o -iname "*.wav" \) ! -iname "*.backup" | wc -l)"
-
-    if [ "$audio_count" -eq 1 ]; then
-        MEGA_AUDIO_FILE="$(find "$cd_dir" -maxdepth 1 -type f \( -iname "*.flac" -o -iname "*.ape" -o -iname "*.wv" -o -iname "*.wav" \) ! -iname "*.backup" | head -n 1)"
+    file_directive_count="$(grep -c -i '^FILE ' "$cue_file" || true)"
+    
+    if [ "$file_directive_count" -eq 1 ]; then
+        audio_filename="$(grep -im1 '^FILE ' "$cue_file" | awk -F '"' '{print $2}')"
+        if [ -n "$audio_filename" ] && [ -f "$cd_dir/$audio_filename" ]; then
+            MEGA_AUDIO_FILE="$cd_dir/$audio_filename"
+        fi
     fi
 
     if [ -n "$MEGA_AUDIO_FILE" ]; then
@@ -140,10 +143,10 @@ while IFS= read -r -d '' cue_file; do
 <code>fmedia</code> ha fallito lo splitting sul file CUE <code>$cue_name</code>." "🎵 [Normalizzatore]"
         fi
     else
-        if [ "$audio_count" -gt 1 ]; then
-            echo "ℹ️ Note: La cartella contiene già $audio_count tracce audio separate. Nessuno splitting mega-FLAC richiesto."
+        if [ "$file_directive_count" -gt 1 ]; then
+            echo "ℹ️ Note: Il file CUE referenzia $file_directive_count tracce audio. Nessuno splitting mega-FLAC richiesto."
         else
-            echo "❌ CHECK FALLITO: La cartella non contiene un CD Rip valido con mega-audio file abbinato al CUE!"
+            echo "❌ CHECK FALLITO: Impossibile trovare un mega-audio file valido abbinato al CUE!"
             ERRORS=$((ERRORS + 1))
             send_telegram "⚠️ <b>[Normalizzazione Audio] Check CD Rip Fallito</b>
 <b>Cartella:</b> <code>$cd_dir</code>
