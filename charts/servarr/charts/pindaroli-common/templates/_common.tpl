@@ -136,6 +136,10 @@ spec:
             periodSeconds: {{ $startupPeriodSeconds }}
           resources:
             {{- toYaml $compValues.resources | nindent 12 }}
+          {{- with $compValues.lifecycle }}
+          lifecycle:
+            {{- toYaml . | nindent 12 }}
+          {{- end }}
       {{- with $compValues.extraContainers }}
       {{- toYaml . | nindent 8 }}
       {{- end }}
