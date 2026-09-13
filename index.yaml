@@ -205,6 +205,42 @@ entries:
   servarr:
   - apiVersion: v2
     appVersion: 1.1.7
+    created: "2026-09-13T14:40:21.352205678Z"
+    dependencies:
+    - name: pindaroli-common
+      repository: file://../pindaroli-common
+      version: 1.0.4
+    description: Pindaroli Servarr Helm Chart
+    digest: 7b09eb6f416f8cefd1c8a748e525055ad8da415ec33245950ddcca966d2711df
+    home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - minimserver
+    - sonarr
+    - radarr
+    - readarr
+    - flaresolverr
+    - jellyfin
+    - jellyseerr
+    - qbittorrent
+    - prowlarr
+    - cleanuperr
+    - recyclarr
+    - autobrr
+    maintainers:
+    - name: pindaroli
+      url: https://github.com/pindaroli
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/servarr-1.9.8/servarr-1.9.8.tgz
+    version: 1.9.8
+  - apiVersion: v2
+    appVersion: 1.1.7
     created: "2026-09-13T09:07:22.661287566Z"
     dependencies:
     - name: pindaroli-common
@@ -2452,4 +2488,4 @@ entries:
     urls:
     - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/traefik-whitelist-ddns-1.2.6/traefik-whitelist-ddns-1.2.6.tgz
     version: 1.2.6
-generated: "2026-09-13T09:07:22.937872911Z"
+generated: "2026-09-13T14:40:21.757352148Z"
