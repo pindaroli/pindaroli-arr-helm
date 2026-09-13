@@ -9,6 +9,7 @@ set -euo pipefail
 
 export HOME="${HOME:-/tmp}"
 [ "$HOME" = "/" ] && export HOME=/tmp
+export JAVA_OPTS="${JAVA_OPTS:-} -Duser.home=/tmp"
 
 MEDIA_BASE="${3:-/media/downloads}"
 EMAIL_RECIPIENT="${4:-}"
@@ -67,11 +68,14 @@ Permessi insufficienti per accedere a <code>$SOURCE_DIR</code>!"
     exit 1
 fi
 
-if [ -f "/root/.filebot/license.psm" ]; then
-    echo "🔑 Attivazione licenza FileBot..."
+if [ -f "/etc/filebot/license.psm" ]; then
+    echo "🔑 Attivazione licenza FileBot da /etc/filebot/license.psm..."
+    filebot --license /etc/filebot/license.psm || true
+elif [ -f "/root/.filebot/license.psm" ]; then
+    echo "🔑 Attivazione licenza FileBot da /root/.filebot/license.psm..."
     filebot --license /root/.filebot/license.psm || true
 else
-    echo "⚠️  Attenzione: Nessuna licenza FileBot trovata in /root/.filebot/license.psm. Alcune funzionalità di rename potrebbero fallire."
+    echo "⚠️  Attenzione: Nessuna licenza FileBot trovata in /etc/filebot/license.psm o /root/.filebot/license.psm. Alcune funzionalità di rename potrebbero fallire."
 fi
 
 mkdir -p "$TARGET_DIR"

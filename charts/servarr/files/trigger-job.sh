@@ -90,7 +90,7 @@ JSON_PAYLOAD=$(jq -n \
           "containers": [
             {
               "name": "normalizer",
-              "image": "ghcr.io/pindaroli/custom-normalizer:1.2.6",
+              "image": "ghcr.io/pindaroli/custom-normalizer:1.3.0",
               "imagePullPolicy": "Always",
               "command": [
                 "\(if $filter_type == "video" then "/app/normalize-video.sh" else "/app/normalize.sh" end)"
@@ -107,6 +107,14 @@ JSON_PAYLOAD=$(jq -n \
                 }
               },
               "env": [
+                {
+                  "name": "HOME",
+                  "value": "/tmp"
+                },
+                {
+                  "name": "JAVA_OPTS",
+                  "value": "-Duser.home=/tmp"
+                },
                 {
                   "name": "LANG",
                   "value": "C.UTF-8"
@@ -154,8 +162,8 @@ JSON_PAYLOAD=$(jq -n \
               ],
               "volumeMounts": [
                 { "name": "media-data", "mountPath": "/media" },
-                { "name": "songkong-license", "mountPath": "/root/.songkong/license.properties", "subPath": "license.properties" },
-                { "name": "filebot-license", "mountPath": "/root/.filebot/license.psm", "subPath": "license.psm" }
+                { "name": "songkong-license", "mountPath": "/etc/songkong/license.properties", "subPath": "license.properties" },
+                { "name": "filebot-license", "mountPath": "/etc/filebot/license.psm", "subPath": "license.psm" }
               ]
             }
           ],

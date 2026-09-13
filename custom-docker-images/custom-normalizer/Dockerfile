@@ -29,8 +29,8 @@ RUN curl -L "https://www.jthink.net/songkong/downloads/current/songkong-linux-he
     && tar zxf songkong.tgz -C /opt \
     && rm songkong.tgz
 
-# Creazione cartella preferenze di SongKong per montaggio licenza
-RUN mkdir -p /root/.songkong
+# Creazione cartella preferenze di SongKong e directory licenze non-root
+RUN mkdir -p /root/.songkong /etc/songkong && chmod 777 /etc/songkong
 
 # 5. Installa FileBot via APT repository ufficiale
 RUN apt-key adv --fetch-keys https://raw.githubusercontent.com/filebot/plugins/master/gpg/maintainer.pub \
@@ -39,8 +39,8 @@ RUN apt-key adv --fetch-keys https://raw.githubusercontent.com/filebot/plugins/m
     && apt-get install -y filebot \
     && rm -rf /var/lib/apt/lists/*
 
-# Creazione cartella per configurazione e licenza di FileBot
-RUN mkdir -p /root/.filebot
+# Creazione cartella per configurazione e licenza di FileBot (anche in /etc per UID non-root)
+RUN mkdir -p /root/.filebot /etc/filebot && chmod 777 /etc/filebot
 
 # 6. Copia script di normalizzazione (audio e video) e i pre/post-processori python
 COPY normalize.sh normalize-video.sh utils.sh preprocess_cue.py tag_flac_after_split.py /app/

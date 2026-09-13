@@ -165,6 +165,10 @@ python3 "$(dirname "$0")/tag_flac_after_split.py" "$TARGET_DIR" || true
 
 # 3. Tagging e Ottimizzazione con SongKong Premium per MinimServer/Musica Classica
 if [ -x "/opt/songkong/songkong.sh" ]; then
+    mkdir -p "${HOME:-/tmp}/.songkong"
+    if [ -f "/etc/songkong/license.properties" ]; then
+        cp "/etc/songkong/license.properties" "${HOME:-/tmp}/.songkong/license.properties" 2>/dev/null || true
+    fi
     echo ""
     echo "=========================================================="
     echo "🔍 [3/3] Esecuzione SongKong Premium in corso..."
