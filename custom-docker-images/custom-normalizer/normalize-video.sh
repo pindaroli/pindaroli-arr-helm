@@ -95,7 +95,7 @@ process_filebot() {
         -non-strict \
         --lang it \
         --def movieDB=TheMovieDB \
-        --def "movieFormat={n} ({y}) [tmdbid-{id}]/{n} ({y}) [tmdbid-{id}] - [{vf} {vc}]" \
+        --def "movieFormat={n} ({y}) [tmdbid-{id}]/{n} ({y}) [tmdbid-{id}]{ ' [' + edition + ']' } - [{ any{source + ' '}{''} }{vf} {vc}]{ ' [' + group + ']' }" \
         --def artwork=y \
         --def ignore="subrip,sample,trickplay"; then
         echo "✅ Elaborazione completata per '$(basename "$src")'."
