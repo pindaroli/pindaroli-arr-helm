@@ -135,6 +135,15 @@ entries:
     version: 1.2.6
   pindaroli-common:
   - apiVersion: v2
+    created: "2026-09-13T09:07:22.378828887Z"
+    description: Pindaroli Homelab common Helm library chart
+    digest: d52586fcf32241c5573541ca6202876f8adbaa4a6cee21e09c83b0c66591a173
+    name: pindaroli-common
+    type: library
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/pindaroli-common-1.0.4/pindaroli-common-1.0.4.tgz
+    version: 1.0.4
+  - apiVersion: v2
     created: "2026-07-26T19:32:27.023587457Z"
     description: Pindaroli Homelab common Helm library chart
     digest: fa7806f4425f9b372365c48fbc0ad9476960b3e715dc7796c62d70666ec74ddd
@@ -194,6 +203,42 @@ entries:
     - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/searxng-1.2.6/searxng-1.2.6.tgz
     version: 1.2.6
   servarr:
+  - apiVersion: v2
+    appVersion: 1.1.7
+    created: "2026-09-13T09:07:22.661287566Z"
+    dependencies:
+    - name: pindaroli-common
+      repository: file://../pindaroli-common
+      version: 1.0.4
+    description: Pindaroli Servarr Helm Chart
+    digest: a7fc84acad563ca065892a84053ffb6c1c5a58f0e0e5a815db0952d75ce336c3
+    home: https://github.com/pindaroli/pindaroli-arr-helm/tree/main/charts/servarr
+    icon: https://pindaroli.github.io/pindaroli-arr-helm//images/pindaroli.svg
+    keywords:
+    - kubernetes
+    - bazarr
+    - lidarr
+    - minimserver
+    - sonarr
+    - radarr
+    - readarr
+    - flaresolverr
+    - jellyfin
+    - jellyseerr
+    - qbittorrent
+    - prowlarr
+    - cleanuperr
+    - recyclarr
+    - autobrr
+    maintainers:
+    - name: pindaroli
+      url: https://github.com/pindaroli
+    name: servarr
+    sources:
+    - https://github.com/Servarr
+    urls:
+    - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/servarr-1.9.7/servarr-1.9.7.tgz
+    version: 1.9.7
   - apiVersion: v2
     appVersion: 1.1.7
     created: "2026-09-01T18:06:04.95567855Z"
@@ -2407,4 +2452,4 @@ entries:
     urls:
     - https://github.com/pindaroli/pindaroli-arr-helm/releases/download/traefik-whitelist-ddns-1.2.6/traefik-whitelist-ddns-1.2.6.tgz
     version: 1.2.6
-generated: "2026-09-01T18:06:05.462844848Z"
+generated: "2026-09-13T09:07:22.937872911Z"
