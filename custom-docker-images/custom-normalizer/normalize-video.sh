@@ -95,7 +95,7 @@ process_filebot() {
         -non-strict \
         --lang it \
         --def movieDB=TheMovieDB \
-        --def "movieFormat={n} ({y}) [tmdbid-{id}]/{n} ({y}) [tmdbid-{id}]{ ' [' + edition + ']' } - [{ any{source + ' '}{''} }{vf} {vc}]{ ' [' + group + ']' }" \
+        --def "movieFormat={n} ({y}) {'{tmdb-' + id + '}'}/{n} ({y}) {'{tmdb-' + id + '}'}{ ' [' + edition + ']' } - [{ any{source + ' '}{''} }{vf} {vc}]{ ' [' + group + ']' }" \
         --def artwork=y; then
         echo "✅ Elaborazione completata per '$(basename "$src")'."
         PROCESSED_ITEMS=$((PROCESSED_ITEMS + 1))
