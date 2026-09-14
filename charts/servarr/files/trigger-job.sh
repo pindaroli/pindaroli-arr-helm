@@ -90,7 +90,7 @@ JSON_PAYLOAD=$(jq -n \
           "containers": [
             {
               "name": "normalizer",
-              "image": "ghcr.io/pindaroli/custom-normalizer:1.5.0",
+              "image": "ghcr.io/pindaroli/custom-normalizer:1.5.1",
               "imagePullPolicy": "Always",
               "command": [
                 "\(if $filter_type == "video" then "/app/normalize-video.sh" else "/app/normalize.sh" end)"

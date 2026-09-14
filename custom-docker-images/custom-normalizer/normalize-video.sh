@@ -96,7 +96,7 @@ process_filebot() {
         --lang it \
         --def movieDB=TheMovieDB \
         --def "movieFormat={n} ({y}) [tmdbid-{id}]/{n} ({y}) [tmdbid-{id}]{ ' [' + edition + ']' } - [{ any{source + ' '}{''} }{vf} {vc}]{ ' [' + group + ']' }" \
-        --def artwork=y \
+        --def artwork=y; then
         echo "✅ Elaborazione completata per '$(basename "$src")'."
         PROCESSED_ITEMS=$((PROCESSED_ITEMS + 1))
         # Pulizia post-processo: elimina eventuali file .nfo generati, preservando tutti gli artwork grafici
