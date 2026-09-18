@@ -1,0 +1,60 @@
+{{- $trueNasIp := .Values.externalTrueNasIp | default "10.10.10.50" }}
+{{- if and (hasKey .Values "qbittorrent") (not .Values.qbittorrent.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-qbittorrent-web
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+spec:
+  ports:
+    - port: 8080
+      targetPort: 8080
+      protocol: TCP
+      name: http
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ .Release.Name }}-qbittorrent-web
+  labels:
+    app.kubernetes.io/name: qbittorrent
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+subsets:
+  - addresses:
+      - ip: {{ $trueNasIp | quote }}
+    ports:
+      - port: 8080
+        name: http
+{{- end }}
+---
+{{- if and (hasKey .Values "prowlarr") (not .Values.prowlarr.enabled) }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+spec:
+  ports:
+    - port: 9696
+      targetPort: 9696
+      protocol: TCP
+      name: http
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ .Release.Name }}-prowlarr
+  labels:
+    app.kubernetes.io/name: prowlarr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+subsets:
+  - addresses:
+      - ip: {{ $trueNasIp | quote }}
+    ports:
+      - port: 9696
+        name: http
+{{- end }}
