@@ -153,6 +153,23 @@ echo "=========================================================="
 
 send_telegram "$END_MSG" "🎬 [Video Normalizzatore]"
 
+# Innesco automatico dello scan della libreria Movies su Jellyfin
+JELLYFIN_URL="${JELLYFIN_URL:-http://jellyfin:8096}"
+JELLYFIN_TOKEN="${JELLYFIN_TOKEN:-7c80240c7a9b4326a8690ce140265a14}"
+JELLYFIN_MOVIES_FOLDER_ID="${JELLYFIN_MOVIES_FOLDER_ID:-f137a2dd21bbc1b99aa5c0f6bf02a805}"
+
+echo "📡 Innesco scan libreria Movies su Jellyfin (${JELLYFIN_URL})..."
+if curl -s -f -X POST "${JELLYFIN_URL}/Items/${JELLYFIN_MOVIES_FOLDER_ID}/Refresh" \
+    -H "Authorization: MediaBrowser Client=\"FileBot\", Device=\"Server\", DeviceId=\"filebot-normalizer\", Version=\"1.0.0\", Token=\"${JELLYFIN_TOKEN}\"" \
+    -H "Content-Length: 0" >/dev/null 2>&1 || \
+   curl -s -f -X POST "${JELLYFIN_URL}/Library/Refresh" \
+    -H "Authorization: MediaBrowser Client=\"FileBot\", Device=\"Server\", DeviceId=\"filebot-normalizer\", Version=\"1.0.0\", Token=\"${JELLYFIN_TOKEN}\"" \
+    -H "Content-Length: 0" >/dev/null 2>&1; then
+    echo "✅ Scan libreria Jellyfin avviato con successo."
+else
+    echo "⚠️ Impossibile contattare Jellyfin per il refresh della libreria."
+fi
+
 if [ -n "$EMAIL_RECIPIENT" ]; then
     EMAIL_BODY="🎬 PROCESSO DI NORMALIZZAZIONE VIDEO COMPLETATO
 
