@@ -164,6 +164,11 @@ echo "🏷️ Iniezione automatica metadati di traccia e disco (TRACKNUMBER/DISC
 python3 "$(dirname "$0")/tag_flac_after_split.py" "$TARGET_DIR" || true
 
 # 3. Tagging e Ottimizzazione con SongKong Premium per MinimServer/Musica Classica
+SONGKONG_OUTPUT_LOG="/tmp/songkong_${BASENAME}.log"
+SONGKONG_REPORT_FILE=""
+SONG_LOADED="0"
+SONG_MATCHED="0"
+
 if [ -x "/opt/songkong/songkong.sh" ]; then
     mkdir -p "${HOME:-/tmp}/.songkong"
     if [ -f "/etc/songkong/license.properties" ]; then
@@ -175,12 +180,34 @@ if [ -x "/opt/songkong/songkong.sh" ]; then
     echo "=========================================================="
     echo "Avvio dell'ottimizzazione dei tag per MinimServer e Musica Classica..."
     
-    # Invocazione di SongKong in modalità "Fix Songs" (-m)
-    # Impostando il path della directory target per l'elaborazione dei tag
-    if (cd /opt/songkong && ./songkong.sh -m "$TARGET_DIR"); then
+    # Invocazione di SongKong in modalità "Fix Songs" (-m) con interprete esplicito e cattura log
+    if (cd /opt/songkong && bash ./songkong.sh -m "$TARGET_DIR" 2>&1 | tee "$SONGKONG_OUTPUT_LOG"); then
         echo "✅ SongKong ha completato la taggatura con successo."
     else
         echo "⚠️  Avviso: SongKong ha completato l'elaborazione (verificare eventuali warning)."
+    fi
+
+    # Estrazione del percorso nativo del report generato da SongKong
+    RAW_REPORT=$(grep "Report Created:" "$SONGKONG_OUTPUT_LOG" 2>/dev/null | head -n 1 | awk -F 'Report Created:' '{print $2}' | tr -d '\r\n ' || true)
+    if [ -n "$RAW_REPORT" ] && [ -f "$RAW_REPORT" ]; then
+        SONGKONG_REPORT_FILE="$RAW_REPORT"
+    fi
+
+    # Estrazione metriche dal log di SongKong
+    SONG_LOADED=$(grep "Songs loaded:" "$SONGKONG_OUTPUT_LOG" 2>/dev/null | head -n 1 | awk -F ':' '{print $2}' | tr -d '\r\n ' || echo "0")
+    SONG_MATCHED=$(grep "Completed:" "$SONGKONG_OUTPUT_LOG" 2>/dev/null | head -n 1 | awk -F ':' '{print $2}' | tr -d '\r\n ' || echo "0")
+
+    # Fallback rigoroso per localizzare il report escludendo webhelp e style
+    if [ -z "$SONGKONG_REPORT_FILE" ]; then
+        REPORT_BASE="${HOME:-/tmp}/.songkong/Reports"
+        [ ! -d "$REPORT_BASE" ] && REPORT_BASE="/tmp/.songkong/Reports"
+        [ ! -d "$REPORT_BASE" ] && REPORT_BASE="/root/.songkong/Reports"
+        if [ -d "$REPORT_BASE" ]; then
+            LATEST_DIR="$(find "$REPORT_BASE" -mindepth 1 -maxdepth 1 -type d ! -name "webhelp" ! -name "style" 2>/dev/null | sort -V | tail -n 1 || echo "")"
+            if [ -n "$LATEST_DIR" ] && [ -d "$LATEST_DIR" ]; then
+                SONGKONG_REPORT_FILE="$(find "$LATEST_DIR" -maxdepth 1 -name "*.html" ! -name "*_*" | head -n 1 || echo "")"
+            fi
+        fi
     fi
 
     if [ "${SONGKONG_VERBOSE:-false}" = "true" ] || [ "${SONGKONG_VERBOSE:-false}" = "1" ]; then
@@ -217,39 +244,59 @@ chmod -R 777 "$TARGET_DIR" 2>/dev/null || true
 send_telegram "$END_MSG" "🎵 [Normalizzatore]"
 
 if [ -n "$EMAIL_RECIPIENT" ]; then
-    # Trova l'ultimo report HTML generato da SongKong
-    LATEST_REPORT=""
-    REPORT_DIR="${HOME:-/tmp}/.songkong/Reports"
-    [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/tmp/.songkong/Reports"
-    [ ! -d "$REPORT_DIR" ] && REPORT_DIR="/root/.songkong/Reports"
-    if [ -d "$REPORT_DIR" ]; then
-        LATEST_REPORT="$(find "$REPORT_DIR" -name "*.html" -type f | sort | tail -n 1 || echo "")"
+    # Preparazione dell'allegato autonomo con nome parlante
+    ATTACHMENT_PATH=""
+    if [ -n "$SONGKONG_REPORT_FILE" ] && [ -f "$SONGKONG_REPORT_FILE" ]; then
+        CLEAN_ATTACHMENT="/tmp/Report_SongKong_${BASENAME}.html"
+        cp "$SONGKONG_REPORT_FILE" "$CLEAN_ATTACHMENT"
+        ATTACHMENT_PATH="$CLEAN_ATTACHMENT"
     fi
 
-    # Statistiche di SongKong
-    SONG_STATS=""
-    if [ -n "$LATEST_REPORT" ] && [ -f "$LATEST_REPORT" ]; then
-        SONG_STATS="
-Report SongKong Premium Allegato: $(basename "$LATEST_REPORT")"
+    # Costruzione tabella dettagli per email HTML
+    TABLE_ROWS="<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; width: 30%; border-bottom: 1px solid #f1f5f9;\">Sorgente</td>
+  <td style=\"padding: 8px 12px; color: #1e293b; border-bottom: 1px solid #f1f5f9; font-family: monospace; font-size: 12px;\">$SOURCE_DIR</td>
+</tr>
+<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;\">Destinazione</td>
+  <td style=\"padding: 8px 12px; color: #1e293b; border-bottom: 1px solid #f1f5f9; font-family: monospace; font-size: 12px;\">$TARGET_DIR</td>
+</tr>
+<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;\">Cartelle CD</td>
+  <td style=\"padding: 8px 12px; color: #1e293b; border-bottom: 1px solid #f1f5f9;\">$PROCESSED_CDS</td>
+</tr>
+<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;\">Errori</td>
+  <td style=\"padding: 8px 12px; color: $( [ \"$ERRORS\" -eq 0 ] && echo '#10b981' || echo '#ef4444' ); font-weight: 700; border-bottom: 1px solid #f1f5f9;\">$ERRORS</td>
+</tr>"
+
+    EXTRA_SECTION="<div style=\"margin-top: 18px; padding: 14px; background-color: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;\">
+  <div style=\"font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 8px;\">🎵 SongKong Premium Metadata Engine</div>
+  <table style=\"width: 100%; font-size: 12px; border-collapse: collapse;\">
+    <tr>
+      <td style=\"color: #64748b; padding: 4px 0;\">Tracce caricate:</td>
+      <td style=\"font-weight: 600; color: #0f172a; text-align: right;\">${SONG_LOADED:-0}</td>
+    </tr>
+    <tr>
+      <td style=\"color: #64748b; padding: 4px 0;\">Tracce elaborate / matchate:</td>
+      <td style=\"font-weight: 600; color: #10b981; text-align: right;\">${SONG_MATCHED:-0}</td>
+    </tr>
+    $( [ -n "$ATTACHMENT_PATH" ] && echo "<tr><td colspan='2' style='padding-top: 8px; font-size: 11px; color: #64748b; border-top: 1px dashed #cbd5e1;'>📎 <b>Report Completo Allegato:</b> <code>$(basename "$ATTACHMENT_PATH")</code></td></tr>" )
+  </table>
+</div>"
+
+    STATUS_TEXT="Completato"
+    STATUS_COLOR="#10b981"
+    if [ "$ERRORS" -gt 0 ]; then
+        STATUS_TEXT="Avviso Errori"
+        STATUS_COLOR="#ef4444"
     fi
 
-    # Composizione del corpo dell'email
-    EMAIL_BODY="🎵 PROCESSO DI NORMALIZZAZIONE COMPLETATO
-
-Dettagli dell'elaborazione:
-----------------------------------------------------------
-Sorgente: $SOURCE_DIR
-Destinazione: $TARGET_DIR
-Cartelle CD elaborate: $PROCESSED_CDS
-Errori riscontrati: $ERRORS
-----------------------------------------------------------
-$SONG_STATS
-
-Servizio di notifica automatico K8s normalizer."
+    EMAIL_HTML="$(build_html_email_template "🎵" "Elaborazione Completata: $BASENAME" "Normalizzazione Audio & Taggatura Intelligente" "$STATUS_TEXT" "$STATUS_COLOR" "$TABLE_ROWS" "$EXTRA_SECTION")"
 
     TEXT_MSG="⚠️ [Normalizzatore] Invio email di riepilogo fallito per '$BASENAME', ma l'elaborazione audio e i tag sono stati completati con successo."
     
-    send_summary_email "$EMAIL_RECIPIENT" "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" "$EMAIL_BODY" "$TEXT_MSG" "$LATEST_REPORT"
+    send_summary_email "$EMAIL_RECIPIENT" "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" "$EMAIL_HTML" "$TEXT_MSG" "$ATTACHMENT_PATH"
 fi
 
 # Chiusura sempre con successo per Kubernetes (exit 0)

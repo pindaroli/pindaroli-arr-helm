@@ -83,6 +83,9 @@ mkdir -p "$TARGET_DIR"
 PROCESSED_ITEMS=0
 ERRORS=0
 
+FILEBOT_LOG="/tmp/filebot_${BASENAME}.log"
+rm -f "$FILEBOT_LOG"
+
 process_filebot() {
     local src="$1"
     echo "----------------------------------------------------------"
@@ -96,7 +99,7 @@ process_filebot() {
         --lang it \
         --def movieDB=TheMovieDB \
         --def "movieFormat={n} ({y}) {'{tmdb-' + id + '}'}/{n} ({y}) {'{tmdb-' + id + '}'}{ ' [' + edition + ']' } - [{ any{source + ' '}{''} }{vf} {vc}]{ ' [' + group + ']' }" \
-        --def artwork=y; then
+        --def artwork=y 2>&1 | tee -a "$FILEBOT_LOG"; then
         echo "✅ Elaborazione completata per '$(basename "$src")'."
         PROCESSED_ITEMS=$((PROCESSED_ITEMS + 1))
         # Pulizia post-processo: elimina eventuali file .nfo generati, preservando tutti gli artwork grafici
@@ -171,21 +174,109 @@ else
 fi
 
 if [ -n "$EMAIL_RECIPIENT" ]; then
-    EMAIL_BODY="🎬 PROCESSO DI NORMALIZZAZIONE VIDEO COMPLETATO
+    # Estrazione percorsi hardlink e dettagli film dal log di FileBot
+    FINAL_DEST_FILES=$(grep -E "^\[HARDLINK\] from" "$FILEBOT_LOG" 2>/dev/null | awk -F 'to \\[' '{print $2}' | sed 's/\]$//' || true)
+    FIRST_DEST=$(echo "$FINAL_DEST_FILES" | head -n 1)
+    MOVIE_TITLE=""
+    TMDB_ID=""
+    TMDB_URL=""
+    if [ -n "$FIRST_DEST" ]; then
+        MOVIE_FOLDER=$(basename "$(dirname "$FIRST_DEST")")
+        MOVIE_TITLE="$MOVIE_FOLDER"
+        TMDB_ID=$(echo "$MOVIE_FOLDER" | grep -oE "tmdb-[0-9]+" | awk -F '-' '{print $2}' || true)
+        if [ -n "$TMDB_ID" ]; then
+            TMDB_URL="https://www.themoviedb.org/movie/${TMDB_ID}"
+        fi
+    fi
+    [ -z "$MOVIE_TITLE" ] && MOVIE_TITLE="$BASENAME"
 
-Dettagli dell'elaborazione:
-----------------------------------------------------------
-Sorgente: $SOURCE_DIR
-Destinazione: $TARGET_DIR
-Elementi elaborati: $PROCESSED_ITEMS
-Errori riscontrati: $ERRORS
-----------------------------------------------------------
+    # Generazione report HTML autonomo
+    REPORT_HTML="/tmp/Report_FileBot_${BASENAME}.html"
+    cat <<EOF > "$REPORT_HTML"
+<!DOCTYPE html>
+<html lang="it">
+<head>
+  <meta charset="UTF-8">
+  <title>Report FileBot - $MOVIE_TITLE</title>
+  <style>
+    body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; background: #0f172a; color: #e2e8f0; padding: 24px; margin: 0; }
+    .container { max-width: 800px; margin: 0 auto; background: #1e293b; border-radius: 12px; padding: 24px; box-shadow: 0 4px 6px rgba(0,0,0,0.3); border: 1px solid #334155; }
+    h1 { color: #f8fafc; font-size: 20px; margin-top: 0; }
+    .badge { background: #10b981; color: white; padding: 4px 10px; border-radius: 9999px; font-size: 11px; font-weight: bold; text-transform: uppercase; }
+    table { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 13px; }
+    th, td { text-align: left; padding: 8px 12px; border-bottom: 1px solid #334155; }
+    th { color: #94a3b8; width: 25%; font-weight: 600; }
+    td { color: #f1f5f9; }
+    pre { background: #0b1120; padding: 14px; border-radius: 8px; font-size: 11px; overflow-x: auto; color: #a5b4fc; border: 1px solid #1e293b; max-height: 400px; font-family: monospace; }
+    a { color: #38bdf8; text-decoration: none; }
+    a:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div style="display:flex; justify-content:space-between; align-items:center;">
+      <h1>🎬 FileBot AMC Report</h1>
+      <span class="badge">NORMALIZZATO</span>
+    </div>
+    <table>
+      <tr><th>Film / Cartella</th><td><b>$MOVIE_TITLE</b></td></tr>
+      $( [ -n "$TMDB_URL" ] && echo "<tr><th>TheMovieDB</th><td><a href='$TMDB_URL' target='_blank'>Scheda TMDb #$TMDB_ID ↗</a></td></tr>" )
+      <tr><th>Sorgente</th><td><code>$SOURCE_DIR</code></td></tr>
+      <tr><th>Destinazione</th><td><code>$TARGET_DIR</code></td></tr>
+      <tr><th>File Finali</th><td><pre style="margin:0; background:transparent; border:none; padding:0; color:#38bdf8;">$FINAL_DEST_FILES</pre></td></tr>
+      <tr><th>Elementi</th><td>$PROCESSED_ITEMS elaborati, $ERRORS errori</td></tr>
+    </table>
+    <h3 style="margin-top:24px; font-size:13px; color:#94a3b8; text-transform:uppercase;">Log Completo FileBot</h3>
+    <pre>$(cat "$FILEBOT_LOG" 2>/dev/null || echo "Log non disponibile")</pre>
+  </div>
+</body>
+</html>
+EOF
 
-Servizio di notifica automatico K8s normalizer."
+    # Costruzione tabella dettagli per email HTML
+    TABLE_ROWS="<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; width: 30%; border-bottom: 1px solid #f1f5f9;\">Film Riconosciuto</td>
+  <td style=\"padding: 8px 12px; color: #0f172a; font-weight: 700; border-bottom: 1px solid #f1f5f9;\">$MOVIE_TITLE $( [ -n "$TMDB_URL" ] && echo "<a href='$TMDB_URL' style='color: #0284c7; text-decoration: none; font-size: 11px; margin-left: 6px;'>[TMDb ↗]</a>" )</td>
+</tr>
+<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;\">Sorgente</td>
+  <td style=\"padding: 8px 12px; color: #1e293b; border-bottom: 1px solid #f1f5f9; font-family: monospace; font-size: 12px;\">$SOURCE_DIR</td>
+</tr>
+<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;\">Destinazione</td>
+  <td style=\"padding: 8px 12px; color: #1e293b; border-bottom: 1px solid #f1f5f9; font-family: monospace; font-size: 12px;\">$TARGET_DIR</td>
+</tr>
+<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;\">Elementi</td>
+  <td style=\"padding: 8px 12px; color: #1e293b; border-bottom: 1px solid #f1f5f9;\">$PROCESSED_ITEMS file elaborati</td>
+</tr>
+<tr>
+  <td style=\"padding: 8px 12px; font-weight: 600; color: #475569; border-bottom: 1px solid #f1f5f9;\">Errori</td>
+  <td style=\"padding: 8px 12px; color: $( [ \"$ERRORS\" -eq 0 ] && echo '#10b981' || echo '#ef4444' ); font-weight: 700; border-bottom: 1px solid #f1f5f9;\">$ERRORS</td>
+</tr>"
+
+    EXTRA_SECTION="<div style=\"margin-top: 18px; padding: 14px; background-color: #f8fafc; border-radius: 8px; border: 1px solid #e2e8f0;\">
+  <div style=\"font-size: 13px; font-weight: 700; color: #0f172a; margin-bottom: 8px;\">🎬 FileBot Hardlink & Artwork Details</div>
+  <div style=\"font-size: 11px; font-family: monospace; color: #334155; word-break: break-all; background: #ffffff; padding: 8px 10px; border-radius: 4px; border: 1px solid #cbd5e1; margin-bottom: 8px;\">
+    ${FIRST_DEST:-Nessun hardlink generato}
+  </div>
+  <div style=\"font-size: 11px; color: #64748b;\">
+    📎 <b>Report Completo Allegato:</b> <code>$(basename "$REPORT_HTML")</code>
+  </div>
+</div>"
+
+    STATUS_TEXT="Completato"
+    STATUS_COLOR="#10b981"
+    if [ "$ERRORS" -gt 0 ]; then
+        STATUS_TEXT="Avviso Errori"
+        STATUS_COLOR="#ef4444"
+    fi
+
+    EMAIL_HTML="$(build_html_email_template "🎬" "Elaborazione Completata: $MOVIE_TITLE" "Normalizzazione Video FileBot AMC" "$STATUS_TEXT" "$STATUS_COLOR" "$TABLE_ROWS" "$EXTRA_SECTION")"
 
     TEXT_MSG="⚠️ [Video Normalizzatore] Invio email di riepilogo fallito per '$BASENAME', ma l'elaborazione video è stata completata con successo."
     
-    send_summary_email "$EMAIL_RECIPIENT" "🎬 [Video Normalizzatore] Elaborazione Completata: $BASENAME" "$EMAIL_BODY" "$TEXT_MSG" ""
+    send_summary_email "$EMAIL_RECIPIENT" "🎬 [Video Normalizzatore] Elaborazione Completata: $MOVIE_TITLE" "$EMAIL_HTML" "$TEXT_MSG" "$REPORT_HTML"
 fi
 
 exit 0
