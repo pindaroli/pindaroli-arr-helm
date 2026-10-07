@@ -102,8 +102,24 @@ process_filebot() {
         --def artwork=y 2>&1 | tee -a "$FILEBOT_LOG"; then
         echo "✅ Elaborazione completata per '$(basename "$src")'."
         PROCESSED_ITEMS=$((PROCESSED_ITEMS + 1))
-        # Pulizia post-processo: elimina eventuali file .nfo generati, preservando tutti gli artwork grafici
+        # Pulizia post-processo: elimina eventuali file .nfo generati
         find "$TARGET_DIR" -maxdepth 2 -type f -name "*.nfo" -delete
+
+        # Sanificazione automatica release preesistenti e pulizia artwork ridondanti
+        local sanitize_script="$(dirname "$0")/sanitize_movie_folder.py"
+        [ ! -f "$sanitize_script" ] && sanitize_script="/app/sanitize_movie_folder.py"
+
+        if [ -f "$sanitize_script" ]; then
+            echo "🧹 Ricerca cartelle film per sanificazione versioni multiple e artwork..."
+            local dest_dirs
+            dest_dirs=$(grep -E "^\[(HARDLINK|MOVE|COPY)\] from" "$FILEBOT_LOG" 2>/dev/null | awk -F 'to \\[' '{print $2}' | sed 's/\]$//' | while read -r f; do dirname "$f"; done | sort -u || true)
+            for mdir in $dest_dirs; do
+                if [ -d "$mdir" ]; then
+                    echo "🧹 Esecuzione sanificazione automatica su: '$mdir'..."
+                    MEDIA_DIR="$TARGET_DIR" python3 "$sanitize_script" "$mdir" --apply --no-refresh || true
+                fi
+            done
+        fi
     else
         echo "❌ ERRORE durante l'elaborazione FileBot per '$(basename "$src")'."
         ERRORS=$((ERRORS + 1))

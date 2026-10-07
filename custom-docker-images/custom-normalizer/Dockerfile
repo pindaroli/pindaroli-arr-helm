@@ -43,8 +43,8 @@ RUN apt-key adv --fetch-keys https://raw.githubusercontent.com/filebot/plugins/m
 RUN mkdir -p /root/.filebot /etc/filebot && chmod 777 /etc/filebot
 
 # 6. Copia script di normalizzazione (audio e video) e i pre/post-processori python
-COPY normalize.sh normalize-video.sh utils.sh preprocess_cue.py tag_flac_after_split.py /app/
-RUN chmod +x /app/normalize.sh /app/normalize-video.sh /app/utils.sh /app/tag_flac_after_split.py
+COPY normalize.sh normalize-video.sh utils.sh preprocess_cue.py tag_flac_after_split.py sanitize_movie_folder.py /app/
+RUN chmod +x /app/normalize.sh /app/normalize-video.sh /app/utils.sh /app/tag_flac_after_split.py /app/sanitize_movie_folder.py
 
 WORKDIR /app
 # L'entrypoint è stato rimosso per permettere l'override agevole dal Job Kubernetes.
