@@ -299,5 +299,17 @@ if [ -n "$EMAIL_RECIPIENT" ]; then
     send_summary_email "$EMAIL_RECIPIENT" "🎵 [Normalizzatore] Elaborazione Completata: $BASENAME" "$EMAIL_HTML" "$TEXT_MSG" "$ATTACHMENT_PATH"
 fi
 
+# Innesco automatico rescan MinimServer (per la musica classica)
+MINIMSERVER_URL="${MINIMSERVER_URL:-http://10.10.20.50:9790}"
+if [[ "$TARGET_DIR" == *"classical"* ]] || [[ "$SOURCE_DIR" == *"classical"* ]] || [ "${MINIMSERVER_RESCAN:-false}" = "true" ]; then
+    echo ""
+    echo "📡 [MinimServer] Innesco rescan libreria classica su $MINIMSERVER_URL..."
+    if curl -s -m 5 -X POST -H 'Content-Type: text/plain' --data 'rescan' "$MINIMSERVER_URL/" >/dev/null 2>&1; then
+        echo "✅ [MinimServer] Richiesta di rescan inviata con successo!"
+    else
+        echo "⚠️  [MinimServer] Invio richiesta di rescan fallito o timeout."
+    fi
+fi
+
 # Chiusura sempre con successo per Kubernetes (exit 0)
 exit 0
