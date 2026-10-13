@@ -1,0 +1,20 @@
+# Mapping dichiarativo: Categoria qBittorrent -> Script e Destinazione su TrueNAS
+categories:
+  # Categoria Classica: uniformata a MinimServer (contentDir = /media/classical)
+  lidarr-classical:
+    script: /app/normalize.sh
+    target: /media/classical
+
+  # Categoria Video / Film con FileBot
+  video-filebot:
+    script: /app/normalize-video.sh
+    target: /media/movies
+    jellyfin_refresh: true
+
+  # Categoria Musica standard
+  lidarr:
+    script: /app/normalize.sh
+    target: /media/music
+
+# ATTENZIONE (Strict Allowlist): Qualsiasi categoria non censita in 'categories'
+# (es. pirn, radarr, sonarr, ecc.) viene ignorata e NON viene normalizzata.

@@ -113,12 +113,13 @@ process_filebot() {
             echo "🧹 Ricerca cartelle film per sanificazione versioni multiple e artwork..."
             local dest_dirs
             dest_dirs=$(grep -E "^\[(HARDLINK|MOVE|COPY)\] from" "$FILEBOT_LOG" 2>/dev/null | awk -F 'to \\[' '{print $2}' | sed 's/\]$//' | while read -r f; do dirname "$f"; done | sort -u || true)
-            for mdir in $dest_dirs; do
+            while IFS= read -r mdir; do
+                [ -z "$mdir" ] && continue
                 if [ -d "$mdir" ]; then
                     echo "🧹 Esecuzione sanificazione automatica su: '$mdir'..."
                     MEDIA_DIR="$TARGET_DIR" python3 "$sanitize_script" "$mdir" --apply --no-refresh || true
                 fi
-            done
+            done <<< "$dest_dirs"
         fi
     else
         echo "❌ ERRORE durante l'elaborazione FileBot per '$(basename "$src")'."
