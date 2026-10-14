@@ -1,5 +1,9 @@
-{{- $trueNasIp := .Values.externalTrueNasIp | default "10.10.10.50" }}
+{{- $legacyIp := .Values.externalTrueNasIp }}
+
 {{- if and (hasKey .Values "qbittorrent") (not .Values.qbittorrent.enabled) }}
+{{- $qbtIp := dig "external" "ip" "" .Values.qbittorrent | default $legacyIp }}
+{{- if $qbtIp }}
+{{- $qbtPort := dig "external" "port" 8080 .Values.qbittorrent }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -9,8 +13,8 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
 spec:
   ports:
-    - port: 8080
-      targetPort: 8080
+    - port: {{ $qbtPort }}
+      targetPort: {{ $qbtPort }}
       protocol: TCP
       name: http
 ---
@@ -23,13 +27,17 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
 subsets:
   - addresses:
-      - ip: {{ $trueNasIp | quote }}
+      - ip: {{ $qbtIp | quote }}
     ports:
-      - port: 8080
+      - port: {{ $qbtPort }}
         name: http
+{{- end }}
 {{- end }}
 ---
 {{- if and (hasKey .Values "prowlarr") (not .Values.prowlarr.enabled) }}
+{{- $prowlarrIp := dig "external" "ip" "" .Values.prowlarr | default $legacyIp }}
+{{- if $prowlarrIp }}
+{{- $prowlarrPort := dig "external" "port" 9696 .Values.prowlarr }}
 apiVersion: v1
 kind: Service
 metadata:
@@ -39,8 +47,8 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
 spec:
   ports:
-    - port: 9696
-      targetPort: 9696
+    - port: {{ $prowlarrPort }}
+      targetPort: {{ $prowlarrPort }}
       protocol: TCP
       name: http
 ---
@@ -53,8 +61,44 @@ metadata:
     app.kubernetes.io/instance: {{ .Release.Name | quote }}
 subsets:
   - addresses:
-      - ip: {{ $trueNasIp | quote }}
+      - ip: {{ $prowlarrIp | quote }}
     ports:
-      - port: 9696
+      - port: {{ $prowlarrPort }}
         name: http
 {{- end }}
+{{- end }}
+---
+{{- if and (hasKey .Values "flaresolverr") (not .Values.flaresolverr.enabled) }}
+{{- $flaresolverrIp := dig "external" "ip" "" .Values.flaresolverr | default $legacyIp }}
+{{- if $flaresolverrIp }}
+{{- $flaresolverrPort := dig "external" "port" 8191 .Values.flaresolverr }}
+apiVersion: v1
+kind: Service
+metadata:
+  name: {{ .Release.Name }}-flaresolverr
+  labels:
+    app.kubernetes.io/name: flaresolverr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+spec:
+  ports:
+    - port: {{ $flaresolverrPort }}
+      targetPort: {{ $flaresolverrPort }}
+      protocol: TCP
+      name: http
+---
+apiVersion: v1
+kind: Endpoints
+metadata:
+  name: {{ .Release.Name }}-flaresolverr
+  labels:
+    app.kubernetes.io/name: flaresolverr
+    app.kubernetes.io/instance: {{ .Release.Name | quote }}
+subsets:
+  - addresses:
+      - ip: {{ $flaresolverrIp | quote }}
+    ports:
+      - port: {{ $flaresolverrPort }}
+        name: http
+{{- end }}
+{{- end }}
+
